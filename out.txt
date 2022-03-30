@@ -976,3 +976,114 @@ ok: [localhost] => {"changed": false, "gid": 1000, "group": "1000", "mode": "077
 
 TASK [/home/blockchain-automation-framework/platforms/hyperledger-fabric/configuration/../../shared/configuration/roles/git_push : Execute git push via shell task] ***
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/git_push/tasks/main.yaml:9
+changed: [localhost] => {"changed": true, "cmd": "cd \"/home/blockchain-automation-framework/platforms/hyperledger-fabric/configuration/../../../\"\necho \"---------------SHOW CONTENT OF DIR---------------\"\nls -a\necho \"---------------GIT PUSH---------------\"\ngit config user.email jozsef.kovacs.acc@gmail.com\ngit config user.name jozsefkovacsacc\ngit --git-dir=/home/blockchain-automation-framework/platforms/hyperledger-fabric/configuration/../../..//.git add -A .\n\n# To ignore a directory add it add reset path\nreset_path=platforms/hyperledger-fabric/configuration\nif [ -n \"$reset_path\" ]; then\n    git --git-dir=/home/blockchain-automation-framework/platforms/hyperledger-fabric/configuration/../../..//.git reset \"platforms/hyperledger-fabric/configuration\"\nfi  \n\ngit --git-dir=/home/blockchain-automation-framework/platforms/hyperledger-fabric/configuration/../../..//.git commit -s -m \"[ci skip] Pushing deployment files for namespace, service accounts and clusterrolebinding\" || true\ngit --git-dir=/home/blockchain-automation-framework/platforms/hyperledger-fabric/configuration/../../..//.git push https://jozsefkovacsacc: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@github.com/jozsefkovacsacc/bevel.git HEAD:develop\n", "delta": "0:00:01.570661", "end": "2022-03-30 08:51:21.908042", "rc": 0, "start": "2022-03-30 08:51:20.337381", "stderr": "To https://jozsefkovacsacc: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@github.com/jozsefkovacsacc/bevel.git\n   3de487b..c83056e  HEAD -> develop", "stderr_lines": ["To https://jozsefkovacsacc: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@github.com/jozsefkovacsacc/bevel.git", "   3de487b..c83056e  HEAD -> develop"], "stdout": "---------------SHOW CONTENT OF DIR---------------\n.\n..\n.circleci\n.git\n.github\n.gitignore\n.travis.yml\nCODEOWNERS\nCODE_OF_CONDUCT.md\nCONTRIBUTING.md\nDockerfile\nLICENSE\nMAINTAINERS.md\nREADME.md\nautomation\nbuild\ndocs\nexamples\nout.txt\nout2.txt\nplatforms\nrelease-notes.md\nreset.sh\nrun.sh\n---------------GIT PUSH---------------\n[develop c83056e] [ci skip] Pushing deployment files for namespace, service accounts and clusterrolebinding\n 2 files changed, 288 insertions(+), 63 deletions(-)\n create mode 100644 out2.txt", "stdout_lines": ["---------------SHOW CONTENT OF DIR---------------", ".", "..", ".circleci", ".git", ".github", ".gitignore", ".travis.yml", "CODEOWNERS", "CODE_OF_CONDUCT.md", "CONTRIBUTING.md", "Dockerfile", "LICENSE", "MAINTAINERS.md", "README.md", "automation", "build", "docs", "examples", "out.txt", "out2.txt", "platforms", "release-notes.md", "reset.sh", "run.sh", "---------------GIT PUSH---------------", "[develop c83056e] [ci skip] Pushing deployment files for namespace, service accounts and clusterrolebinding", " 2 files changed, 288 insertions(+), 63 deletions(-)", " create mode 100644 out2.txt"]}
+
+TASK [/home/blockchain-automation-framework/platforms/hyperledger-fabric/configuration/../../shared/configuration/roles/git_push : Output for gitpush] ***
+task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/git_push/tasks/main.yaml:32
+ok: [localhost] => {
+    "msg": [
+        "---------------SHOW CONTENT OF DIR---------------", 
+        ".", 
+        "..", 
+        ".circleci", 
+        ".git", 
+        ".github", 
+        ".gitignore", 
+        ".travis.yml", 
+        "CODEOWNERS", 
+        "CODE_OF_CONDUCT.md", 
+        "CONTRIBUTING.md", 
+        "Dockerfile", 
+        "LICENSE", 
+        "MAINTAINERS.md", 
+        "README.md", 
+        "automation", 
+        "build", 
+        "docs", 
+        "examples", 
+        "out.txt", 
+        "out2.txt", 
+        "platforms", 
+        "release-notes.md", 
+        "reset.sh", 
+        "run.sh", 
+        "---------------GIT PUSH---------------", 
+        "[develop c83056e] [ci skip] Pushing deployment files for namespace, service accounts and clusterrolebinding", 
+        " 2 files changed, 288 insertions(+), 63 deletions(-)", 
+        " create mode 100644 out2.txt"
+    ]
+}
+
+TASK [/home/blockchain-automation-framework/platforms/hyperledger-fabric/configuration/../../shared/configuration/roles/git_push : Error for git_push] ***
+task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/git_push/tasks/main.yaml:37
+ok: [localhost] => {
+    "msg": [
+        "To https://jozsefkovacsacc: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@github.com/jozsefkovacsacc/bevel.git", 
+        "   3de487b..c83056e  HEAD -> develop"
+    ]
+}
+
+TASK [Checking for the supplychain-net-role-tokenreview-binding] ***************
+task path: /home/blockchain-automation-framework/platforms/hyperledger-fabric/configuration/roles/create/namespace_vaultauth/tasks/main.yaml:90
+
+TASK [/home/blockchain-automation-framework/platforms/hyperledger-fabric/configuration/../../shared/configuration/roles/check/k8_component : Check ClusterRoleBinding supplychain-net-role-tokenreview-binding is created] ***
+task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/check/k8_component/tasks/main.yaml:7
+skipping: [localhost] => {"changed": false, "skip_reason": "Conditional result was False"}
+
+TASK [/home/blockchain-automation-framework/platforms/hyperledger-fabric/configuration/../../shared/configuration/roles/check/k8_component : Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding] ***
+task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/check/k8_component/tasks/main.yaml:17
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (50 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (49 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (48 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (47 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (46 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (45 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (44 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (43 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (42 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (41 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (40 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (39 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (38 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (37 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (36 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (35 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (34 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (33 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (32 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (31 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (30 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (29 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (28 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (27 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (26 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (25 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (24 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (23 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (22 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (21 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (20 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (19 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (18 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (17 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (16 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (15 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (14 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (13 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (12 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (11 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (10 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (9 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (8 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (7 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (6 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (5 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (4 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (3 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (2 retries left).
+FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (1 retries left).
+fatal: [localhost]: FAILED! => {"attempts": 50, "changed": false, "resources": []}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=87   changed=23   unreachable=0    failed=1    skipped=131  rescued=0    ignored=0   
+
