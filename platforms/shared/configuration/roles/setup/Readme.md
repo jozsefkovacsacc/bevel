@@ -1,8 +1,3 @@
-[//]: # (##############################################################################################)
-[//]: # (Copyright Accenture. All Rights Reserved.)
-[//]: # (SPDX-License-Identifier: Apache-2.0)
-[//]: # (##############################################################################################)
-
 ## shared/configuration/roles/setup
 This folder contains common roles required for setting up necessery requirements.
 It contains following roles.
@@ -11,7 +6,7 @@ This roles setups Ambassador.
 #### Tasks Included
 ##### 1. Install Ambassador
 
-This task deploys the ambassador helmchart from ```platforms/shared/charts/ambassador``` directory. Additional Ambassador ports can be opened by providing `network.env.ambassadorPorts` values in network.yaml.
+This task deploys the ambassador helmchart from ```platforms/shared/charts/ambassador``` directory. Additional Ambassador ports can be opened by providing comma-separated `network.env.ambassadorPorts` value in network.yaml.
 
 ##### 2. wait for pods to come up
 This checks for the Ambassador Pods to come up.
@@ -80,6 +75,11 @@ This task first creates the HelmRelease Custom resource, and then deploys Flux h
 #### 5. wait for pods to come up
 This checks for the flux Pods to come up. It runs when *flux_service.resources* is not there i.e. flux is not found, until kubectl_get_pods gives a positive result.
 
+#### 6. Get ssh key
+This tasks gets the ssh key. Stores the result in *ssh_key*.
+
+#### 7. Output ssh key
+It outputs the ssh key stored in *ssh_key*.
 
 -------------
 
@@ -146,7 +146,7 @@ This task creates a registory temporary directory. Stores the result in *tmp_dir
 This task checks if vault is present or not. Stores the result in *vault_stat_result*.
 
 #### 3. Install vault client
-If vault is not present i.e. *vault_stat_result* is false, it downloads the vault from specified url.
+If kubectl is not present i.e. *vault_stat_result* is false, it downloads the vault from specified url.
 
 #### 4. Unzip vault archive
 This tasks unzips vault archive to specified destination, runs only when vault is not found.

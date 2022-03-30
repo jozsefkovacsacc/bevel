@@ -1,54 +1,53 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: flux.weave.works/v1beta1
 kind: HelmRelease
 metadata:
   name: {{ component_name }}
   namespace: {{ component_ns }}
   annotations:
-    fluxcd.io/automated: "false"
+    flux.weave.works/automated: "false"
 spec:
   releaseName: {{ component_name }}
   chart:
-    git: {{ org.gitops.git_url }}
-    ref: {{ org.gitops.branch }}
+    git: "{{ git_url }}"
+    ref: {{ git_branch }}
     path: {{ charts_dir }}/bridge
   values:
     deployment:
       annotations: {}
-    nodeName: {{ component_name }}
+    nodeName: bridge
     metadata:
       namespace: {{ component_ns }}
       labels: {}
     replicas: 1
+    initContainerImage:
+      name: "{{ init_container_name }}"
     image:
-      initContainerName: {{ network.docker.url }}/{{ init_container_image }}
-      mainContainerName: {{ network.docker.url }}/{{ main_container_image }}
-      imagePullSecret: regcred
+      name: "{{ docker_image }}"
+      pullsecret: {{ image_pull_secret }}
       pullPolicy: Always
     vault:
-      address: {{ vault.url }}
-      role: vault-role
-      authpath: cordaent{{ org.name | lower }}
-      serviceaccountname: vault-auth
-      certsecretprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ org.name | lower }}/{{ org.name | lower }}
-      retries: 20
-      sleepTimeAfterError: 20
+      address: "{{ vault_addr }}"
+      role: {{ vault_role }}
+      authpath: {{ auth_path }}
+      serviceaccountname: {{ vault_serviceaccountname }}
+      certsecretprefix: {{ vault_cert_secret_prefix }}
     volume:
-      baseDir: /opt/corda/base
+      baseDir: /opt/corda
     storage:
-      name: cordaentsc
+      name: {{ storageclass }}
     pvc:
       annotations: {}
-    cordaJarMx: 1024
+    cordaJarMx: 100
     healthCheckNodePort: 0
     healthcheck:
       readinesscheckinterval: 10
       readinessthreshold:: 15
     float:
-      address: {{ org.services.float.name | lower }}.{{ org.name | lower }}.{{ org.services.float.external_url_suffix }}
-      port: {{ org.services.float.ports.ambassador_p2p_port }}
-      subject: {{ org.services.float.subject }}
+      address: "{{ float_address }}"
+      port: {{ float_port }}
+      subject: "{{ float_subject }}"
     node:
-      messagingServerAddress: {{ (org.services.peers[0].name | lower) ~ '.' ~ component_ns }}
-      messagingServerPort: {{ org.services.peers[0].p2p.port }}
+      messagingServerAddress: {{ bridge_address }}
+      messagingServerPort: {{ bridge_port }}
     tunnel:
-      port: {{ org.services.float.ports.ambassador_tunnel_port }}
+      port: {{ bridge_tunnel_port }}

@@ -1,21 +1,16 @@
-[//]: # (##############################################################################################)
-[//]: # (Copyright Accenture. All Rights Reserved.)
-[//]: # (SPDX-License-Identifier: Apache-2.0)
-[//]: # (##############################################################################################)
-
 <a name = "adding-new-org-to-existing-network-in-corda"></a>
 # Adding a new organization in R3 Corda
 
 - [Prerequisites](#prerequisites)
-- [Create configuration file](#create-configuration-file)
-- [Run playbook](#run-playbook)
+- [Create configuration file](#create_config_file)
+- [Running playbook to deploy R3 Corda network](#run_network)
 
 <a name = "prerequisites"></a>
 ## Prerequisites
-To add a new organization, Corda Doorman/Idman and Networkmap services should already be running. The public certificates from Doorman/Idman and Networkmap should be available and specified in the configuration file. 
+To add a new organization Corda Doorman and Networkmap services should already be running. The public certificates from Doorman and Networkmap should be available and specified in the configuration file. 
 
 ---
-**NOTE**: Addition of a new organization has been tested on an existing network which is created by Bevel. Networks created using other methods may be suitable but this has not been tested by Bevel team.
+**NOTE**: Addition of a new organization has been tested on an existing network which is created by BAF. Networks created using other methods may be suitable but this has not been tested by BAF team.
 
 ---
 
@@ -24,7 +19,7 @@ To add a new organization, Corda Doorman/Idman and Networkmap services should al
 
 Refer [this guide](./corda_networkyaml.md) for details on editing the configuration file.
 
-The `network.yaml` file should contain the specific `network.organization` details along with the network service information about the networkmap and doorman service.
+The `network.yaml` file should contain the specific `network.organization` patch along with the orderer information about the networkmap and doorman service.
 
 ---
 **NOTE**: Make sure the doorman and networkmap service certificates are in plain text and not encoded in base64 or any other encoding scheme, along with correct paths to them mentioned in network.yaml.
@@ -43,13 +38,9 @@ network:
   
   #Environment section for Kubernetes setup
   env:
-    type: "env_type"                # tag for the environment. Important to run multiple flux on single cluster
+    type: "env_type"              # tag for the environment. Important to run multiple flux on single cluster
     proxy: ambassador               # value has to be 'ambassador' as 'haproxy' has not been implemented for Corda
-    ambassadorPorts:                # Any additional Ambassador ports can be given here, this is valid only if proxy='ambassador'
-      portRange:              # For a range of ports 
-        from: 15010 
-        to: 15043
-    # ports: 15020,15021      # For specific ports
+    ambassadorPorts: 15010,15020    # Any additional Ambassador ports can be given here, must be comma-separated without spaces, this is valid only if proxy='ambassador'
     retry_count: 20                 # Retry count for the checks
     external_dns: enabled           # Should be enabled if using external-dns for automatic route configuration
 
@@ -62,12 +53,12 @@ network:
     password: "docker_password"
   
   # Remote connection information for doorman and networkmap (will be blank or removed for hosting organization)
-  network_service:
-    - service:
+  orderers:
+    - orderer:
       type: doorman
       uri: https://doorman.test.corda.blockchaincloudpoc.com:8443
       certificate: home_dir/platforms/r3-corda/configuration/build/corda/doorman/tls/ambassador.crt
-    - service:
+    - orderer:
       type: networkmap
       uri: https://networkmap.test.corda.blockchaincloudpoc.com:8443
       certificate: home_dir/platforms/r3-corda/configuration/build/corda/networkmap/tls/ambassador.crt
@@ -107,16 +98,15 @@ network:
       # Git Repo details which will be used by GitOps/Flux.
       # Do not check-in git_password
       gitops:
-        git_protocol: "https" # Option for git over https or ssh
-        git_url: "gitops_ssh_url"         # Gitops https or ssh url for flux value files like "https://github.com/hyperledger/bevel.git"
+        git_ssh: "gitops_ssh_url"         # Gitops ssh url for flux value files like "ssh://git@github.com/hyperledger-labs/blockchain-automation-framework.git"
         branch: "gitops_branch"           # Git branch where release is being made
         release_dir: "gitops_release_dir" # Relative Path in the Git repo for flux sync per environment. 
         chart_source: "gitops_charts"     # Relative Path where the Helm charts are stored in Git repo
-        git_repo: "gitops_repo_url"   # Gitops git repository URL for git push like "github.com/hyperledger/bevel.git"
+        git_push_url: "gitops_push_url"   # Gitops https URL for git push like "github.com/hyperledger-labs/blockchain-automation-framework.git"
         username: "git_username"          # Git Service user who has rights to check-in in all branches
-        password: "git_password"          # Git Server user access token (Optional for ssh; Required for https)
+        password: "git_password"          # Git Server user password
         email: "git_email"                # Email to use in git config
-        private_key: "path_to_private_key"          # Path to private key file which has write-access to the git repo (Optional for https; Required for ssh)
+        private_key: "path_to_private_key"          # Path to private key file which has write-access to the git repo
 
       services:
         peers:
@@ -152,7 +142,7 @@ network:
 <a name = "run_network"></a>
 ## Run playbook
 
-The [add-new-organization.yaml](https://github.com/hyperledger/bevel/tree/main/platforms/shared/configuration/add-new-organization.yaml) playbook is used to add a new organization to the existing network. This can be done using the following command
+The [add-new-organization.yaml](https://github.com/hyperledger-labs/blockchain-automation-framework/tree/master/platforms/shared/configuration/add-new-organization.yaml) playbook is used to add a new organization to the existing network. This can be done using the following command
 
 ```
 ansible-playbook platforms/shared/configuration/add-new-organization.yaml --extra-vars "@path-to-network.yaml"

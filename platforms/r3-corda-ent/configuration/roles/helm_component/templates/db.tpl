@@ -1,15 +1,15 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: flux.weave.works/v1beta1
 kind: HelmRelease
 metadata:
   name: {{ component_name }}
   namespace: {{ component_ns }}
   annotations:
-    fluxcd.io/automated: "false"
+    flux.weave.works/automated: "false"
 spec:
   releaseName: {{ component_name }}
   chart:
-    git: {{ org.gitops.git_url }}
-    ref: {{ org.gitops.branch }}
+    git: {{ git_url }}
+    ref: {{ git_branch }}
     path: {{ charts_dir }}/h2
   values:
     nodeName: {{ node_name }}
@@ -18,17 +18,17 @@ spec:
     replicaCount: 1
     image:
       containerName: {{ container_name }}
-      imagePullSecret: regcred
+      imagePullSecret: {{ image_pull_secret }}
     resources:
       limits: 512Mi
       requests: 512Mi
     storage:
-      name: "cordaentsc"
+      name: {{ storageclass }}
       memory: 512Mi
     service:
       type: NodePort
       tcp:
-        port: {{ tcp_port}}
+        port: {{ tcp_port }}
         targetPort: {{ tcp_targetport }}
       web:
         targetPort: {{ web_targetport }}

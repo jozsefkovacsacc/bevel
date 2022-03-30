@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -65,7 +59,7 @@ spec:
         - name: https
           containerPort: 443
         - name: stat
-          containerPort: 5061
+          containerPort: 1936
         livenessProbe:
           httpGet:
             path: /healthz

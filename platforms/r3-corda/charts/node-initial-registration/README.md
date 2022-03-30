@@ -1,8 +1,3 @@
-[//]: # (##############################################################################################)
-[//]: # (Copyright Accenture. All Rights Reserved.)
-[//]: # (SPDX-License-Identifier: Apache-2.0)
-[//]: # (##############################################################################################)
-
 # NODE INITIAL REGISTRATION
 
 Following chart contains Kubernetes job which is used for performing initial-registration for the node from doorman.
@@ -15,10 +10,10 @@ This chart has following structue:
 ```
   .
   ├── node-initial-registration
+  │   ├── Chart.yaml
   │   ├── templates
   │   │   ├── _helpers.tpl
   │   │   └── job.yaml
-  |   ├── Chart.yaml
   │   └── values.yaml
 ```
 
@@ -50,7 +45,7 @@ helm install --values=${PATH_TO_VALUES}/<node name>/values-node.yaml ${PATH_TO_H
 If you need to delete the chart use:
 
 ```
-helm uninstall <helm name> -n <namespace> --kube-context=<kube context>
+helm delete --purge <helm name> --kube-context=<kube context>
 ```
 
 # Chart Functionalities
@@ -86,7 +81,13 @@ Contains following containers:
 - Save dataSourceUserPassword from vault
 - Create node.conf according to values specified by users using values.yaml
 
-2. init-certificates:  This container is used for downloading certficate from vault  
+2. init-downloadcordajars: This container is used for downloading corda jar  
+   For more details on read [corda v3.3](https://github.com/corda/corda/tree/release-V3.3)
+   Tasks performed in this container
+
+-  Download corda jar if it doesnt exist
+
+3. init-certificates:  This container is used for downloading certficate from vault  
    For more details on read [Network permissioning](https://docs.corda.net/releases/release-V3.3/permissioning.html)
    Tasks performed in this container
 
@@ -100,11 +101,11 @@ Contains following containers:
 - To download jars from git repo, download private key (corresponding public key to be added in git repo)
 - Get aws access key id and secret access key, it is used for accessing AWS s3 for artmis folder 
 
-3. init-credential: This container is used for getting passwords of keystore from vault  
+4. init-credential: This container is used for getting passwords of keystore from vault  
   Tasks performed in this container
 - Setting up env to get secrets from vault
 - Get keystore passwords from vault
 
-4. db-healthcheck: This container is used for performing health check  
+5. init-healthcheck: This container is used for performing health check  
   Tasks performed in this container
 - perform health check if db is up and running before starting corda node

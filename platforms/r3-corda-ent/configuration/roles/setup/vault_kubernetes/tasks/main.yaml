@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 #################################################################################################
 # This role setups communication between the vault and kubernetes cluster and install 
 # neccessary configurations.
@@ -38,9 +32,7 @@
 - set_fact:
     vault_auth_status: true
   loop: "{{ auth_lists.stdout_lines }}"
-  loop_control:
-    loop_var: itemx
-  when: itemx == component_auth_temp
+  when: item == component_auth_temp
 
 ###############################################################################################
 # This task enables the path for the nodes on vault
@@ -66,7 +58,7 @@
 - name: Write reviewer token
   shell: |
     export REVIEWER_TOKEN=$(KUBECONFIG={{ kubernetes.config_file }} kubectl get secret $(KUBECONFIG={{ kubernetes.config_file }} kubectl get serviceaccount -n {{ component_ns }} vault-reviewer -o jsonpath={.secrets[0].name}) -n {{ component_ns }} -o  jsonpath={.data.token} | base64 -d)
-    vault write auth/{{ component_auth }}/config token_reviewer_jwt="$REVIEWER_TOKEN" kubernetes_host="$(KUBECONFIG={{ kubernetes.config_file }} kubectl config view --minify | grep server | cut -f 2- -d ":" | tr -d " ")" kubernetes_ca_cert=@"./build/{{ component_ns }}.ca.cert"
+    vault write auth/{{ component_auth }}/config token_reviewer_jwt="$REVIEWER_TOKEN" kubernetes_host=$(KUBECONFIG={{ kubernetes.config_file }} kubectl config view -o jsonpath="{.clusters[?(@.name==\"{{ kubernetes.context }}\")].cluster.server}") kubernetes_ca_cert=@"./build/{{ component_ns }}.ca.cert"
   environment:
     VAULT_ADDR: "{{ vault.url }}"
     VAULT_TOKEN: "{{ vault.root_token }}"
@@ -83,17 +75,29 @@
 
 #####################################################################################################################
 # This task creates the access policy for various corda-ent entity
-- name: Create policy for Access Control
+- name: Create policy for Access Control for CENM
   shell: |
     cd ./build    
-    echo "path \"{{ vault.secret_path | default('secretsv2') }}/data/{{ org.name | lower }}/*\" {
-        capabilities = [\"read\", \"list\", \"create\", \"update\"]
+    echo "path \"secret/{{ org.name | lower }}/*\" {
+        capabilities = [\"read\", \"list\", \"create\"]
     }"  >>  vault-crypto-{{ org.name | lower }}-ro.hcl
     vault write sys/policy/vault-crypto-{{ org.type }}-{{ org.name | lower }}-ro policy="@vault-crypto-{{ org.name | lower }}-ro.hcl"
   environment:
     VAULT_ADDR: "{{ vault.url }}"
     VAULT_TOKEN: "{{ vault.root_token }}"
-  when: vault_policy_result.failed == True  # Run if policy check failed
+  when: vault_policy_result.failed == True and component_type  == "cenm"    # Run if policy check failed
+
+- name: Create policy for Access Control for nodes
+  shell: |
+    cd ./build    
+    echo "path \"secret/{{ org.name | lower }}/*\" {
+        capabilities = [\"read\", \"list\", \"create\"]
+    }"  >>  vault-crypto-{{ org.name | lower }}-ro.hcl
+    vault write sys/policy/vault-crypto-{{ org.type }}-{{ org.name | lower }}-ro policy="@vault-crypto-{{ org.name | lower }}-ro.hcl"
+  environment:
+    VAULT_ADDR: "{{ vault.url }}"
+    VAULT_TOKEN: "{{ vault.root_token }}"
+  when: vault_policy_result.failed == True and  component_type == 'node'   # Run if policy check failed
 
 # This task creates the vault auth
 - name: Create Vault auth role

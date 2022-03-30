@@ -1,13 +1,4 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 metadata:
-  # HLF network version
-  network:
-    version:
   #Provide the namespace for organization's peer
   #Eg. namespace: org1-example-com
   namespace: default
@@ -59,15 +50,15 @@ vault:
   #Provide the value for vault secretprefix
   #Eg. orderersecretprefix: secret/...
   orderersecretprefix:
-  #Provide the secretgitprivatekey
-  #Eg. secretgitprivatekey: secret/credentials/org1-example-com/git
-  secretgitprivatekey:
   #Provide the serviceaccountname for vault
   #Eg. serviceaccountname: vault-auth
   serviceaccountname:
   #Provide the imagesecretname for vault
   #Eg. imagesecretname: regcred
   imagesecretname:
+  #Provide the secretgitprivatekey
+  #Eg. secretgitprivatekey: secret/credentials/org1-example-com/git?ssh-key
+  secretgitprivatekey:
   #Kuberenetes secret for vault ca.cert
   #Enable or disable TLS for vault communication if value present or not
   #Eg. tls: vaultca
@@ -82,7 +73,7 @@ orderer:
 
 chaincode:
   #Provide a valid chaincode builder image for Fabric
-  #Eg. builder: hyperledger/fabric-ccenv:1.4.8
+  #Eg. builder: hyperledger/fabric-ccenv:1.4.4
   builder:
   #Provide the name of the chaincode to be installed
   #Eg. name: cc
@@ -90,8 +81,6 @@ chaincode:
   #Provide the chaincode version to be installed
   #Eg. version: "1.0"
   version:
-  # language of the chaincode
-  lang:
   #Provide the path to the main.go package if it is different from chaincode directory
   #Eg. maindirectory: cmd
   maindirectory: 

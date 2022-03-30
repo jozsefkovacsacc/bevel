@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 #############################################################################################
 # This role deletes the helm releases and uninstalls Flux
 #############################################################################################
@@ -13,10 +7,8 @@
 # remove this if not needed
 - name: Uninstall flux
   shell: |
-    KUBECONFIG={{ kubernetes.config_file }} kubectl delete secret git-auth-{{ network.env.type }} -n flux-{{ network.env.type }}
-    KUBECONFIG={{ kubernetes.config_file }} helm uninstall flux-{{ network.env.type }} -n flux-{{ network.env.type }}
-    KUBECONFIG={{ kubernetes.config_file }} helm uninstall flux-{{ network.env.type }}-helm-operator -n flux-{{ network.env.type }}
-    KUBECONFIG={{ kubernetes.config_file }} kubectl delete namespace flux-{{ network.env.type }}
+    KUBECONFIG={{ kubernetes.config_file }} kubectl delete secret git-auth-{{ network.env.type }}
+    KUBECONFIG={{ kubernetes.config_file }} helm delete --purge flux-{{ network.env.type }}
   ignore_errors: yes
 
 # Remove CRD Helmrelease
@@ -33,7 +25,7 @@
     helm_releases=($(KUBECONFIG={{ kubernetes.config_file }} helm ls | grep {{ org_namespace }} | awk '{print $1}'))
     for helm_release in "${helm_releases[@]}"
     do
-      KUBECONFIG={{ kubernetes.config_file }} helm uninstall ${helm_release}
+      KUBECONFIG={{ kubernetes.config_file }} helm delete ${helm_release} --purge
     done
   ignore_errors: yes
 

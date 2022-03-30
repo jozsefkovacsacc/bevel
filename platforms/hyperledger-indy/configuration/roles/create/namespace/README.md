@@ -1,8 +1,3 @@
-[//]: # (##############################################################################################)
-[//]: # (Copyright Accenture. All Rights Reserved.)
-[//]: # (SPDX-License-Identifier: Apache-2.0)
-[//]: # (##############################################################################################)
-
 ## create/namespace
 This role create value files for namespace.
 
@@ -32,6 +27,10 @@ It calls role *{{ playbook_dir }}/../../shared/configuration/roles/git_push*
 
 #### Input Variables:
  - GIT_DIR: A path of git directory. By default "{{ playbook_dir }}/../../../"
+ - GIT_REPO: Url for git repository. It uses a variable *{{ gitops.git_push_url }}* 
+ - GIT_USERNAME: Username of git repository. It uses a variable *{{ gitops.username }}*
+ - GIT_EMAIL: User's email of git repository. It uses a variable *{{ gitops.email }}*
+ - GIT_PASSWORD: User's password of git repository. It uses a variable *{{ gitops.password }}*
+ - GIT_BRANCH: A name of branch, where are pushed Helm releases. It uses a variable *{{ gitops.branch }}*
  - GIT_RESET_PATH: A path of git directory, which is reseted for committing. Default value is *platforms/hyperledger-indy/configuration*
- - gitops: *item.gitops* from network.yaml
- - msg: A message for git commit
+ - msg: A message, which is printed, when the role is running.

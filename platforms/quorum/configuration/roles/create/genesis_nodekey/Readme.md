@@ -1,8 +1,3 @@
-[//]: # (##############################################################################################)
-[//]: # (Copyright Accenture. All Rights Reserved.)
-[//]: # (SPDX-License-Identifier: Apache-2.0)
-[//]: # (##############################################################################################)
-
 ## ROLE: create/genesis_nodekey
 This role generates genesis.json and nodekey/enode for each organization.
 ### main.yaml

@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 #############################################################################################
 # This role deletes the Vault configurations for each service
 #############################################################################################
@@ -11,15 +5,14 @@
 #############################################################################################
 # Delete the Ambassador Creds
 - name: Delete Ambassador creds
-  k8s:
+  k8s_raw:
     kind: Secret
-    namespace: "{{ component_name }}"
+    namespace: default
     name: "{{ service.value['name'] }}-ambassador-certs"
     kubeconfig: "{{ kubernetes.config_file }}"
     context: "{{ kubernetes.context }}"
     state: absent
   ignore_errors: yes
-  changed_when: false
 
 ############################################################################################
 # This task deletes vault auth
@@ -29,8 +22,6 @@
   environment:
     VAULT_ADDR: "{{ item.vault.url }}"
     VAULT_TOKEN: "{{ item.vault.root_token }}"
-  tags:
-    molecule-idempotence-notest
 
 ############################################################################################
 # This task deletes crypto materials from vault
@@ -40,9 +31,6 @@
   environment:
     VAULT_ADDR: "{{ item.vault.url }}"
     VAULT_TOKEN: "{{ item.vault.root_token }}"
-  tags:
-    molecule-idempotence-notest
-  register: test
 
 # This task deletes the policies
 - name: Delete policy
@@ -51,17 +39,14 @@
   environment:
     VAULT_ADDR: "{{ item.vault.url }}"
     VAULT_TOKEN: "{{ item.vault.root_token }}"
-  tags:
-    molecule-idempotence-notest
 
 # Delete the Ambassador Creds for CA
 - name: Delete Ambassador creds
-  k8s:
+  k8s_raw:
     kind: Secret
-    namespace: "{{ component_name }}"
+    namespace: default
     name: "{{ service.value['name'] }}-ambassador-certs"
     kubeconfig: "{{ kubernetes.config_file }}"
     context: "{{ kubernetes.context }}"
     state: absent
-  changed_when: false
   ignore_errors: yes

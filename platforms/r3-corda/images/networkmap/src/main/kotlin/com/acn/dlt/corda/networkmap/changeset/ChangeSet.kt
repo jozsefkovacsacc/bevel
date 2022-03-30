@@ -1,7 +1,4 @@
 package com.acn.dlt.corda.networkmap.changeset
-
-import com.acn.dlt.corda.networkmap.serialisation.WhitelistSet
-import com.acn.dlt.corda.networkmap.serialisation.toWhitelistSet
 import io.vertx.core.json.Json
 import net.corda.core.crypto.SecureHash
 import net.corda.core.node.NetworkParameters
@@ -60,20 +57,21 @@ sealed class Change : Function<NetworkParameters, NetworkParameters> {
       )
   }
 
-  data class AppendWhiteList(val whitelist: WhitelistSet) : Change() {
+  data class AppendWhiteList(val whitelist: Map<String, List<AttachmentId>>) : Change() {
     override fun apply(networkParameters: NetworkParameters): NetworkParameters {
-      val lhs = networkParameters.whitelistedContractImplementations.toWhitelistSet()
-      val amended = lhs + whitelist
+      val flattenedOldList = networkParameters.whitelistedContractImplementations.flatMap { entry -> entry.value.map { attachmentId -> entry.key to attachmentId} }
+      val flattenedNewList = whitelist.flatMap { entry -> entry.value.map { attachmentId -> entry.key to attachmentId} }
+      val joined = (flattenedOldList + flattenedNewList).distinct().groupBy({it.first}, {it.second})
       return networkParameters.copy(
-        whitelistedContractImplementations = amended.toCordaWhitelist(),
+        whitelistedContractImplementations = joined,
         modifiedTime = Instant.now()
       )
     }
   }
 
-  data class ReplaceWhiteList(val whitelist: WhitelistSet) : Change() {
+  data class ReplaceWhiteList(val whitelist: Map<String, List<AttachmentId>>) : Change() {
     override fun apply(networkParameters: NetworkParameters) = networkParameters.copy(
-      whitelistedContractImplementations = whitelist.toCordaWhitelist(),
+      whitelistedContractImplementations = whitelist,
       modifiedTime = Instant.now()
     )
   }
@@ -83,12 +81,5 @@ sealed class Change : Function<NetworkParameters, NetworkParameters> {
       whitelistedContractImplementations = emptyMap(),
       modifiedTime = Instant.now()
     )
-  }
-  
-  data class ReplaceAllNetworkParameters(val newNetworkParameters: NetworkParameters) : Change() {
-    override fun apply(networkParameters: NetworkParameters) =
-        newNetworkParameters.copy(
-            modifiedTime = Instant.now()
-        )
   }
 }

@@ -1,37 +1,49 @@
-Bevel current roadmap
-=====================
-
+BAF current roadmap
+===================
 .. mermaid::
 
    gantt
-    title Bevel current roadmap
+    title BAF current roadmap
     dateFormat  YY-MM-DD
     section Platform
-    Platforms and components upgrade : active, 22-01-03, 180d
-    Fabric OFE*: active, 22-01-03, 90d
-    Ansible Decoupling: active, 22-01-03, 60d 
+    R3 Corda Enterprise Version  :active, a1, 20-05-15  , 130d
+    Besu Provisioning       :active, a2, 20-05-20  , 125d
+    Couch DB     :a3, 20-11-15  , 60d
+    Helm 3 upgrade:active, 20-07-15, 90d
+    EKS upgrade:done, a5, 20-08-10, 10d
+    HL-Fabric upgrade:active, a6, 20-09-01, 45d
+    
     section Application
-    Besu Ref App: active, 22-02-14, 120d
-    section CI/CD
-    Moving to ghcr.io: active, 22-01-03, 60d
+    R3 Corda Ent. Ref App : b3, 20-09-15, 45d
+    HL Besu Ref App: b4, 20-09-15, 45d
+    
+    section Architecture
+    Besu Blueprint      : done, 20-06-01, 50d
+    Corda-Ent Blueprint : done, 20-06-01, 50d
 
-.. |pin| image:: https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8
+.. |pin| image:: _static/pin.png
     :width: 15pt
     :height: 15pt
-.. |tick| image:: https://github.githubassets.com/images/icons/emoji/unicode/2714.png?v8
+.. |tick| image:: _static/tick.png
     :width: 15pt
     :height: 15pt
-.. |run| image:: https://github.githubassets.com/images/icons/emoji/unicode/1f3c3-2642.png?v8
+.. |run| image:: _static/run.png
     :width: 15pt
     :height: 15pt
-.. |muscle| image:: https://github.githubassets.com/images/icons/emoji/unicode/1f4aa.png?v8
+.. |muscle| image:: _static/muscle.png
     :width: 15pt
     :height: 15pt
-.. |hand| image:: https://github.githubassets.com/images/icons/emoji/unicode/270b.png?v8
+.. |hand| image:: _static/hand.png
     :width: 15pt
     :height: 15pt
-
-OFE* : Operational feature enhancement
+.. |depricated| image:: _static/depricated.png
+    :alt: depricated
+    :width: 15pt
+    :height: 15pt
+.. |active| image:: _static/active.png
+    :alt: in use
+    :width: 15pt
+    :height: 15pt
 
 Legend of annotations:
 
@@ -48,43 +60,78 @@ Legend of annotations:
 +------------------------+------------------+
 | |hand|                 | on hold          |
 +------------------------+------------------+
+| |depricated|           | depricated       |
++------------------------+------------------+
+| |active|               | in use / valid   |
++------------------------+------------------+
 
 General
 -------
+
+-  |tick| Minikube support for existing platforms
 -  |run| Improve the existing ``readthedocs`` documentations
-    - |run| Update guide for deployment on Local k8s
--  |run| Platforms and components upgrade:
-    - |run| Flux version 2 upgrade
-    - |pin| Test and update platforms code to run on EKS v1.21 
-    - |pin| Setup AWS cloudwatch exporter
-    - |pin| Grafana and Promethus integration 
-    - |pin| Improve logging/error messaging in playbooks
+-  |run| BAF DLT and software tools upgrade:
+    - |run| Helm3 upgrade
+    - |tick| HAProxy upgrade to latest stable
+    - |tick| EKS upgrade to 1.16
+    - |run| HL Fabric version upgrade
+    - |pin| Ambassador upgrade to latest stable 
+    - |pin| Flux upgrade for helm3 operator support
+    - |pin| Java version upgrades
 
 Platforms
 ---------
-- |run| Reduce/decouple ansible dependecy in DLT platforms automation
-- |run| Corda Enterprise operational feature enhancements
-    - |pin| HA Notary options
-    - |pin| Enable PostGreSQL support for Corda Enterprise
-    - |pin| Removal of node
-- |run| HL Fabric operational feature enhancements
-    - |run| Feature for user identities
-    - |run| External chaincode for Fabric 2.2.x
-    - |pin| CI/CD piplelines for chaincode deployment
-- |run| HL Besu operational feature enhancements
-    - |run| Implement private transactions
-    - |hand| Enable bootnodes
-- |run| Quorum operational feature enhancements
-    - |run| Vault secret engine integration with tessera
-    - |run| Implement private transactions
-- |run| HL Indy operational feature enhancements
-    - |hand| Removal of organizations from a running Indy Network
+
+-  |run| Besu network provisioning
+-  |tick| Support for R3 Corda Enterprise Version
+-  |tick| Hyperledger Indy network provisioning
+-  |tick| Quorum network provisioning
+-  |tick| Support for Hyperledger Fabric v2.0
+-  |tick| Key storage and management
+-  |hand| Implementing couch DB
 
 Application
 -----------
--  |run| Hyperledger Besu reference application
 
+-  |pin| Hyperledger Besu reference application
+-  |pin| R3 Corda Enterprise reference application
+-  |tick| Quorum supplychain application integration
+-  |tick| Hyperledger Indy reference application
+
+Architecture
+------------
+
+-  |tick| Besu architecture blueprint
+-  |tick| R3 Corda Enterprise Version architecture blueprint
+-  |hand| Couch DB architecture blueprint
 
 Histroic DLT/Blockchain support releases
 -----------------------------------------
-This section has been moved to the :doc:`compatibilitymatrix`
+
++-------------------------------------------+-----------+--------------+
+| Feature Name                              | Release   | Status       |
++===========================================+===========+==============+
+| Hyperledger Fabric v2.0                   | 0.5.0     | |active|     |
++-------------------------------------------+-----------+--------------+
+| R3 Corda v4.4                             | 0.5.0     | |active|     |
++-------------------------------------------+-----------+--------------+
+| Hyperledger Indy v1.11.0                  | 0.5.0     | |active|     |
++-------------------------------------------+-----------+--------------+
+| Quorum v2.5.0                             | 0.4.1     | |active|     |
++-------------------------------------------+-----------+--------------+
+| Quorum v2.1.1                             | 0.4.0     | |depricated| |
++-------------------------------------------+-----------+--------------+
+| Quorum Architecture blueprint             | 0.4.0     | |active|     |
++-------------------------------------------+-----------+--------------+
+| Hyperledger Indy v1.9.0                   | 0.4.0     | |depricated| |
++-------------------------------------------+-----------+--------------+
+| Hyperledger Fabric v1.4.4                 | 0.3.1     | |active|     |
++-------------------------------------------+-----------+--------------+
+| Hyperledger Indy Architecture blueprint   | 0.3.0     | |active|     |
++-------------------------------------------+-----------+--------------+
+| R3 Corda v4.1                             | 0.3.0     | |active|     |
++-------------------------------------------+-----------+--------------+
+| Hyperledger Fabric v1.4.0                 | 0.2.0     | |depricated| |
++-------------------------------------------+-----------+--------------+
+| R3 Corda v4.0                             | 0.2.0     | |depricated| |
++-------------------------------------------+-----------+--------------+

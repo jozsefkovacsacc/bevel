@@ -1,9 +1,4 @@
-[//]: # (##############################################################################################)
-[//]: # (Copyright Accenture. All Rights Reserved.)
-[//]: # (SPDX-License-Identifier: Apache-2.0)
-[//]: # (##############################################################################################)
-
-## Hyperledger Bevel Indy indy-node Docker image
+## Blockchain Automation Framework Indy indy-node Docker image
 Docker image of an Indy node (runs using a Steward identity)
 
 ### Build

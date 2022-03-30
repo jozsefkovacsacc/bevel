@@ -1,9 +1,9 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: flux.weave.works/v1beta1
 kind: HelmRelease
 metadata:
   name: mongodb-{{ nodename }}
   annotations:
-    fluxcd.io/automated: "false"
+    flux.weave.works/automated: "false"
   namespace: {{ component_ns }}
 spec:
   replicaCount: 1
@@ -11,21 +11,15 @@ spec:
   releaseName: mongodb-{{ nodename }}
   chart:
     path: {{ org.gitops.chart_source }}/{{ chart }}
-    git: {{ org.gitops.git_url }}
+    git: {{ org.gitops.git_ssh }}
     ref: {{ org.gitops.branch }}
-{% if org.gitops.git_protocol == "https" %}
-    secretRef:
-      name: git-https-credentials
-{% endif %}
   values:
     nodeName: mongodb-{{ nodename }}
     metadata:
       namespace: {{ component_ns }}
     image:
       containerName: mongo:3.6.6
-{% if network.docker.username is defined %}
       imagePullSecret: regcred
-{% endif %}
       initContainerName: {{ network.docker.url }}/alpine-utils:1.0
     storage:
       memory: 512Mi
@@ -36,9 +30,9 @@ spec:
       address: {{ vault.url }}
       role: vault-role
       authpath: {{ component_auth }}
-      secretprefix: {{ nodename }}/data/credentials/mongodb
+      secretprefix: {{ nodename }}/credentials/mongodb
       serviceaccountname: vault-auth
-      certsecretprefix: {{nodename}}/data/certs
+      certsecretprefix: {{nodename}}/certs
     service:
       tcp:
           port: 27017

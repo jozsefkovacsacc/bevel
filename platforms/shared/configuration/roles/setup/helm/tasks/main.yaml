@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 ---
   - name: register temporary directory
     tempfile:
@@ -21,10 +15,10 @@
 
   - name: Install helm
     get_url:
-      url: https://get.helm.sh/helm-{{ helm.version | default(default.version) }}-{{ helm.os }}-{{ helm.arch }}.tar.gz
+      url: https://get.helm.sh/helm-{{ helm.version }}-{{ helm.os }}-{{ helm.arch }}.tar.gz
       dest: "{{ tmp_directory.path }}/helm.tar.gz"
       mode: 0755
-      checksum: "{{ helm.checksum | default(default.checksum) }}"
+      checksum: "{{ helm.checksum }}"
     register: helm_download
     when: not helm_stat_result.stat.exists
     tags:

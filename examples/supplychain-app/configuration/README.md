@@ -1,8 +1,3 @@
-[//]: # (##############################################################################################)
-[//]: # (Copyright Accenture. All Rights Reserved.)
-[//]: # (SPDX-License-Identifier: Apache-2.0)
-[//]: # (##############################################################################################)
-
 # Supplychain Playbooks
 
 ## Overview
@@ -14,13 +9,15 @@ These playbooks deploys the smart contract in case of Quorum.
 
 To run the playbooks and deploy the APIs, following are the pre-requisites
 1. Ansible and Git are required to be setup on the machine.
-2. The DLT network setup should be complete using Hyperledger Bevel, which includes the GitOps setup.
+2. The DLT network setup should be complete using the Blockchain Automation Framework, which includes the GitOps setup.
 3. A complete input configuration file: *network.yaml* as described in **Step 1**.
 
 ## Playbook Description 
 There are following playbooks.
 
-* `deploy-supplychain-app.yaml` : Deploys the Smart Contract/ Chaincode on a DLT network.
+* `deploy-api.yaml` : Creates the value files for Corda springboot-server, Fabric REST-server and respective express-api and commits them into gitops repository.
+
+* `deploy-supplychain-smartContract.yaml` : Deploys the Smart Contract on a Quorum node in an existing Quorum network using a javascript file.
 
 ## To Deploy the Supply-Chain APIs:
 
@@ -36,7 +33,7 @@ network:
   cloud_provider: aws
   ...
   gitops:
-    git_url: "git_url"
+    git_ssh: "git_ssh"
     branch: "git_branch"
     release_dir: "platforms/r3-corda/releases/dev"  
     chart_source: "platforms/r3-corda/charts"
@@ -101,7 +98,7 @@ Please use the samples provided in **samples** folder to get the examples for ea
 Sample format of network.yaml
 ```
 network:
-  type: quorum  # besu for hyperledger-besu 
+  type: quorum
   version: 2.5.0
   cloud_provider: aws
   ...
@@ -126,21 +123,21 @@ network:
                 port: 8546
                 ambassador: 15021       
               transaction_manager:
-                port: 443          
-                ambassador: 443    
+                port: 8443          
+                ambassador: 8443    
               raft:                     
                 port: 50401
                 ambassador: 15023
               db:                       
                 port: 3306
-              geth_url: "http://manufacturer.test.corda.blockchaincloudpoc.com:15021" 
               smart_contract:
                 name: "General"           
                 contract_path: "./contracts"  
                 deployjs_path: "examples/supplychain-app/quorum/smartContracts"    
                 iterations: 200           
                 entrypoint: "General.sol"
-                private_for: ""   # Add comma separated list of transaction manager public keys         
+                private_for: ""   # Add comma separated list of public tm keys
+                geth_url: "http://manufacturer.test.corda.blockchaincloudpoc.com:15021"          
 ```
 
 #### Step 2

@@ -1,8 +1,3 @@
-[//]: # (##############################################################################################)
-[//]: # (Copyright Accenture. All Rights Reserved.)
-[//]: # (SPDX-License-Identifier: Apache-2.0)
-[//]: # (##############################################################################################)
-
 ## setup/vault_kubernetes
 This role checks HashiCorp Vault for existing of admin-vault-auth SA. When this doesn't exist, then creates it.
 

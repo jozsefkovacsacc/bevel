@@ -94,8 +94,10 @@ const TableRow = (props) => {
       { (admin) ? 
         <td key={9}>
           <button 
-            className='wibble'>
-              <em className="fa fa-trash" data-link="delete" onClick={ e => { toggleModal(e, node) }}></em>
+            className='wibble' 
+            data-link="delete" 
+            onClick={ e => { toggleModal(e, node) }} >
+              <em className="fa fa-trash"></em> 
           </button> 
         </td> : null
       }

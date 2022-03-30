@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 # Default values for Notary Registration job.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
@@ -85,16 +79,12 @@ nodeConf:
   # Eg. legalName: O=Notary,OU=Notary,L=London,C=GB
   legalName:
     # Email address
-    # Eg. emailAddress: dev-node@bevel.com
+    # Eg. emailAddress: dev-node@baf.com
     emailAddress: 
-  notary:
-    serviceLegalName: 
     # Notary is validator Ex : isValidating: true
+  notary:
     validating:
-    # Notary type Ex cenm or notary
-    # Eg. type: cenm
-    type:
-  # Dev Mode
+    # Dev Mode
   devMode: false
   # Provide volume related specifications
   volume:

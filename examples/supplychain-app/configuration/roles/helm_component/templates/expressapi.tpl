@@ -1,14 +1,14 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: flux.weave.works/v1beta1
 kind: HelmRelease
 metadata:
   name: {{ peer_name }}-expressapi
   namespace: {{ component_ns }}
   annotations:
-    fluxcd.io/automated: "false"
+    flux.weave.works/automated: "false"
 spec:
   chart:
     path: {{ component_gitops.chart_source }}/expressapp
-    git: "{{ component_gitops.git_url }}"
+    git: "{{ component_gitops.git_ssh }}"
     ref: "{{ component_gitops.branch }}"
   releaseName: {{ peer_name }}{{ network.type }}-expressapi
   values:
@@ -18,7 +18,7 @@ spec:
     replicaCount: 1
     expressapp:
       serviceType: ClusterIP
-      image: {{ network.container_registry.url | lower }}/{{ expressapi_image }}
+      image: {{ network.docker.url }}/{{ expressapi_image }}
       pullPolicy: Always
       pullSecrets: regcred
       nodePorts:

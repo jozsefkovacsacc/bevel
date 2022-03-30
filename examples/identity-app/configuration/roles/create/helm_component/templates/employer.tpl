@@ -1,15 +1,15 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: flux.weave.works/v1beta1
 kind: HelmRelease
 metadata:
   name: {{ component_name }}-acme
   annotations:
-    fluxcd.io/automated: "false"
+    flux.weave.works/automated: "false"
   namespace: {{ component_ns }}
 spec:
   releaseName: {{ component_name }}-acme
   chart:
     path: {{ chart_path }}/acme
-    git: {{ gitops.git_url }}
+    git: {{ gitops.git_ssh }}
     ref: {{ gitops.branch }}
   values:
     metadata:
@@ -29,7 +29,6 @@ spec:
       ports: 
         service: {{ endorser.server.httpPort }}
         endpoint: {{ endorser.server.apiPort }}
-        webhook: {{ endorser.server.webhookPort }}
 {% if organization.cloud_provider == 'minikube' %}     
       address: {{ minikube_ip }}
 {% else %}      

@@ -1,15 +1,15 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: flux.weave.works/v1beta1
 kind: HelmRelease
 metadata:
   name: {{ component_name }}-{{ identity_name }}-auth-job
   annotations:
-    fluxcd.io/automated: "false"
+    flux.weave.works/automated: "false"
   namespace: {{ component_ns }}
 spec:
   releaseName: {{ component_name }}-{{ identity_name }}-auth-job
   chart:
     path: {{ gitops.chart_source }}/{{ chart }}
-    git: {{ gitops.git_url }}
+    git: {{ gitops.git_ssh }}
     ref: {{ gitops.branch }}
   values:
     metadata:
@@ -23,6 +23,7 @@ spec:
       repository: alpine:3.9.4
     vault:
       address: {{ vault.url }}
+      keyPath: {{ vault_path }}
       identity: {{ identity_name }}
       admin_auth_path: kubernetes-{{ organization }}-admin-auth
       policy: {{ organization }}-{{ identity_name }}-ro

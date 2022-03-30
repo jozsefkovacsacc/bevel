@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 #Provide the nodeName for node
 #Eg. nodeName: bank1web
 nodeName: 
@@ -16,9 +10,6 @@ metadata:
   #Provide the namespace
   #Eg. namespace: default
   namespace: 
-  #type of dlt platform, cordaopensource or cordaenterprise
-  #Eg. type: cordaopensource
-  type: 
 
 image:
   #Provide the containerName of image for main container
@@ -121,14 +112,6 @@ web:
   #Provide the web targetPort for node 
   #Eg. targetPort: 10004
   targetPort: 20001
-
-networkservices:
-  # Name of the doorman
-  # Eg. doorman: doorman
-  doorman:
-  # Name of the networkmap
-  # Eg. networkmap: networkmap
-  networkmap:
 
 service:
 # Note: Target ports are dependent on image being used. Please change them accordingly 

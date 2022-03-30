@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -21,10 +15,6 @@ spec:
     metadata:
       labels:
         app: "{{ $.Values.metadata.name }}"
-        app.kubernetes.io/name: "{{ $.Values.metadata.name }}"
-        helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-        app.kubernetes.io/managed-by: {{ .Release.Service }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       restartPolicy: OnFailure
       serviceAccountName: "{{ $.Values.vault.serviceAccountName }}"
@@ -61,9 +51,10 @@ spec:
           validateVaultResponse 'vault login token' "${VAULT_TOKEN}"
           QUERY_RES=$(curl -sS --header "X-Vault-Token: $VAULT_TOKEN" $VAULT_ADDR/v1/$ADMIN_PATH/$ADMIN_NAME/identity/private | jq -r 'if .errors then . else . end')
           validateVaultResponse 'Admin Seed' "${QUERY_RES}"
-          admin_seed=$(echo ${QUERY_RES} | jq -r ".data.data[\"seed\"]");
+          admin_seed=$(echo ${QUERY_RES} | jq -r ".data[\"seed\"]");
           mkdir -p /data/seed;
           echo "${admin_seed}" > /data/seed/adminseed.txt;
+
         env:
           - name: VAULT_APP_ROLE
             value: {{ $.Values.vault.role }}
@@ -82,6 +73,7 @@ spec:
         volumeMounts:
           - name: shared-data
             mountPath: /data
+
       - name: "{{ $.Values.image.cli.name }}"
         image: "{{ $.Values.image.cli.repository }}"
         stdin: true
@@ -95,6 +87,7 @@ spec:
           echo "Running ledger Transaction Script...";
 
           ./home/indy-ledger.sh $ADMIN_DID $ADMIN_SEED $IDENTITY_DID $IDENTITY_ROLE $IDENTITY_VERKEY $POOL_GENESIS_PATH;
+
         env:
           - name: VAULT_APP_ROLE
             value: {{ $.Values.vault.role }}

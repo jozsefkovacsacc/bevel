@@ -9,6 +9,3 @@ build
 # OS or editor files
 .vscode
 logs/**
-.DS_Store
-pom.xml.versionsBackup
-**/public/**

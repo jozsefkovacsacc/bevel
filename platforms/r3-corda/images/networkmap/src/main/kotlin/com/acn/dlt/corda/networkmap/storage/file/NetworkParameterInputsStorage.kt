@@ -1,15 +1,13 @@
 package com.acn.dlt.corda.networkmap.storage.file
 
-import com.acn.dlt.corda.networkmap.serialisation.WhitelistSet
 import com.acn.dlt.corda.networkmap.serialisation.deserializeOnContext
-import com.acn.dlt.corda.networkmap.serialisation.parseWhitelist
 import com.acn.dlt.corda.networkmap.utils.*
 import io.vertx.core.Future
-import io.vertx.core.Future.succeededFuture
 import io.vertx.core.Vertx
 import net.corda.core.identity.Party
 import net.corda.core.node.NodeInfo
 import net.corda.core.node.NotaryInfo
+import net.corda.core.node.services.AttachmentId
 import net.corda.core.utilities.loggerFor
 import net.corda.nodeapi.internal.SignedNodeInfo
 import rx.Observable
@@ -20,8 +18,8 @@ import java.io.File
 /**
  * @Deprecated("this is only provided for migration from earlier versions of network parameters to the database implementation")
  */
-class NetworkParameterInputsStorage(private val vertx: Vertx,
-                                    parentDir: File,
+class NetworkParameterInputsStorage(parentDir: File,
+                                    private val vertx: Vertx,
                                     childDir: String = DEFAULT_DIR_NAME,
                                     validatingNotariesDirectoryName: String = DEFAULT_DIR_VALIDATING_NOTARIES,
                                     nonValidatingNotariesDirectoryName: String = DEFAULT_DIR_NON_VALIDATING_NOTARIES,
@@ -78,21 +76,25 @@ class NetworkParameterInputsStorage(private val vertx: Vertx,
     return publishSubject
   }
 
-  fun readWhiteList(): Future<WhitelistSet> {
-    return try {
-      vertx.fileSystem().readFile(whitelistPath.absolutePath)
+  fun readWhiteList(): Future<Map<String, List<AttachmentId>>> {
+    try {
+      return vertx.fileSystem().readFile(whitelistPath.absolutePath)
         .map {
-          it.toString().parseWhitelist()
+          it.toString().lines()
+            .parseToWhitelistPairs()
+            .groupBy { it.first } // group by the FQN of classes to List<Pair<String, SecureHash>>>
+            .mapValues { it.value.map { it.second } } // remap to FQN -> List<SecureHash>
+            .toMap() // and generate the final map
         }
         .onSuccess {
           log.info("retrieved whitelist")
         }
         .recover {
           log.warn("whitelist file not found at ${whitelistPath.absolutePath}")
-          succeededFuture(WhitelistSet())
+          Future.succeededFuture<Map<String, List<AttachmentId>>>(emptyMap())
         }
     } catch (err: Throwable) {
-      Future.failedFuture(err)
+      return Future.failedFuture(err)
     }
   }
 

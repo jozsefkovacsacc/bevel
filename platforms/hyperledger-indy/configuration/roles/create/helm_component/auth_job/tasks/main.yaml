@@ -1,10 +1,4 @@
 ##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
-##############################################################################################
 # This role creates the job value file for stewards
 ##############################################################################################
 
@@ -32,9 +26,10 @@
     dest: "{{ values_file }}"
   vars:
     identity_name: "{{ trusteeItem.name }}"
+    vault_path: "{{ organization }}.trustees"
     values_file: "{{ release_dir }}/{{ component_type }}/{{ component_name }}/{{ identity_name }}.yaml"
     chart: "{{ chartName }}"
-    policy_path: "path \\\"/{{ organization }}/data/trustees/{{ identity_name }}/*\\\""
+    policy_path: "path \\\"/{{ organization }}/trustees/{{ identity_name }}/*\\\""
     policy_capabilities: "{ capabilities = [ \\\"read\\\", \\\"list\\\" ] }"
     kubernetes_server: "{{ kubernetes_server_url.stdout }}"
   loop: "{{ services.trustees }}"
@@ -50,9 +45,10 @@
     dest: "{{ values_file }}"
   vars:
     identity_name: "{{ stewardItem.name }}"
+    vault_path: "{{ organization }}.stewards"
     values_file: "{{ release_dir }}/{{ component_type }}/{{ component_name }}/{{ identity_name }}.yaml"
     chart: "{{ chartName }}"
-    policy_path: "path \\\"/{{ organization }}/data/stewards/{{ identity_name }}/*\\\""
+    policy_path: "path \\\"/{{ organization }}/stewards/{{ identity_name }}/*\\\""
     policy_capabilities: "{ capabilities = [ \\\"read\\\", \\\"list\\\" ] }"
     kubernetes_server: "{{ kubernetes_server_url.stdout }}"
   loop: "{{ services.stewards }}"
@@ -68,9 +64,10 @@
     dest: "{{ values_file }}"
   vars:
     identity_name: "{{ endorserItem.name }}"
+    vault_path: "{{ organization }}.endorsers"
     values_file: "{{ release_dir }}/{{ component_type }}/{{ component_name }}/{{ identity_name }}.yaml"
     chart: "{{ chartName }}"
-    policy_path: "path \\\"/{{ organization }}/data/endorsers/{{ identity_name }}/*\\\""
+    policy_path: "path \\\"/{{ organization }}/endorsers/{{ identity_name }}/*\\\""
     policy_capabilities: "{ capabilities = [ \\\"read\\\", \\\"list\\\" ] }"
     kubernetes_server: "{{ kubernetes_server_url.stdout }}"
   loop: "{{ services.endorsers }}"
@@ -79,15 +76,16 @@
   when: services.endorsers is defined
 
 ##############################################################################################
-# Generate Indy vault policy and role for bevel-ac
-- name: bevel-ac vault policy and role generating
+# Generate Indy vault policy and role for baf-ac
+- name: baf-ac vault policy and role generating
   template:
     src: "{{ dlt_templates[component_type] }}"
     dest: "{{ values_file }}"
   vars:
-    identity_name: "bevel-ac"
+    identity_name: "baf-ac"
+    vault_path: "{{ organization }}.baf-ac"
     values_file: "{{ release_dir }}/{{ component_type }}/{{ component_name }}/{{ identity_name }}.yaml"
     chart: "{{ chartName }}"
-    policy_path: "path \\\"/{{ organization }}/data/+/+/+/public*\\\""
+    policy_path: "path \\\"/{{ organization }}/+/+/+/public*\\\""
     policy_capabilities: "{ capabilities = [ \\\"read\\\", \\\"list\\\" ] }"
     kubernetes_server: "{{ kubernetes_server_url.stdout }}"

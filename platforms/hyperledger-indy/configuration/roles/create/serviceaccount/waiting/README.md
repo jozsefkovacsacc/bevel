@@ -1,8 +1,3 @@
-[//]: # (##############################################################################################)
-[//]: # (Copyright Accenture. All Rights Reserved.)
-[//]: # (SPDX-License-Identifier: Apache-2.0)
-[//]: # (##############################################################################################)
-
 ## create/serviceaccount/waiting
 This role is waiting for create inserted ServiceAccounts or ClusterRoleBinding.
 

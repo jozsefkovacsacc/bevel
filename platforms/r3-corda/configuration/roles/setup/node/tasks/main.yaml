@@ -1,10 +1,4 @@
 ##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
-##############################################################################################
 # This role creates the deployment files for node and pushes them to repository
 ##############################################################################################
 - name: "Wait for namespace creation for nodes"
@@ -14,8 +8,6 @@
     component_type: "Namespace"
     component_name: "{{ component_ns }}"
     type: "retry"
-  tags:
-  - notest
 
 - name: "Wait for vault-auth creation for nodes"
   include_role:
@@ -24,8 +16,6 @@
     component_type: "ServiceAccount"
     component_name: "vault-auth"
     type: "retry"
-  tags:
-  - notest
 
 - name: "Wait for vault-reviewer creation for nodes"
   include_role:
@@ -34,8 +24,6 @@
     component_type: "ServiceAccount"
     component_name: "vault-reviewer"
     type: "retry"
-  tags:
-  - notest
 
 - name: "Wait for ClusterRoleBinding creation for nodes"
   include_role:
@@ -44,8 +32,6 @@
     component_type: "ClusterRoleBinding"
     component_name: "{{ component_ns }}-role-tokenreview-binding"
     type: "retry"
-  tags:
-  - notest
 
 # ----------------------------------------------------------------------  
 # create vault access policies
@@ -72,9 +58,9 @@
   vars:
     component_name: "{{ node.name | lower }}"
     cordapps_details: "{{ cordapps }}"
-    nms_url: "{{ network | json_query('network_services[?type==`networkmap`].uri') | first }}"
-    nms_cert_file: "{{ network | json_query('network_services[?type==`networkmap`].certificate') | first }}"
-    doorman_cert_file: "{{ network | json_query('network_services[?type==`doorman`].certificate') | first }}"
+    nms_url: "{{ network | json_query('orderers[?type==`networkmap`].uri') | first }}"
+    nms_cert_file: "{{ network | json_query('orderers[?type==`networkmap`].certificate') | first }}"
+    doorman_cert_file: "{{ network | json_query('orderers[?type==`doorman`].certificate') | first }}"
     cert_subject: "{{ item.subject | regex_replace(',', '/') }}" #Use org level subject for certificate generation
   loop: "{{ services.peers }}"
   loop_control:
@@ -106,7 +92,6 @@
   loop_control:
     loop_var: node  
   ignore_errors: yes
-  changed_when: false
 
 # ----------------------------------------------------------------------  
 # create deployment files for job for node
@@ -117,9 +102,9 @@
     node_type: "node"
     component_type: "job"
     component_name: "{{ node.name }}"
-    nms_url: "{{ network | json_query('network_services[?type==`networkmap`].uri') | first }}"
+    nms_url: "{{ network | json_query('orderers[?type==`networkmap`].uri') | first }}"
     nms_domain: "{{ nms_url.split(':')[1] }}"
-    doorman_url: "{{ network | json_query('network_services[?type==`doorman`].uri') | first }}"
+    doorman_url: "{{ network | json_query('orderers[?type==`doorman`].uri') | first }}"
     doorman_domain: "{{ doorman_url.split(':')[1] }}"
     corda_version: "corda-{{ network.version }}"
     release_dir: "{{ playbook_dir }}/../../../{{ gitops.release_dir }}"
@@ -133,6 +118,11 @@
     name: "{{ playbook_dir }}/../../shared/configuration/roles/git_push"
   vars:
     GIT_DIR: "{{ playbook_dir }}/../../../"
+    GIT_REPO: "{{ gitops.git_push_url }}"
+    GIT_USERNAME: "{{ gitops.username }}"
+    GIT_EMAIL: "{{ gitops.email }}"
+    GIT_PASSWORD: "{{ gitops.password }}"
+    GIT_BRANCH: "{{ gitops.branch }}"
     GIT_RESET_PATH: "platforms/r3-corda/configuration"
     msg: "[ci skip] Pushing db and job deployment files for {{ node.name }}"
   loop: "{{ services.peers }}"
@@ -148,9 +138,9 @@
     node_type: "node"
     component_type: "node"
     component_name: "{{ node.name }}"
-    nms_url: "{{ network | json_query('network_services[?type==`networkmap`].uri') | first }}"
+    nms_url: "{{ network | json_query('orderers[?type==`networkmap`].uri') | first }}"
     nms_domain: "{{ nms_url.split(':')[1] }}"
-    doorman_url: "{{ network | json_query('network_services[?type==`doorman`].uri') | first }}"
+    doorman_url: "{{ network | json_query('orderers[?type==`doorman`].uri') | first }}"
     doorman_domain: "{{ doorman_url.split(':')[1] }}"
     corda_version: "corda-{{ network.version }}"
     cordapps_details: "{{ cordapps }}"
@@ -166,8 +156,14 @@
     name: "{{ playbook_dir }}/../../shared/configuration/roles/git_push"
   vars:
     GIT_DIR: "{{ playbook_dir }}/../../../"
+    GIT_REPO: "{{ gitops.git_push_url }}"
+    GIT_USERNAME: "{{ gitops.username }}"
+    GIT_EMAIL: "{{ gitops.email }}"
+    GIT_PASSWORD: "{{ gitops.password }}"
     GIT_RESET_PATH: "platforms/r3-corda/configuration"
+    GIT_BRANCH: "{{ gitops.branch }}"
     msg: "[ci skip] Pushing node deployment file for {{ node.name }}"
   loop: "{{ services.peers }}"
   loop_control:
-    loop_var: node  
+    loop_var: node
+    

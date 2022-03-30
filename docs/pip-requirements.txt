@@ -8,4 +8,3 @@ sphinx_rtd_theme
 sphinx_markdown_tables
 ## Install mermaid ##
 sphinxcontrib-mermaid
-docutils<0.18

@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 charts:
   ca-orderer: ca
   ca-peer: ca
@@ -31,17 +25,11 @@ charts:
   notarynode: notary
   nodenode: node
   tessera: node_tessera
-  quorum: node_quorum
-  validatorquorum: node_quorum_validator
-  memberquorum: node_quorum_member
   constellation: node_constellation
   pki-generator: generate-pki
-  pki-generator-node: generate-pki-node
   signer: signer
-  gateway: gateway
   node_orion: node_orion
   idman: idman
-  zone: zone
   validator: node_validator
   nmap: nmap
   notary-initial-registration: notary-initial-registration
@@ -50,15 +38,4 @@ charts:
   float: float
   node_registration: node-initial-registration
   cli: fabric_cli
-  commit_chaincode_job: commit_chaincode 
-  approve_chaincode_job: approve_chaincode
   node: node
-  crypto_orion: orion_key_mgmt
-  crypto_tessera: tessera_key_mgmt
-  node_besu: node_besu
-  cacerts_job: generate_cacerts
-  vault_kubernetes_job: vault_kubernetes
-  crypto_ibft_job: crypto_ibft
-  operations_console: operations_console
-  auth: auth
-  vault_k8s_mgmt: vault-k8s-mgmt

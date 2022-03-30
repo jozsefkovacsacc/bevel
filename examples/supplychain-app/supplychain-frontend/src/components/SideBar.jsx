@@ -44,7 +44,7 @@ function SideBar(props) {
     <Divider style = {{height:108, backgroundColor:'white'}}/>
       <div className={classes.userInfo}>
         <img className={classes.icon} alt='logo' src={'/default.png'}/>
-        <Typography variant='h5'>Hyperledger Bevel</Typography>
+        <Typography variant='h5'>Blockchain Automation Framework</Typography>
       </div>
     <Divider/>
       <List>

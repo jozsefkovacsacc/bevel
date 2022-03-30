@@ -1,15 +1,15 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: flux.weave.works/v1beta1
 kind: HelmRelease
 metadata:
   name: {{ component_name }}
   annotations:
-    fluxcd.io/automated: "false"
+    flux.weave.works/automated: "false"
   namespace: {{ component_ns }}
 spec:
   releaseName: {{ component_name }}
   chart:
     path: {{ chart_path }}/{{ chart }}
-    git: {{ gitops.git_url }}
+    git: {{ gitops.git_ssh }}
     ref: {{ gitops.branch }}
   values:
     metadata:

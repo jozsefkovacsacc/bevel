@@ -1,6 +1,6 @@
 ---
 name: User Story template
-about: Create a user story for Hyperledger Bevel
+about: Create a user story for BAF
 title: ''
 labels: ''
 assignees: ''

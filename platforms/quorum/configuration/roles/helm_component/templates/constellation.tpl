@@ -1,13 +1,12 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: flux.weave.works/v1beta1
 kind: HelmRelease
 metadata:
   name: {{ component_name }}
   namespace: {{ component_ns }}
   annotations:
-    fluxcd.io/automated: "false"
+    flux.weave.works/automated: "false"
 spec:
   releaseName: {{ component_name }}
-  helmVersion: v3
   chart:
     git: {{ git_url }}
     ref: {{ git_branch }}
@@ -38,14 +37,12 @@ spec:
       lock: {{ peer.lock | lower }}
       ports:
         rpc: {{ peer.rpc.port }}
-{% if network.config.consensus == 'raft' %}
         raft: {{ peer.raft.port }}
-{% endif %}        
         constellation: {{ peer.transaction_manager.port }}
         quorum: {{ peer.p2p.port }}
     vault:
       address: {{ vault.url }}
-      secretprefix: {{ vault.secret_path | default('secretsv2') }}/{{ component_ns }}/crypto/{{ peer.name }}
+      secretprefix: secret/{{ component_ns }}/crypto/{{ peer.name }}
       serviceaccountname: vault-auth
       keyname: quorum
       tm_keyname: transaction

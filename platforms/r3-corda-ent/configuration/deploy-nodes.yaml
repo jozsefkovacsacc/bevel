@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 ###########################################################
 # Playbook to create deployment files for the following:
 #  storageclass
@@ -12,7 +6,6 @@
 ###########################################################
 - hosts: ansible_provisioners
   gather_facts: no
-  no_log: "{{ no_ansible_log | default(false) }}"
   tasks:
   # Delete build directory before start of play, can be commented if you do not want to delete it.
   - name: Remove build directory
@@ -52,7 +45,7 @@
       validate_certs: no
     register: this
     until: this.status == 200
-    loop: "{{ network['network_services'] }}"
+    loop: "{{ network['orderers'] }}"
     retries: "{{ network.env.retry_count}}"
     delay: 50
 
@@ -72,19 +65,3 @@
     loop_control:
       loop_var: org
     when: org.type == 'node'
-
-  # Setup Additional Notary services for the network
-  - name: Setup Additional Notary services
-    include_role:
-      name: setup/notary
-    vars:
-      services: "{{ org.services }}"
-      organisation: "{{ org.name | lower }}"
-      component_ns: "{{ org.name | lower }}-ent"
-      kubernetes: "{{ org.k8s }}"
-      vault: "{{ org.vault }}"
-      gitops: "{{ org.gitops }}"
-    loop: "{{ network['organizations'] }}"
-    loop_control:
-      loop_var: org
-    when: org.type == 'notary'

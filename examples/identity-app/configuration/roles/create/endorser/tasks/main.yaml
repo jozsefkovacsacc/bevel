@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 - name: "Check if Indy nodes are running"
   include_role:
     name: "{{ playbook_dir }}/../../../platforms/shared/configuration/roles/check/helm_component"
@@ -30,23 +24,24 @@
   loop: "{{ services.endorsers }}"
   loop_control:
     loop_var: endorser
-  when: 
-  - services.endorsers is defined
-  - endorser.server is defined
+  when: services.endorsers is defined
 
 - name: "Push the created deployment files to repository"
   include_role:
     name: "{{ playbook_dir }}/../../../platforms/shared/configuration/roles/git_push"
   vars:
     GIT_DIR: "{{ playbook_dir }}/../../../"
+    GIT_REPO: "{{ gitops.git_push_url }}"
+    GIT_USERNAME: "{{ gitops.username }}"
+    GIT_EMAIL: "{{ gitops.email }}"
+    GIT_PASSWORD: "{{ gitops.password }}"
+    GIT_BRANCH: "{{ gitops.branch }}"
     GIT_RESET_PATH: "platforms/hyperledger-indy/configuration"
     msg: "[ci skip] Pushing deployment files for indy endorsers"
   loop: "{{ services.endorsers }}"
   loop_control:
     loop_var: endorser
-  when: 
-  - services.endorsers is defined
-  - endorser.server is defined
+  when: services.endorsers is defined
 
 - name: "Wait until Indy Endorser is up"
   include_role:
@@ -60,6 +55,4 @@
   loop: "{{ services.endorsers }}"
   loop_control:
     loop_var: endorser
-  when: 
-  - services.endorsers is defined
-  - endorser.server is defined
+  when: services.endorsers is defined

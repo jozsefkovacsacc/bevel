@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 # Default values for nodechart.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
@@ -49,17 +43,13 @@ image:
 
 service:
     ports:
-            #Provide the service node port for service connections
-      #Eg. service: 15033
+      #Provide the service node port for service connections
+      #Eg. service: 15023
       service: 
 
       #Provide the service node port for swagger UI
-      #Eg. endpoint: serviceport+1
+      #Eg. endpoint: 15024
       endpoint: 
-
-      #Provide the webhook port
-      #Eg. webhook: endpointport+1
-      webhook: 
 
     #Provide the external address of this agent
     #Eg. address: 192.168.99.204 <minikube ip for minikube>

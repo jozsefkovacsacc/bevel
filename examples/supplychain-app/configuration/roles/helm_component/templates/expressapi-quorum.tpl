@@ -1,14 +1,14 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: flux.weave.works/v1beta1
 kind: HelmRelease
 metadata:
   name: {{ name }}-expressapi
   namespace: {{ component_ns }}
   annotations:
-    fluxcd.io/automated: "false"
+    flux.weave.works/automated: "false"
 spec:
   chart:
     path: {{ component_gitops.chart_source }}/expressapp-quorum
-    git: "{{ component_gitops.git_url }}"
+    git: "{{ component_gitops.git_ssh }}"
     ref: "{{ component_gitops.branch }}"
   releaseName: {{ name }}{{ network.type }}-expressapi
   values:
@@ -18,7 +18,7 @@ spec:
     replicaCount: 1
     vault:
       address: {{ organization_data.vault.url }}
-      secretprefix: {{ organization_data.vault.secret_path | default('secretsv2') }}/data/{{ component_ns }}/smartContracts
+      secretprefix: secret/{{ component_ns }}/smartContracts
       serviceaccountname: vault-auth
       keyname: General
       role: vault-role
@@ -39,7 +39,6 @@ spec:
         node_subject: {{ peer_data.subject }}
         node_organization: {{ organization_data.unit }}
         node_organization_unit: {{ organization_data.unit | lower }}
-        protocol: {{ network.config.consensus }}
     proxy:
       provider: {{ network.env.proxy }}
       name: {{ organization_data.name }}

@@ -1,15 +1,15 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: flux.weave.works/v1beta1
 kind: HelmRelease
 metadata:
   name: {{ component_name }}-{{ identity_name }}
   annotations:
-    fluxcd.io/automated: "false"
+    flux.weave.works/automated: "false"
   namespace: {{ component_ns }}
 spec:
   releaseName: {{ component_name }}-{{ identity_name }}
   chart:
     path: {{ gitops.chart_source }}/{{ chart }}
-    git: {{ gitops.git_url }}
+    git: {{ gitops.git_ssh }}
     ref: {{ gitops.branch }}
   values:
     metadata:
@@ -23,11 +23,9 @@ spec:
       pullSecret: regcred
     vault:
       address: {{ vault.url }}
-      version: "2"
       keyPath: {{ vault_path }}
       identity: {{ identity_name }}
       auth_path: kubernetes-{{ organization }}-admin-auth
-      certsecretprefix: {{ certsecretprefix }}
     account:
       service: {{ organization }}-admin-vault-auth
       role: rw

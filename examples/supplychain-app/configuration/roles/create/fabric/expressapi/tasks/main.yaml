@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 ############################################################################################
 # Create express-api value file for the peer nodes
 - name: "Create express-api values file for peer organizations"
@@ -13,7 +7,7 @@
     type: "expressapi-fabric"
     name: "{{ organization_data.name | lower }}"
     charts_dir: "{{ organization_data.gitops.chart_source }}"
-    expressapi_image: "{{ network.container_registry.url | lower }}/bevel-supplychain-fabric:express-app-latest"
+    expressapi_image: "supplychain_fabric:express_app_latest"
     url: "http://{{ organization_data.name | lower }}-restserver.{{ component_ns }}"
     peer_name: "{{ peer_data.name }}"
     peer_expressapi_port: "{{ peer_data.expressapi.port }}"
@@ -30,7 +24,11 @@
     name: "{{ playbook_dir }}/../../../platforms/shared/configuration/roles/git_push"
   vars:
     GIT_DIR: "{{ playbook_dir }}/../../../"
-    gitops: "{{ component_gitops }}"
+    GIT_REPO: "{{ component_gitops.git_push_url }}"
+    GIT_USERNAME: "{{ component_gitops.username }}"
+    GIT_EMAIL: "{{ component_gitops.email }}"
+    GIT_PASSWORD: "{{ component_gitops.password }}"
+    GIT_BRANCH: "{{ component_gitops.branch }}"
     GIT_RESET_PATH: "platforms/hyperledger-fabric/configuration"
     msg: "[ci skip] Pushing deployment files for fabric expressapi"
   when: component_type == 'peer'

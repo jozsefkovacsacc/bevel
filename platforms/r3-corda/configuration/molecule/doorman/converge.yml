@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 ---
 - name: Converge
   hosts: localhost
@@ -22,8 +16,8 @@
         url: "test_url"
         username: "test_username"
         password: "test_password"
-      network_services:
-      - service:
+      orderers:
+      - orderer:
         type: doorman
         uri: test-url
         certificate: "{{ playbook_dir }}/build/ambassador.crt"
@@ -56,8 +50,7 @@
         name: "setup/doorman"
       vars:
         auth_lists:
-          stdout_lines:
-            - "abc"
+          stdout: "abc"
         vault_policy_result:
           failed: True
         root_certs:
@@ -83,8 +76,7 @@
         organisation: testsupplychain
         component_ns: "default"          # namespace where docker creds are checked only for testing
         gitops:
-          git_protocol: "ssh"
-          git_url: test_git_ssh
+          git_ssh: test_git_ssh
           branch: test_branch
           chart_source: "charts"
           release_dir: configuration/molecule/doorman/test
@@ -95,8 +87,7 @@
           subject: "CN=DLT Root CA,OU=DLT,O=DLT,L=London,C=GB"
           external_url_suffix: test_url
           gitops:
-            git_protocol: "ssh"
-            git_url: test_git_ssh
+            git_ssh: test_git_ssh
             branch: test_branch
             chart_source: test_chart_source
           cloud_provider: aws

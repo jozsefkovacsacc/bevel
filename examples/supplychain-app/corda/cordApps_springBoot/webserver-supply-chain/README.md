@@ -1,8 +1,3 @@
-[//]: # (##############################################################################################)
-[//]: # (Copyright Accenture. All Rights Reserved.)
-[//]: # (SPDX-License-Identifier: Apache-2.0)
-[//]: # (##############################################################################################)
-
 *If spring boot web servers are currently accessible, you can access a swagger ui for the same documentation at /swagger-ui.html
 
 # General #

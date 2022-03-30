@@ -1,11 +1,5 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 apiVersion: v1
-appVersion: "2.0"
-description: A Helm3 chart for indy-node StatefulSet
+appVersion: 1
+description: A Helm chart for indy-node StatefulSet
 name: indy-node
-version: "1.0.0"
+version: 1

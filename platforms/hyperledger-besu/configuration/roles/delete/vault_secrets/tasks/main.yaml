@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 #############################################################################################
 # This role deletes the Vault configurations
 #############################################################################################
@@ -23,7 +17,7 @@
 - name: Delete Ambassador creds
   k8s:
     kind: Secret
-    namespace: "{{ org_namespace }}"
+    namespace: default
     name: "{{ peer.name }}-ambassador-certs"
     kubeconfig: "{{ kubernetes.config_file }}"
     context: "{{ kubernetes.context }}"
@@ -44,12 +38,11 @@
 # This task deletes crypto material
 - name: Delete Crypto material 
   shell: |
-    vault kv delete {{ item.vault.secret_path | default('secretsv2') }}/{{ org_namespace }}/crypto/{{ peer.name }}/data
-    vault kv delete {{ item.vault.secret_path | default('secretsv2') }}/{{ org_namespace }}/crypto/{{ peer.name }}/tm
-    vault kv delete {{ item.vault.secret_path | default('secretsv2') }}/{{ org_namespace }}/crypto/{{ peer.name }}/credentials
-    vault kv delete {{ item.vault.secret_path | default('secretsv2') }}/{{ org_namespace }}/crypto/{{ peer.name }}/tls
-    vault kv delete {{ item.vault.secret_path | default('secretsv2') }}/{{ org_namespace }}/crypto/genesis
-    vault kv delete {{ item.vault.secret_path | default('secretsv2') }}/besu-{{ network.env.type }}/rootca
+    vault delete secret/{{ org_namespace }}/crypto/{{ peer.name }}/data
+    vault delete secret/{{ org_namespace }}/crypto/{{ peer.name }}/orion
+    vault delete secret/{{ org_namespace }}/crypto/{{ peer.name }}/certs
+    vault delete secret/{{ org_namespace }}/crypto/{{ peer.name }}/tls
+    vault delete secret/besu-{{ network.env.type }}/rootca
   loop: "{{ services.peers is defined | ternary( services.peers, services.validators) }}"
   environment:
     VAULT_ADDR: "{{ item.vault.url }}"

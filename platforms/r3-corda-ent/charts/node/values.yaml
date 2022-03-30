@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 # Default values for Node Setup.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
@@ -80,19 +74,8 @@ vault:
   retryInterval: 30
 
 #############################################################
-#             Node and CorDapps Configuration               #
+#                    Node Configuration                     #
 #############################################################
-cordapps: 
-  #Provide if you want to provide jars in cordapps
-  #Eg. getcordapps: true or false
-  getcordapps:  
-  repository:
-  jars:
-    #Provide url to download the jar using wget cmd
-    #Eg. url: https://ci-artifactory.corda.r3cev.com/artifactory/corda-releases/net/corda/corda-finance/3.3-corda/corda-finance-3.3-corda.jar 
-    - url: 
-    - url:
-
 nodeConf:
   ambassador:
     p2pPort: 
@@ -104,7 +87,7 @@ nodeConf:
   # Eg. legalName: O=Node,OU=Node,L=London,C=GB
   legalName: 
   # Email address
-  # Eg. emailAddress: dev-node@bevel.com
+  # Eg. emailAddress: dev-node@baf.com
   emailAddress: 
   # crlCheckSoftFail defines if CRL failure is a critical error or if we can just fail softly (by logging an error) and continuing
   crlCheckSoftFail: true
@@ -124,6 +107,8 @@ nodeConf:
   jarPath: bin
   # where service configuration files are stored
   configPath: etc
+  # the node workspace folder name
+  workspacePath: workspace
   pvc:
     # annotations:
     # key: "value"

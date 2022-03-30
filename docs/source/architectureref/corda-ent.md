@@ -1,8 +1,3 @@
-[//]: # (##############################################################################################)
-[//]: # (Copyright Accenture. All Rights Reserved.)
-[//]: # (SPDX-License-Identifier: Apache-2.0)
-[//]: # (##############################################################################################)
-
 # Corda Enterprise Architecture Reference
 
 ## Kubernetes
@@ -32,7 +27,7 @@ The following diagram shows how the Corda Enterprise Network Map Services (**Ide
 1. Release 0.6.0.0 implements Notary in the same namespace as other CENM services. They will be separated when HA Notary is implemented in later releases.
 
 ## Components
-![Figure: Corda Enterprise Components](../../images/hyperledger-bevel-corda-ent.png)
+![Figure: Corda Enterprise Components](../../images/blockchain-automation-framework-corda-ent.png)
 
 ### Docker Images
 
@@ -40,12 +35,12 @@ For Corda Enterprise, the *corda_ent_node* and *corda_ent_firewall* docker image
 
 The official Corda images are available on [Docker Hub](https://hub.docker.com/u/corda). These are evaluation only, for production implementation, please aquire licensed images from R3, upload them into your private docker registry and update the tags accordingly.
 
-Following Corda Docker Images are used and needed by Hyperledger Bevel.
-* [Corda Network Map Service](https://hub.docker.com/r/corda/enterprise-networkmap) (Built as per [these instructions](https://github.com/hyperledger/bevel/tree/main/platforms/r3-corda-ent/images))
+Following Corda Docker Images are used and needed by the Blockchain Automation Framework.
+* [Corda Network Map Service](https://hub.docker.com/r/corda/enterprise-networkmap) (Built as per [these instructions](https://github.com/hyperledger-labs/blockchain-automation-framework/tree/master/platforms/r3-corda-ent/images))
 * [Corda Identity Manager Service](https://hub.docker.com/r/corda/enterprise-identitymanager)
 * [Corda Signer](https://hub.docker.com/r/corda/enterprise-signer)
-* [Corda PKITool](https://hub.docker.com/r/corda/enterprise-pkitool) (Built as per [these instructions](https://github.com/hyperledger/bevel/tree/main/platforms/r3-corda-ent/images))
-* [Corda Notary](https://hub.docker.com/r/corda/notary) (Built as per [these instructions](https://github.com/hyperledger/bevel/tree/main/platforms/r3-corda-ent/images))
+* [Corda PKITool](https://hub.docker.com/r/corda/enterprise-pkitool) (Built as per [these instructions](https://github.com/hyperledger-labs/blockchain-automation-framework/tree/master/platforms/r3-corda-ent/images))
+* [Corda Notary](https://hub.docker.com/r/corda/notary) (Built as per [these instructions](https://github.com/hyperledger-labs/blockchain-automation-framework/tree/master/platforms/r3-corda-ent/images))
 * Corda Node (Built as per [these instructions](https://github.com/Accenture-BAF/corda-kubernetes-deployment/tree/master/docker-images))
 * Corda Firewall (Built as per [these instructions](https://github.com/Accenture-BAF/corda-kubernetes-deployment/tree/master/docker-images))
 
@@ -59,12 +54,11 @@ Detailed information on helm charts can be referred [here](../developer/corda-en
 
 <a name="vault-config"></a>
 ## Vault Configuration WIP
-Hyperledger Bevel stores their `crypto` and `credentials` immediately within the secret secrets engine.
-Optionally, `secret_path` can be set on the network.yaml to change the secret engine from the default `secretsv2/`.
+The Blockchain Automation Framework stores their `crypto` and `credentials` immediately within the secret secrets engine.
 
 | Crypto Material Path | Credentials Path     |
 |----------------------|----------------------|
-| `secretsv2/<servicename>`      | `secretsv2/<servicename>/credentials` |
+| `secret/<servicename>`      | `secret/<servicename>/credentials` |
 
 *  `secrets/notary/credentials/database` - Contains password for notary database for admin and user:
 

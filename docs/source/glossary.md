@@ -1,13 +1,8 @@
-[//]: # (##############################################################################################)
-[//]: # (Copyright Accenture. All Rights Reserved.)
-[//]: # (SPDX-License-Identifier: Apache-2.0)
-[//]: # (##############################################################################################)
-
 Glossary
 ========
 ## General
 
-This sections lists the general terms that are used in Hyperledger Bevel.
+This sections lists the general terms that are used in the Blockchain Automation Framework.
 
 ### Ansible
 Ansible is an open-source software provisioning, configuration management, and application-deployment tool. It runs on many Unix-like systems, and can configure both Unix-like systems as well as Microsoft Windows. It includes its own declarative language to describe system configuration.
@@ -28,7 +23,7 @@ CI and CD are two acronyms that are often mentioned when people talk about moder
 ### CLI
 A command-line interface (CLI) is a means of interacting with a computer program where the user (or client) issues commands to the program in the form of successive lines of text (command lines).
 ### Cluster
-In Kubernetes, a cluster consists of at least one cluster Main node and multiple worker machines called nodes.
+In Kubernetes, a cluster consists of at least one cluster master and multiple worker machines called nodes.
 For more details, refer: [Cluster](https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-architecture)
 ### Deployment
 Software deployment is all of the activities that make a software system available for use. The general deployment process consists of several interrelated activities with possible transitions between them. These activities can occur at the producer side or at the consumer side or both.
@@ -76,7 +71,7 @@ For more details, refer: [Jenkins Slave](https://wiki.jenkins.io/pages/viewpage.
 ### Jenkins Stages
 A stage block in Jenkins defines a conceptually distinct subset of tasks performed through the entire Pipeline (e.g. "Build", "Test" and "Deploy" stages), which is used by many plugins to visualize or present Jenkins Pipeline status/progress.
 ### Kubeconfig File
-A kubeconfig file is a file used to configure access to Kubernetes when used in conjunction with the kubectl command line tool (or other clients). This is usually referred to an environment variable called KUBECONFIG.
+A kubeconfig file is a file used to configure access to Kubernetes when used in conjunction with the kubectl command line tool (or other clients). This is usually refer to an environment variable called KUBECONFIG.
 ### Kubernetes
 Kubernetes (K8s) is an open-source container-orchestration system for automating application deployment, scaling, and management. It was originally designed by Google, and is now maintained by the Cloud Native Computing Foundation.
 For more details, refer: [Kubernetes](https://kubernetes.io/)
@@ -120,6 +115,9 @@ For more details, refer: [SSH](https://en.wikipedia.org/wiki/Secure_Shell)
 For more details, refer: [Ansible Template](https://docs.ansible.com/ansible/latest/modules/template_module.html)
 * Helm Charts: In Helm Charts, Templates generate manifest files, which are YAML-formatted resource descriptions that Kubernetes can understand.
 For more details, refer: [Helm Charts Template](https://helm.sh/docs/chart_template_guide/)
+### Tiller
+Tiller is the in-cluster component of Helm. It interacts directly with the Kubernetes API server to install, upgrade, query, and remove Kubernetes resources. It also stores the objects that represent releases.
+For more details, refer: [Tiller](https://helm.sh/docs/install/)
 ### TLS
 Transport Layer Security, and its now-deprecated predecessor, Secure Sockets Layer, are cryptographic protocols designed to provide communications security over a computer network. 
 For more details, refer: [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)

@@ -1,23 +1,9 @@
-[//]: # (##############################################################################################)
-[//]: # (Copyright Accenture. All Rights Reserved.)
-[//]: # (SPDX-License-Identifier: Apache-2.0)
-[//]: # (##############################################################################################)
-
 ## ROLE: create/certificates/doorman
 This role generates certificates for doorman and rootca and places them in vault. Certificates are created using openssl.
 
 ### Tasks
 (Variables with * are fetched from the playbook which is calling this role)
-
-#### 1. Ensure file exists or not
-This tasks checks if the file exists or not. 
-##### Input Variables
-
-    path: The path to the file is specified here.
-    recurse: Yes/No to recursively check inside the path specified.
-    state: Type i.e. file
-
-#### 2. Ensure rootca dir exists
+#### 1. Ensure rootca dir exists
 This tasks checks if the rootca directory where CA root certificates and key will be placed already created or not.
 ##### Input Variables
 
@@ -25,33 +11,15 @@ This tasks checks if the rootca directory where CA root certificates and key wil
     recurse: Yes/No to recursively check inside the path specified.
     state: Type i.e. directory
 
-#### 3. Ensure doormanca file exists or not
-This tasks checks if doormanca file exists or not .
-##### Input Variables
-
-    path: The path to the file is specified here.
-    recurse: Yes/No to recursively check inside the path specified.
-    state: Type i.e. file
-
-#### 4. Ensure doormanca dir exists
-This tasks checks if doormanca directory where doorman root certificates and key will be placed exists or not.
+#### 2. Ensure doormanca dir exists
+This tasks checks if doormanca directory where Doorman root certificates and key will be placed exists or not.
 ##### Input Variables
 
     path: The path to the directory is specified here.
     recurse: Yes/No to recursively check inside the path specified.
     state: Type i.e. directory
 
-#### 5. Ensure mongorootca file exists or not
-This tasks checks if mongorootca file exists or not.
-##### Input Variables
-
-    path: The path to the file is specified here.
-    recurse: Yes/No to recursively check inside the path specified.
-    state: Type i.e. file
-
-**when**: *services.doorman.tls* == 'on', i.e when tls for doorman is on.
-
-#### 6. Ensure mongorootca dir exists
+#### 3. Ensure mongorootca dir exists
 This tasks checks if mongorootca directory where mongodb root certificates and key will be placed exists or not.
 ##### Input Variables
 
@@ -61,17 +29,7 @@ This tasks checks if mongorootca directory where mongodb root certificates and k
 
 **when**: *services.doorman.tls* == 'on', i.e when tls for doorman is on.
 
-#### 7. Ensure mongodbca file exists
-This tasks checks if mongodbca file exists or not.
-##### Input Variables
-
-    path: The path to the file is specified here.
-    recurse: Yes/No to recursively check inside the path specified.
-    state: Type i.e. file
-
-**when**: *services.doorman.tls* == 'on', i.e when tls for doorman is on.
-
-#### 8. Ensure mongodbca dir exists
+#### 4. Ensure mongodbca dir exists
 This tasks checks if mongodbca directory where mongodbca certificates and key will be placed exists or not.
 ##### Input Variables
 
@@ -81,7 +39,7 @@ This tasks checks if mongodbca directory where mongodbca certificates and key wi
 
 **when**: *services.doorman.tls* == 'on', i.e when tls for doorman is on.
 
-#### 9. Check if root certs already created
+#### 5. Check if root certs already created
 This tasks checks if root certificates are already created or not.
 ##### Input Variables
 
@@ -92,7 +50,7 @@ This tasks checks if root certificates are already created or not.
 
     root_certs: This variable stores the output of  root certificates check query.
 
-#### 10. Get root certs
+#### 6. Get root certs
 This task fetches the  root certificates by calling role *setup/get_crypto
 
 ##### Input Variables
@@ -102,7 +60,7 @@ This task fetches the  root certificates by calling role *setup/get_crypto
     
 **when**: It runs when *root_certs*.failed == False, i.e. doorman root certs are present. 
 
-#### 11. check root certs
+#### 7. check root certs
 This task checks whether the doorman root certificates key.jks exists or not
 
 ##### Input Variables
@@ -112,7 +70,7 @@ This task checks whether the doorman root certificates key.jks exists or not
     rootca_stat_result: This variable stores the output of doorman root certificates key.jks check query.
 
 
-#### 12. Generate CAroot certificate
+#### 8. Generate CAroot certificate
 This task generates the CA Root certificates.
 
 ##### Input Variables
@@ -121,7 +79,7 @@ This task generates the CA Root certificates.
 **shell**: It generates cordarootca.key and cordarootca.pem file in the rootca directory.
 **when**:  It runs when *root_certs.failed* == True and *rootca_stat_result.stat.exists* == False, i.e. root certs are not present and root key.jks is also not present. 
 
-#### 13. Check if doorman certs already created
+#### 9. Check if doorman certs already created
 This task checks whether the doorman certs already created or not
 
 ##### Input Variables
@@ -135,7 +93,7 @@ This task checks whether the doorman certs already created or not
 
     doorman_certs: This variable stores the output of doorman root certificates check query.
 
-#### 14. Generate DoormanCA from generated root CA certificate
+#### 10. Generate DoormanCA from generated root CA certificate
 This task generates the Doorman CA certificates.
 
 ##### Input Variables
@@ -144,7 +102,7 @@ This task generates the Doorman CA certificates.
 **shell**: It generates cordadoormanca.key, cordadoormancacert.pkcs12 and cordadoormanca.pem file in the doormanca directory.
 **when**:  It runs when *doorman_certs.failed* == True, i.e. doorman root certs are not present . 
 
-#### 15. Check if mongoroot certs already created
+#### 11. Check if mongoroot certs already created
 This tasks checks if mongoroot certificates are already created or not.
 ##### Input Variables
 
@@ -157,7 +115,7 @@ This tasks checks if mongoroot certificates are already created or not.
 
 **when**: It runs when *services.doorman.tls* = 'on', i.e. tls is on for doorman. 
 
-#### 16. Generating Mongoroot certificates
+#### 12. Generating Mongoroot certificates
 This task generates the Mongoroot certificates.
 
 ##### Input Variables
@@ -166,7 +124,7 @@ This task generates the Mongoroot certificates.
 **shell**: It generates mongoCA.key, mongoCA.crt in mongorootca directory.
 **when**:  It runs when *services.doorman.tls* == True && *mongoCA_certs*.failed == True i.e. certificates are not in vault.
 
-#### 17. Check if mongodb certs already created
+#### 13. Check if mongodb certs already created
 This task checks whether the mongodb certs already created or not
 
 ##### Input Variables
@@ -182,7 +140,7 @@ This task checks whether the mongodb certs already created or not
 
 **when**: It runs when *services.doorman.tls* == 'on', i.e. tls is on for doorman.
 
-#### 18. Generating mongodb certificates
+#### 14. Generating mongodb certificates
 This task generates the mongodb certificates.
 
 ##### Input Variables
@@ -191,7 +149,7 @@ This task generates the mongodb certificates.
 **shell**: It generates mongoCA.key, mongoCA.crt in mongorootca directory.
 **when**:  It runs when *services.doorman.tls* == True and *mongodb_certs*.failed == True i.e. certificates are not in vault.
 
-#### 19. Putting certs to vault for root
+#### 15. Putting certs to vault for root
 This task writes the doorman rootcakey ,cacerts and keystore to Vault
 ##### Input Variables
     *VAULT_ADDR: Contains Vault URL, Fetched using 'vault.' from network.yaml
@@ -200,7 +158,7 @@ This task writes the doorman rootcakey ,cacerts and keystore to Vault
 **shell**: It writes the generated certificates to the vault.
 **when**:  It runs when *root_certs.failed* == True, i.e. root certs are not present and are generated. 
 
-#### 20. Putting certs and credential to vault for doorman
+#### 16. Putting certs and credential to vault for doorman
 This tasks writes doorman certificates and credentials to Vault.
 ##### Input Variables
     *VAULT_ADDR: Contains Vault URL, Fetched using 'vault.' from network.yaml
@@ -209,7 +167,7 @@ This tasks writes doorman certificates and credentials to Vault.
 **shell**: It writes the generated doorman certificates and credential to the vault.
 **when**:  It runs when *doorman_certs.failed* == True, i.e. doorman certs are not present and are generated.
     
-#### 21. Create Ambassador certificates
+#### 17. Create Ambassador certificates
 This task creates the Ambassador certificates by calling create/certificates/ambassador role.
 
 

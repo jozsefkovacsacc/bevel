@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -15,14 +9,6 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     {{- include "labels.custom" . | nindent 2 }}
-  annotations:
-    {{- if $.Values.annotations }}
-    {{- range $key, $value := $.Values.annotations.deployment }}
-    {{- range $k, $v := $value }}
-      {{ $k }}: {{ $v | quote }}
-    {{- end }}
-    {{- end }}
-    {{- end }}     
 spec:
   updateStrategy:
     type: RollingUpdate
@@ -31,7 +17,6 @@ spec:
   selector:
     matchLabels:
       app: {{ $.Values.orderer.name }}
-      helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
       app.kubernetes.io/name: {{ $.Values.orderer.name }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
@@ -40,7 +25,6 @@ spec:
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
       labels:
         app: {{ $.Values.orderer.name }}
-        helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
         app.kubernetes.io/name: {{ $.Values.orderer.name }}
         app.kubernetes.io/instance: {{ .Release.Name }} 
     spec:    
@@ -68,7 +52,7 @@ spec:
       initContainers:
       - name: kafka-healthcheck
         image: {{ $.Values.metadata.images.healthcheck }}
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         command: ["sh", "-c"]
         args:
         - |-
@@ -120,7 +104,7 @@ spec:
           fi
       - name: certificates-init
         image: {{ $.Values.metadata.images.alpineutils }}
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         env:
         - name: VAULT_ADDR
           value: {{ $.Values.vault.address }}
@@ -137,24 +121,10 @@ spec:
         - |-
           #!/usr/bin/env sh
           validateVaultResponse () {
-            if echo ${2} | grep "errors"; then
-              echo "ERROR: unable to retrieve ${1}: ${2}"
-              exit 1
-            fi
-            if  [ "$3" == "LOOKUPSECRETRESPONSE" ]
-            then
-              http_code=$(curl -sS -o /dev/null -w "%{http_code}" \
-              --header "X-Vault-Token: ${VAULT_CLIENT_TOKEN}" \
-              ${VAULT_ADDR}/v1/${vault_secret_key})
-              curl_response=$?
-              if test "$http_code" != "200" ; then
-                  echo "Http response code from Vault - $http_code"
-                  if test "$curl_response" != "0"; then
-                     echo "Error: curl command failed with error code - $curl_response"
-                     exit 1
-                  fi
-              fi
-            fi
+          if echo ${2} | grep "errors"; then
+           echo "ERROR: unable to retrieve ${1}: ${2}"
+           exit 1
+           fi
           }
 
           KUBE_SA_TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
@@ -173,11 +143,11 @@ spec:
 
           OUTPUT_PATH="${MOUNT_PATH}/tls"
           LOOKUP_SECRET_RESPONSE=$(curl -sS --header "X-Vault-Token: ${VAULT_CLIENT_TOKEN}" ${VAULT_ADDR}/v1/${vault_secret_key} | jq -r 'if .errors then . else . end')
-          validateVaultResponse "secret (${vault_secret_key})" "${LOOKUP_SECRET_RESPONSE}" "LOOKUPSECRETRESPONSE"
+          validateVaultResponse "secret (${vault_secret_key})" "${LOOKUP_SECRET_RESPONSE}"
 
-          TLS_CA_CERT=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["ca.crt"]')
-          TLS_SERVER_CERT=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["server.crt"]')
-          TLS_SERVER_KEY=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["server.key"]')
+          TLS_CA_CERT=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data["ca.crt"]')
+          TLS_SERVER_CERT=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data["server.crt"]')
+          TLS_SERVER_KEY=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data["server.key"]')
 
           mkdir -p ${OUTPUT_PATH}
           echo "${TLS_CA_CERT}" >> ${OUTPUT_PATH}/ca.crt
@@ -189,13 +159,13 @@ spec:
 
           OUTPUT_PATH="${MOUNT_PATH}/msp"
           LOOKUP_SECRET_RESPONSE=$(curl -sS --header "X-Vault-Token: ${VAULT_CLIENT_TOKEN}" ${VAULT_ADDR}/v1/${vault_secret_key} | jq -r 'if .errors then . else . end')
-          validateVaultResponse "secret (${vault_secret_key})" "${LOOKUP_SECRET_RESPONSE}" "LOOKUPSECRETRESPONSE"
+          validateVaultResponse "secret (${vault_secret_key})" "${LOOKUP_SECRET_RESPONSE}"
 
-          ADMINCERT=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["admincerts"]')
-          CACERTS=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["cacerts"]')
-          KEYSTORE=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["keystore"]')
-          SIGNCERTS=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["signcerts"]')
-          TLSCACERTS=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["tlscacerts"]')
+          ADMINCERT=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data["admincerts"]')
+          CACERTS=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data["cacerts"]')
+          KEYSTORE=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data["keystore"]')
+          SIGNCERTS=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data["signcerts"]')
+          TLSCACERTS=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data["tlscacerts"]')
 
           mkdir -p ${OUTPUT_PATH}/admincerts
           mkdir -p ${OUTPUT_PATH}/cacerts
@@ -223,8 +193,6 @@ spec:
         command: ["sh", "-c", "cat /var/hyperledger/orderer/genesis/genesis.block.base64 | base64 -d > /var/hyperledger/orderer/orderer.genesis.block && orderer"]
         ports:
         - containerPort: 7050
-        - name: operations
-          containerPort: 9443
         envFrom:
         - configMapRef:
             name: {{ $.Values.orderer.name }}-config
@@ -237,44 +205,6 @@ spec:
         - name: certificates
           mountPath: /var/hyperledger/orderer/crypto
           readOnly: true
-        resources:
-          requests:
-            memory: {{ .Values.config.pod.resources.requests.memory }}
-            cpu: {{ .Values.config.pod.resources.requests.cpu }}
-          limits:
-            memory: {{ .Values.config.pod.resources.limits.memory }}
-            cpu: {{ .Values.config.pod.resources.limits.cpu }}
-      - name: grpc-web
-        image: "ghcr.io/hyperledger-labs/grpc-web:latest"        
-        ports:
-        - name: grpc-web
-          containerPort: 7443        
-        env:
-        - name: BACKEND_ADDRESS
-          value: "{{ $.Values.orderer.name }}.{{ $.Values.metadata.namespace }}:{{ $.Values.service.ports.grpc.clusteripport }}"
-        - name: SERVER_TLS_CERT_FILE
-          value: "/certs/tls/server.crt"
-        - name: SERVER_TLS_KEY_FILE
-          value: "/certs/tls/server.key"
-        - name: BACKEND_TLS_CA_FILES
-          value: "/certs/tls/ca.crt"
-        - name: SERVER_BIND_ADDRESS
-          value: "0.0.0.0"
-        - name: SERVER_HTTP_DEBUG_PORT
-          value: "8080"
-        - name: SERVER_HTTP_TLS_PORT
-          value: "7443"
-        - name: BACKEND_TLS
-          value: "true"
-        - name: SERVER_HTTP_MAX_WRITE_TIMEOUT
-          value: 5m
-        - name: SERVER_HTTP_MAX_READ_TIMEOUT
-          value: 5m
-        - name: USE_WEBSOCKETS
-          value: "true"
-        volumeMounts:        
-        - name: certificates
-          mountPath: /certs
   volumeClaimTemplates:
   #Lables are not being taken by Kubernetes as it dynamically creates PVC
   - metadata:

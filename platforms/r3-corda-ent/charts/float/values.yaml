@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 # Default values for Float Firewall.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
@@ -112,17 +106,6 @@ node:
   # Provide the port number where the peer to peer service is running on the node.
   # e.g. p2pPort: 40000
   p2pPort:
-
-ambassador:
-  # Provide the ambassador p2p port for float
-  # e.g. p2pPort: 15019
-  p2pPort:
-  # Provide the bridge tunnel ambassador port
-  # e.g. tunnelPort: 15029
-  tunnelPort: 
-  # Provide the external url suffix for float
-  # e.g. external_url_suffix: blockchain.com
-  external_url_suffix:
 
 # healthCheckNodePort set to get rid of logs pollution
 # Ex. healthCheckNodePort: 0

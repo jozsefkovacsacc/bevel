@@ -1,10 +1,4 @@
 ##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
-##############################################################################################
 # This role creates the job value file for stewards
 ##############################################################################################
 
@@ -29,7 +23,6 @@
     vault_path: "{{ organization }}.trustees"
     values_file: "{{ release_dir }}/{{ component_type }}/{{ component_name }}/{{ identity_name }}.yaml"
     chart: "{{ chartName }}"
-    certsecretprefix: "{{ organization }}"
   loop: "{{ services.trustees }}"
   loop_control:
     loop_var: trusteeItem
@@ -46,7 +39,6 @@
     vault_path: "{{ organization }}.stewards"
     values_file: "{{ release_dir }}/{{ component_type }}/{{ component_name }}/{{ identity_name }}.yaml"
     chart: "{{ chartName }}"
-    certsecretprefix: "{{ organization }}"
   loop: "{{ services.stewards }}"
   loop_control:
     loop_var: stewardItem
@@ -63,7 +55,6 @@
     vault_path: "{{ organization }}.endorsers"
     values_file: "{{ release_dir }}/{{ component_type }}/{{ component_name }}/{{ identity_name }}.yaml"
     chart: "{{ chartName }}"
-    certsecretprefix: "{{ organization }}"
   loop: "{{ services.endorsers }}"
   loop_control:
     loop_var: endorserItem

@@ -1,6 +1,6 @@
 ---
 name: Release checklist template
-about: Create a Release checklist issue item for Hyperledger Bevel releases
+about: Create a Release checklist issue item for BAF releases
 title: ''
 ---
 # Relase Checklist
@@ -18,7 +18,7 @@ title: ''
     - [ ] All new functionality are manually tested on a release build ?
     - [ ] CI/CD verified and working ?
 - [ ] All stakeholders signed off for the release
-- [ ] The code is mergered into main
+- [ ] The code is mergered into master
 
 
 ## Post-release Test Checklist

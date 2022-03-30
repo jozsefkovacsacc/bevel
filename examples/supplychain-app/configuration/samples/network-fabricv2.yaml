@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 ---
 # This is a sample configuration file for SupplyChain App on Single K8s Cluster.
 # For multiple K8s clusters, there should be multiple configuration files.
@@ -19,18 +13,17 @@ network:
   env:
     type: demo-fabric               # tag for the environment. Important to run multiple flux on single cluster
     proxy: haproxy                  # values can be 'haproxy' or 'ambassador'
-    ambassadorPorts:                # Any additional Ambassador ports can be given here, this is valid only if proxy='ambassador'
-      portRange:              # For a range of ports 
-        from: 15010 
-        to: 15020
-    # ports: 15020,15021      # For specific ports
+    ambassadorPorts: 15010,15020    # is valid only if proxy='ambassador'
     retry_count: 20                 # Retry count for the checks
     external_dns: enabled           # Should be enabled if using external-dns for automatic route configuration
-
-  # ghcr.io registry details where images are stored. 
+  
+  # Docker registry details where images are stored. This will be used to create k8s secrets
   # Please ensure all required images are built and stored in this registry. 
-  container_registry:
-    url: "ghcr.io_url"
+  # Do not check-in docker_password.
+  docker:
+    url: "docker_url"
+    username: "docker_username"
+    password: "docker_password"
   
   # Remote connection information for orderer (will be blank or removed for hosting organization)
   orderers:
@@ -38,7 +31,7 @@ network:
       type: orderer
       name: orderer
       org_name: supplychain
-      uri: orderer.org1ambassador.blockchaincloudpoc.com
+      uri: orderer.org1ambassador.blockchaincloudpoc.com:8443
       certificate: directory/file1.cert
   
   # The channels defined for a network with participating peers in each channel
@@ -56,8 +49,8 @@ network:
       - peer:
         name: peer0
         type: validating
-        gossipAddress: peer0.carrier-net.org3ambassador.blockchaincloudpoc.com
-      ordererAddress: orderer.org1ambassador.blockchaincloudpoc.com
+        gossipAddress: peer0.carrier-net.org3ambassador.blockchaincloudpoc.com:8443
+      ordererAddress: orderer.org1ambassador.blockchaincloudpoc.com:8443
     - organization:      
       name: store
       type: joiner
@@ -65,8 +58,8 @@ network:
       - peer:
         name: peer0
         type: validating
-        gossipAddress: peer0.store-net.org3ambassador.blockchaincloudpoc.com
-      ordererAddress: orderer.org1ambassador.blockchaincloudpoc.com
+        gossipAddress: peer0.store-net.org3ambassador.blockchaincloudpoc.com:8443
+      ordererAddress: orderer.org1ambassador.blockchaincloudpoc.com:8443
     - organization:
       name: warehouse
       type: joiner
@@ -74,8 +67,8 @@ network:
       - peer:
         name: peer0
         type: validating
-        gossipAddress: peer0.warehouse-net.org2ambassador.blockchaincloudpoc.com
-      ordererAddress: orderer.org1ambassador.blockchaincloudpoc.com
+        gossipAddress: peer0.warehouse-net.org2ambassador.blockchaincloudpoc.com:8443
+      ordererAddress: orderer.org1ambassador.blockchaincloudpoc.com:8443
     - organization:
       name: manufacturer
       type: joiner
@@ -83,8 +76,8 @@ network:
       - peer:
         name: peer0
         type: validating
-        gossipAddress: peer0.manufacturer-net.org2ambassador.blockchaincloudpoc.com
-      ordererAddress: orderer.org1ambassador.blockchaincloudpoc.com
+        gossipAddress: peer0.manufacturer-net.org2ambassador.blockchaincloudpoc.com:8443
+      ordererAddress: orderer.org1ambassador.blockchaincloudpoc.com:8443
     genesis:
       name: OrdererGenesis  
 
@@ -123,21 +116,18 @@ network:
       vault:
         url: "vault_addr"
         root_token: "vault_root_token"
-        secret_path: "secretsv2"
 
       # Git Repo details which will be used by GitOps/Flux.
       # Do not check-in git_password
       gitops:
-        git_protocol: "https" # Option for git over https or ssh
-        git_url: "gitops_ssh_url"         # Gitops https or ssh url for flux value files like "https://github.com/hyperledger/bevel.git"
+        git_ssh: "gitops_ssh_url"         # Gitops ssh url for flux value files like "ssh://git@github.com/hyperledger-labs/blockchain-automation-framework.git"
         branch: "gitops_branch"           # Git branch where release is being made
         release_dir: "gitops_release_dir" # Relative Path in the Git repo for flux sync per environment. 
         chart_source: "gitops_charts"     # Relative Path where the Helm charts are stored in Git repo
-        git_repo: "gitops_repo_url"   # Gitops git repository URL for git push like "github.com/hyperledger/bevel.git"
+        git_push_url: "gitops_push_url"   # Gitops https URL for git push like "github.com/hyperledger-labs/blockchain-automation-framework.git"
         username: "git_username"          # Git Service user who has rights to check-in in all branches
-        password: "git_access_token"          # Git Server user password/token (Optional for ssh; Required for https)
-        email: "git_email"                # Email to use in git config
-        private_key: "path_to_private_key"          # Path to private key file which has write-access to the git repo (Optional for https; Required for ssh)
+        password: "git_password"          # Git Server user password
+        private_key: "path_to_private_key"          # Path to private key file which has write-access to the git repo
 
       #Optional for infrastructure configuration files.
       infrastructure:
@@ -200,21 +190,18 @@ network:
       vault:
         url: "vault_addr"
         root_token: "vault_root_token"
-        secret_path: "secretsv2"
 
       # Git Repo details which will be used by GitOps/Flux.
       # Do not check-in git_password
       gitops:
-        git_protocol: "https" # Option for git over https or ssh
-        git_url: "gitops_ssh_url"         # Gitops https or ssh url for flux value files like "https://github.com/hyperledger/bevel.git"
+        git_ssh: "gitops_ssh_url"         # Gitops ssh url for flux value files like "ssh://git@github.com/hyperledger-labs/blockchain-automation-framework.git"
         branch: "gitops_branch"           # Git branch where release is being made
         release_dir: "gitops_release_dir" # Relative Path in the Git repo for flux sync per environment. 
         chart_source: "gitops_charts"     # Relative Path where the Helm charts are stored in Git repo
-        git_repo: "gitops_repo_url"   # Gitops git repository URL for git push like "github.com/hyperledger/bevel.git"
+        git_push_url: "gitops_push_url"   # Gitops https URL for git push like "github.com/hyperledger-labs/blockchain-automation-framework.git"
         username: "git_username"          # Git Service user who has rights to check-in in all branches
-        password: "git_access_token"          # Git Server user password/token (Optional for ssh; Required for https)
-        email: "git_email"                # Email to use in git config
-        private_key: "path_to_private_key"          # Path to private key file which has write-access to the git repo (Optional for https; Required for ssh)
+        password: "git_password"          # Git Server user password
+        private_key: "path_to_private_key"          # Path to private key file which has write-access to the git repo
 
       #Optional for infrastructure configuration files.
       infrastructure:
@@ -234,7 +221,7 @@ network:
         - peer:
           name: peer0          
           type: peer          
-          gossippeeraddress: peer0.manufacturer-net.org2ambassador.blockchaincloudpoc.com          
+          gossippeeraddress: peer0.manufacturer-net.org2ambassador.blockchaincloudpoc.com:8443          
           grpc:
             port: 7051         
           events:
@@ -257,7 +244,7 @@ network:
             repository:
               username: "git_username"          # Git Service user who has rights to check-in in all branches
               password: "git_password"
-              url: "github.com/hyperledger/bevel.git"
+              url: "github.com/hyperledger-labs/blockchain-automation-framework.git"
               branch: develop
               path: "chaincode_src"
             arguments: 'chaincode_args'
@@ -295,21 +282,18 @@ network:
       vault:
         url: "vault_addr"
         root_token: "vault_root_token"
-        secret_path: "secretsv2"
 
       # Git Repo details which will be used by GitOps/Flux.
       # Do not check-in git_password
       gitops:
-        git_protocol: "https" # Option for git over https or ssh
-        git_url: "gitops_ssh_url"         # Gitops https or ssh url for flux value files like "https://github.com/hyperledger/bevel.git"
+        git_ssh: "gitops_ssh_url"         # Gitops ssh url for flux value files like "ssh://git@github.com/hyperledger-labs/blockchain-automation-framework.git"
         branch: "gitops_branch"           # Git branch where release is being made
         release_dir: "gitops_release_dir" # Relative Path in the Git repo for flux sync per environment. 
         chart_source: "gitops_charts"     # Relative Path where the Helm charts are stored in Git repo
-        git_repo: "gitops_repo_url"   # Gitops git repository URL for git push like "github.com/hyperledger/bevel.git"
+        git_push_url: "gitops_push_url"   # Gitops https URL for git push like "github.com/hyperledger-labs/blockchain-automation-framework.git"
         username: "git_username"          # Git Service user who has rights to check-in in all branches
-        password: "git_access_token"          # Git Server user password/token (Optional for ssh; Required for https)
-        email: "git_email"                # Email to use in git config
-        private_key: "path_to_private_key"          # Path to private key file which has write-access to the git repo (Optional for https; Required for ssh)
+        password: "git_password"          # Git Server user password
+        private_key: "path_to_private_key"          # Path to private key file which has write-access to the git repo
 
       #Optional for infrastructure configuration files.
       infrastructure:
@@ -327,7 +311,7 @@ network:
         - peer:
           name: peer0          
           type: peer
-          gossippeeraddress: peer0.carrier-net.org3ambassador.blockchaincloudpoc.com          
+          gossippeeraddress: peer0.carrier-net.org3ambassador.blockchaincloudpoc.com:8443          
           grpc:
             port: 7051         
           events:
@@ -350,7 +334,7 @@ network:
             repository:
               username: "git_username"          # Git Service user who has rights to check-in in all branches
               password: "git_password"
-              url: "github.com/hyperledger/bevel.git"
+              url: "github.com/hyperledger-labs/blockchain-automation-framework.git"
               branch: develop
               path: "chaincode_src"
             arguments: 'chaincode_args'
@@ -388,21 +372,18 @@ network:
       vault:
         url: "vault_addr"
         root_token: "vault_root_token"
-        secret_path: "secretsv2"
 
       # Git Repo details which will be used by GitOps/Flux.
       # Do not check-in git_password
       gitops:
-        git_protocol: "https" # Option for git over https or ssh
-        git_url: "gitops_ssh_url"         # Gitops https or ssh url for flux value files like "https://github.com/hyperledger/bevel.git"
+        git_ssh: "gitops_ssh_url"         # Gitops ssh url for flux value files like "ssh://git@github.com/hyperledger-labs/blockchain-automation-framework.git"
         branch: "gitops_branch"           # Git branch where release is being made
         release_dir: "gitops_release_dir" # Relative Path in the Git repo for flux sync per environment. 
         chart_source: "gitops_charts"     # Relative Path where the Helm charts are stored in Git repo
-        git_repo: "gitops_repo_url"   # Gitops git repository URL for git push like "github.com/hyperledger/bevel.git"
+        git_push_url: "gitops_push_url"   # Gitops https URL for git push like "github.com/hyperledger-labs/blockchain-automation-framework.git"
         username: "git_username"          # Git Service user who has rights to check-in in all branches
-        password: "git_access_token"          # Git Server user password/token (Optional for ssh; Required for https)
-        email: "git_email"                # Email to use in git config
-        private_key: "path_to_private_key"          # Path to private key file which has write-access to the git repo (Optional for https; Required for ssh)
+        password: "git_password"          # Git Server user password
+        private_key: "path_to_private_key"          # Path to private key file which has write-access to the git repo
 
       #Optional for infrastructure configuration files.
       infrastructure:
@@ -420,7 +401,7 @@ network:
         - peer:
           name: peer0          
           type: peer
-          gossippeeraddress: peer0.store-net.org3ambassador.blockchaincloudpoc.com          
+          gossippeeraddress: peer0.store-net.org3ambassador.blockchaincloudpoc.com:8443          
           grpc:
             port: 7051
           events:
@@ -443,7 +424,7 @@ network:
             repository:
               username: "git_username"          # Git Service user who has rights to check-in in all branches
               password: "git_password"
-              url: "github.com/hyperledger/bevel.git"
+              url: "github.com/hyperledger-labs/blockchain-automation-framework.git"
               branch: develop
               path: "chaincode_src"
             arguments: 'chaincode_args'
@@ -481,21 +462,18 @@ network:
       vault:
         url: "vault_addr"
         root_token: "vault_root_token"
-        secret_path: "secretsv2"
 
       # Git Repo details which will be used by GitOps/Flux.
       # Do not check-in git_password
       gitops:
-        git_protocol: "https" # Option for git over https or ssh
-        git_url: "gitops_ssh_url"         # Gitops https or ssh url for flux value files like "https://github.com/hyperledger/bevel.git"
+        git_ssh: "gitops_ssh_url"         # Gitops ssh url for flux value files like "ssh://git@github.com/hyperledger-labs/blockchain-automation-framework.git"
         branch: "gitops_branch"           # Git branch where release is being made
         release_dir: "gitops_release_dir" # Relative Path in the Git repo for flux sync per environment. 
         chart_source: "gitops_charts"     # Relative Path where the Helm charts are stored in Git repo
-        git_repo: "gitops_repo_url"   # Gitops git repository URL for git push like "github.com/hyperledger/bevel.git"
+        git_push_url: "gitops_push_url"   # Gitops https URL for git push like "github.com/hyperledger-labs/blockchain-automation-framework.git"
         username: "git_username"          # Git Service user who has rights to check-in in all branches
-        password: "git_access_token"          # Git Server user password/token (Optional for ssh; Required for https)
-        email: "git_email"                # Email to use in git config
-        private_key: "path_to_private_key"          # Path to private key file which has write-access to the git repo (Optional for https; Required for ssh)
+        password: "git_password"          # Git Server user password
+        private_key: "path_to_private_key"          # Path to private key file which has write-access to the git repo
 
       #Optional for infrastructure configuration files.
       infrastructure:
@@ -513,7 +491,7 @@ network:
         - peer:
           name: peer0          
           type: peer
-          gossippeeraddress: peer0.warehouse-net.org2ambassador.blockchaincloudpoc.com          
+          gossippeeraddress: peer0.warehouse-net.org2ambassador.blockchaincloudpoc.com:8443          
           grpc:
             port: 7051       
           events:
@@ -536,7 +514,7 @@ network:
             repository:
               username: "git_username"          # Git Service user who has rights to check-in in all branches
               password: "git_password"
-              url: "github.com/hyperledger/bevel.git"
+              url: "github.com/hyperledger-labs/blockchain-automation-framework.git"
               branch: develop
               path: "chaincode_src"
             arguments: 'chaincode_args'

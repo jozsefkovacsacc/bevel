@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 # Set enode_data_list to empty.
 - name: Set enode_data_list to empty
   set_fact:
@@ -26,7 +20,7 @@
   include_tasks: enode_data.yaml
   loop: "{{ network['organizations'] }}"
   loop_control:
-    loop_var: org1
+    loop_var: org
 
 # This task creates the staticnodes file from the template
 - name: Create staticnodes file
@@ -54,16 +48,12 @@
   retries: "{{ network.env.retry_count }}"
   delay: 50
   when: network.config.consensus == 'raft' and add_new_org
-  tags:
-    - notest
 
 # This task fetches the new peer_id 
 - name: Get peer_id
   set_fact:
     peer_id: "{{ peer_id.results[0].json.result }}"
   when: network.config.consensus == 'raft' and add_new_org
-  tags:
-    - notest
 
 # This task creates the Constellation Manager value file for each node of organization
 - name: Create value file for constellation TM for each node in the organization
@@ -83,8 +73,10 @@
     name: "{{ playbook_dir }}/../../shared/configuration/roles/git_push"
   vars:
     GIT_DIR: "{{ playbook_dir }}/../../../"
-    gitops: "{{ item.gitops }}"
+    GIT_REPO: "{{ item.gitops.git_push_url }}"
+    GIT_USERNAME: "{{ item.gitops.username }}"
+    GIT_EMAIL: "{{ item.gitops.email }}"
+    GIT_PASSWORD: "{{ item.gitops.password }}"
+    GIT_BRANCH: "{{ item.gitops.branch }}"
     GIT_RESET_PATH: "platforms/quorum/configuration"
     msg: "[ci skip] Pushing Peer files"
-  tags:
-    - notest

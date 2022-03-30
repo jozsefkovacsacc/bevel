@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 metadata:
   #Provide the namespace for organization's peer
   #Eg. namespace: org1-example-com
@@ -45,7 +39,7 @@ peer:
   #Eg. tlsstatus: true
   tlsstatus:
   #Provide a valid chaincode builder image for Fabric
-  #Eg. builder: hyperledger/fabric-ccenv:1.4.8
+  #Eg. builder: hyperledger/fabric-ccenv:1.4.4
   builder:
   couchdb:
     #Provide the username for couchdb login
@@ -57,9 +51,6 @@ peer:
     #Eg.organizationalunitidentifiers:
     #     - client
     #     - peer
-    # following for 2.2.x
-    #     - admin
-    #     - orderer
     organizationalunitidentifiers:
     nodeOUs:
       clientOUidentifier:
@@ -70,11 +61,6 @@ peer:
         #Provide OU which will be used to identify node as peer
         #Eg.organizationalunitidentifier: peer
         organizationalunitidentifier: peer
-      # following for 2.2.x
-      adminOUidentifier:
-        organizationalunitidentifier: admin
-      ordererOUidentifier:
-        organizationalunitidentifier: orderer
 
 storage:
   peer:
@@ -149,17 +135,11 @@ service:
       #Provide a cluster IP port for couchdb service to be exposed
       #Eg. clusteripport: 5984
       clusteripport: 5984
-      
-annotations:
-  #Extra annotations
-  service: {}
-  pvc: {}
-  deployment: {}
 
 proxy:
   #This will be the proxy/ingress provider. Can have values "ambassador" or "haproxy"
   #Eg. provider: "haproxy"
-  provider: "none"
+  provider: 
   #This field contains the external URL of the organization
   #Eg. external_url_suffix: org1.blockchaincloudpoc.com
   external_url_suffix:
@@ -167,21 +147,3 @@ proxy:
   #Eg. port: 8443
   port: 8443
   
-config:
-  # Set limits and requests of pod  
-  pod:  
-    resources:
-      limits:
-      # Provide the limit memory for node
-      # Eg. memory: 512M
-        memory: 512M
-      # Provide the limit cpu for node
-      # Eg. cpu: 1
-        cpu: 1
-      requests:
-      # Provide the requests memory for node
-      # Eg. memory: 512M
-        memory: 512M
-      # Provide the requests cpu for node
-      # Eg. cpu: 0.5
-        cpu: 0.5

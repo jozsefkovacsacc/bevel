@@ -1,8 +1,3 @@
-[//]: # (##############################################################################################)
-[//]: # (Copyright Accenture. All Rights Reserved.)
-[//]: # (SPDX-License-Identifier: Apache-2.0)
-[//]: # (##############################################################################################)
-
 ## ROLE: create/crypto/orion
 This role generates orion nodekey for each peer in organizations.
 ### main.yaml
@@ -94,7 +89,7 @@ This tasks generates nodekey for each peer
 #### 1. Check if key already present in the vault
 This tasks checks if key is already present in the vault
 
-**shell**: This module runs the vault kv get command in a shell
+**shell**: This module runs the vault read command in a shell
 **loop**: loops over all the node in an organisation
 **loop_control**: Specifies the condition for controlling the loop.
     loop_var: loop variable used for iterating over the loop.

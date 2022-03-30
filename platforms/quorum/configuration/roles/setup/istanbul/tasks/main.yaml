@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 # This task checks if the istanbul-tools is already in place or not
 - name: Check istanbul
   stat:
@@ -21,7 +15,6 @@
   git:
     repo: "{{ istanbul.repo }}"
     version: master
-    force: yes
     dest: "{{ bin_install_dir }}/istanbul_repo"
   when: not ( repo_stat_result.stat.exists and istanbul_stat_result.stat.exists )
 

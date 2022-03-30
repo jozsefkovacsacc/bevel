@@ -1,50 +1,91 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: flux.weave.works/v1beta1
 kind: HelmRelease
 metadata:
   name: {{ component_name }}
   namespace: {{ component_ns }}
   annotations:
-    fluxcd.io/automated: "false"
+    flux.weave.works/automated: "false"
 spec:
   releaseName: {{ component_name }}
   chart:
-    git: {{ org.gitops.git_url }}
-    ref: {{ org.gitops.branch }}
+    git: {{ git_url }}
+    ref: {{ git_branch }}
     path: {{ charts_dir }}/generate-pki
   values:
     nodeName: {{ name }}
+    cenmServices:
+      signerName: {{ signerName }}
+      idmanName: {{ idmanName }}
+      networkmapName: {{ networkmapName }}
+      notaryName: {{ notaryName }}
+    replicas: 1
     metadata:
       namespace: {{ component_ns }}
-    image:
-      initContainerName: {{ network.docker.url }}/{{ init_container_image }}
-      pkiContainerName: {{ network.docker.url }}/{{ main_container_image }}
-      imagePullSecret: regcred
+    dockerImagePki:
+      name: {{ docker_url }}
+      tag: {{ docker_tag }}
       pullPolicy: Always
-    acceptLicense: YES
+    image:
+      initContainerName: {{ init_container_name }}
+      imagePullSecret: regcred
     volume:
-      baseDir: /opt/cenm
+      baseDir: /opt/corda
     vault:
-      address: {{ vault.url }}
+      address: {{ vault_address }}
       role: vault-role
-      authpath: cordaent{{ org.name | lower }}
+      authpath: {{ authpath }}
       serviceaccountname: vault-auth
-      certsecretprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ org.name | lower }}
-      retries: 20
-      sleepTimeAfterError: 20
-    cenmServices:
-      signerName: {{ services.signer.name }}
-      idmanName: {{ services.idman.name }}
-      networkmapName: {{ services.networkmap.name }}
-    identityManager:
-      publicIp: {{ org.services.idman.name }}.{{ org.external_url_suffix }}
-      publicPort: 443
-    subjects:
-      tlscrlsigner: "{{ services.signer.subject }}"
-      tlscrlissuer: "{{ services.idman.crlissuer_subject }}"
-      rootca: "{{ org.subject }}"
-      subordinateca: "{{ org.subordinate_ca_subject }}"
-      idmanca: "{{ services.idman.subject }}"
-      networkmap: "{{ services.networkmap.subject }}"
-    replicas: 1
+      certsecretprefix: {{ certsecretprefix }}
+    healthcheck:
+      readinesscheckinterval: 20
+      readinessthreshold: 20
+    serviceSsh:
+      type: ClusterIP
+      port: 2222
+      targetPort: 2222
+      nodePort:
+    shell:
+      user: {{ username }}
+      password: {{ password }}
+    idmanPublicIP: {{ idman_ip }}
+    idmanPort: {{ idman_port }}
+    serviceLocations:
+      identityManager:
+        host: {{ idman_host }}
+        port: 5052
+      networkMap:
+        host: {{ networkmap_host }}
+        port: 5050
+      revocation:
+        port: 5053
+    signers:
+      CSR:
+        schedule:
+          interval: 1m 
+      CRL:
+        schedule:
+          interval: 1d
+      NetworkMap:
+        schedule:
+          interval: 1m
+      NetworkParameters:
+        schedule:
+          interval: 1m
     cordaJarMx: 256
+    healthCheckNodePort: 0
+    jarPath: bin
     configPath: etc
+    pki:
+      certificates:
+        tlscrlsigner:
+          subject: "{{ tls_crl_signer_subject }}"
+          crl:
+            issuer: "{{ tls_crl_signer_issuer }}"
+        cordarootca:
+          subject: "{{ corda_root_ca_subject }}"
+        subordinateca:
+          subject: "{{ subordinate_ca_subject }}"
+        identitymanagerca:
+          subject: "{{ idman_ca_subject }}"
+        networkmap:
+          subject: "{{ networkmap_ca_subject }}"

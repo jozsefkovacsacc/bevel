@@ -1,7 +1,7 @@
 package com.supplychain.bcc
 
 import com.supplychain.bcc.contractstates.ContainerState
-import com.supplychain.bevel.CreateContainerRequest
+import com.supplychain.baf.CreateContainerRequest
 import org.junit.Test
 import java.util.*
 import kotlin.test.assertEquals

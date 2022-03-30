@@ -1,27 +1,23 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: flux.weave.works/v1beta1
 kind: HelmRelease
 metadata:
   name: {{ component_name }}
   annotations:
-    fluxcd.io/automated: "false"
+    flux.weave.works/automated: "false"
   namespace: {{ component_ns }}
 spec:
   releaseName: {{ component_name }}
   chart:
     path: {{ org.gitops.chart_source }}/{{ chart }}
-    git: {{ org.gitops.git_url }}
+    git: {{ org.gitops.git_ssh }}
     ref: {{ org.gitops.branch }}
-{% if org.gitops.git_protocol == "https" %}
-    secretRef:
-      name: git-https-credentials
-{% endif %}
   values:
     nodeName: {{ component_name }}
     metadata:
       namespace: {{ component_ns }}
     image:
       authusername: sa
-      containerName: {{ network.docker.url }}/bevel-networkmap-linuxkit:latest
+      containerName: {{ network.docker.url }}/networkmap-linuxkit:latest
       env:
       - name: NETWORKMAP_PORT
         value: 8080
@@ -45,9 +41,7 @@ spec:
         value: 60S
       - name: NETWORKMAP_MONGOD_DATABASE
         value: networkmap
-{% if network.docker.username is defined %}
       imagePullSecret: regcred
-{% endif %}
       tlsCertificate: {{ chart_tls }}
       initContainerName: {{ network.docker.url }}/alpine-utils:1.0
       mountPath:
@@ -62,11 +56,11 @@ spec:
       authpath: {{ component_auth }}
       serviceaccountname: vault-auth
       secretprefix: {{ component_name }}
-      certsecretprefix: {{ component_name }}/data/certs
-      dbcredsecretprefix: {{ component_name }}/data/credentials/mongodb
-      secretnetworkmappass: {{ component_name }}/data/credentials/userpassword
-      tlscertsecretprefix: {{ component_name }}/data/tlscerts
-      dbcertsecretprefix: {{ component_name }}/data/certs
+      certsecretprefix: {{ component_name }}/certs
+      dbcredsecretprefix: {{ component_name }}/credentials/mongodb
+      secretnetworkmappass: {{ component_name }}/credentials/userpassword
+      tlscertsecretprefix: {{ component_name }}/tlscerts
+      dbcertsecretprefix: {{ component_name }}/certs
     healthcheck:
       readinesscheckinterval: 10
       readinessthreshold: 15
@@ -85,7 +79,6 @@ spec:
       annotations: {}
     pvc:
       annotations: {}
-{% if network.env.proxy == 'ambassador' %}
     ambassador:
       external_url_suffix: {{item.external_url_suffix}}
-{% endif %}
+      

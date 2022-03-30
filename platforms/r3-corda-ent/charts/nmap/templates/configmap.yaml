@@ -2,13 +2,19 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.prefix }}-nmap-conf
+  name: {{ .Values.nodeName }}-conf
   namespace: {{ .Values.metadata.namespace }}
   labels:
-    app.kubernetes.io/name: {{ .Values.nodeName }}
+    app.kubernetes.io/name: {{ .Values.nodeName }}-conf
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-    {{- include "labels.custom" . | nindent 2 }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
 data:
-  getZoneToken.sh: |+
-    {{ tpl (.Files.Get "files/getZoneToken.sh") . | nindent 4 }}
+  run.sh: |+
+{{ tpl (.Files.Get "files/run.sh") . | indent 4 }}
+
+  set-network-parameters.sh: |+
+{{ tpl (.Files.Get "files/set-network-parameters.sh") . | indent 4 }}
+
+  nmap.conf: |+
+{{ tpl (.Files.Get "files/nmap.conf") . | indent 4 }}

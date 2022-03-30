@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 {{- $root := . -}}
 {{range $i, $e := until (atoi (printf "%d" (int64 $.Values.kafka.replicas))) }}
 ---

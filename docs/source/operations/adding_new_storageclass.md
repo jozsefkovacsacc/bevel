@@ -1,11 +1,6 @@
-[//]: # (##############################################################################################)
-[//]: # (Copyright Accenture. All Rights Reserved.)
-[//]: # (SPDX-License-Identifier: Apache-2.0)
-[//]: # (##############################################################################################)
-
 <a name = "adding-new-storageclass"></a>
 # Adding a new storageclass
-As storageclass templates vary as per requirements and cloud provider specifications, this guide will help in using a new storageclass which is not supported by Hyperledger Bevel 
+As storageclass templates vary as per requirements and cloud provider specifications, this guide will help in using a new storageclass which is not supported by Blockchain Automation Framework (BAF)
 
   - [Adding a new storage class for Hyperledger Fabric](#fabric)
   - [Adding a new storage class for R3-Corda](#corda)
@@ -34,7 +29,7 @@ parameters:
 sc_templates:
   sample-sc: sample_sc.tpl
 ```
-3. Set the `type` variable to `sample-sc` (variable created in step 2) in the task `Create Storage Class value file for orderers` and `Create Storage Class value file for Organizations`, located in `platforms/hyperledger-fabric/configuration/roles/create/storageclass/tasks/main.yaml`  
+3. Set the `type` variable to `sample-sc` (variable created in step2) in the task `Create Storage Class value file for orderers` and `Create Storage Class value file for Organizations`, located in `platforms/hyperledger-fabric/configuration/roles/create/storageclass/tasks/main.yaml`  
 
 
 <a name = "corda"></a>
@@ -59,7 +54,7 @@ parameters:
 dlt_templates:
   sample-sc: sample_sc.tpl
 ```
-3. Set the `component_type` and `component_name` variable to `sample-sc` (variable created in step 2) in the task `Create storageclass`, located in `platforms/r3-corda/configuration/roles/create/storageclass/tasks/main.yaml`
+3. Set the `component_type` and `component_name` variable to `sample-sc` (variable created in step2) in the task `Create storageclass`, located in `platforms/r3-corda/configuration/roles/create/storageclass/tasks/main.yaml`
 
 
 <a name = "indy"></a>
@@ -84,7 +79,7 @@ parameters:
 k8_templates:
   sample-sc: sample_sc.tpl
 ```
-3. Set the `component_name` variable to `sample-sc` (variable created in step 2) in the task `Create Storage Class`, located in `platforms/hyperledger-indy/configuration/deploy-network.yaml`
+3. Set the `component_name` variable to `sample-sc` (variable created in step2) in the task `Create Storage Class`, located in `platforms/hyperledger-indy/configuration/deploy-network.yaml`
 
 <a name = "quorum"></a>
 ## Adding a new storage class for Quorum
@@ -108,4 +103,4 @@ parameters:
 dlt_templates:
   sample-sc: sample_sc.tpl
 ```
-3. Set the `component_type` and `component_name` variable to `sample-sc` (variable created in step 2) in the task `Create storageclass`, located in `platforms/quorum/configuration/roles/create/storageclass/tasks/main.yaml`
+3. Set the `component_type` and `component_name` variable to `sample-sc` (variable created in step2) in the task `Create storageclass`, located in `platforms/quorum/configuration/roles/create/storageclass/tasks/main.yaml`

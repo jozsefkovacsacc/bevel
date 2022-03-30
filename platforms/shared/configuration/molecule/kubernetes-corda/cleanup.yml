@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 ---
 - name: Cleanup after Molecule Test
   hosts: localhost
@@ -25,14 +19,4 @@
   - name: Delete the temp pub file
     file:
       path: test_rsa.pem.pub
-      state: absent
-    #This task deletes the temporarily created shared directory
-  - name: Delete the temp roles folder
-    file:
-      path: "{{ playbook_dir }}/../../shared"
-      state: absent
-      
-  #This task prunes the empty docker volumes
-  - name: "Prunes the empty docker volumes"
-    shell: |
-      docker volume prune -f
+      state: absent      

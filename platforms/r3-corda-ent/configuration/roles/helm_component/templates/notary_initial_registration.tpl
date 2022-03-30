@@ -1,15 +1,15 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: flux.weave.works/v1beta1
 kind: HelmRelease
 metadata:
   name: {{ component_name }}
   namespace: {{ component_ns }}
   annotations:
-    fluxcd.io/automated: "false"
+    flux.weave.works/automated: "false"
 spec:
   releaseName: {{ component_name }}
   chart:
-    git: {{ org.gitops.git_url }}
-    ref: {{ org.gitops.branch }}
+    git: {{ git_url }}
+    ref: {{ git_branch }}
     path: {{ charts_dir }}/notary-initial-registration
   values:
     nodeName: {{ notary_service.name }}-initial-registration
@@ -17,14 +17,14 @@ spec:
     metadata:
       namespace: {{ component_ns }}
     image:
-      initContainerName: {{ network.docker.url}}/{{ init_container_image }}
-      nodeContainerName: {{ network.docker.url}}/{{ main_container_image }}
+      initContainerName: {{ network.docker.url}}/{{ init_image }}
+      nodeContainerName: {{ network.docker.url}}/{{ docker_image }}
       imagePullSecret: regcred
       pullPolicy: Always
       privateCertificate: true
     vault:
       address: {{ org.vault.url }}
-      certSecretPrefix: {{ org.vault.secret_path | default('secretsv2') }}/data/{{ org.name | lower }}
+      certSecretPrefix: secret/{{ org.name | lower }}
       serviceAccountName: vault-auth
       role: vault-role
       authPath: cordaent{{ org.name | lower }}
@@ -43,13 +43,13 @@ spec:
         users:
           username: notary
           password: notaryP
-    networkServices:      
+    networkServices:
+      idmanName: {{ org.services.idman.name }}
       doormanURL: {{ idman_url }}
-      idmanDomain: {{ idman_domain }}      
+      idmanDomain: {{ idman_domain }}
+      networkmapName: {{ org.services.networkmap.name }}
       networkMapURL: {{ networkmap_url }}
       networkMapDomain: {{ networkmap_domain }}
-      idmanName: "{{ network | json_query('network_services[?type==`idman`].name') | first }}"
-      networkmapName: "{{ network | json_query('network_services[?type==`networkmap`].name') | first }}"
     dataSourceProperties:
       dataSource:
         password: "{{ notary_service.name }}-db-password"
@@ -64,9 +64,7 @@ spec:
       notaryPublicIP: {{ notary_service.name }}.{{ org.external_url_suffix }}
       devMode: false
       notary:
-        serviceLegalName: {{ notary_service.serviceName }}
         validating: {{ notary_service.validating }}
-        type: {{ org.type }}
       p2p:
         url: {{ notary_name }}.{{ component_ns }}
       ambassador:

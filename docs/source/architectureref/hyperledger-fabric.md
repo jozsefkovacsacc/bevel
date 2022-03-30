@@ -1,8 +1,3 @@
-[//]: # (##############################################################################################)
-[//]: # (Copyright Accenture. All Rights Reserved.)
-[//]: # (SPDX-License-Identifier: Apache-2.0)
-[//]: # (##############################################################################################)
-
 # Hyperledger Fabric Architecture Reference
 
 ## Kubernetes
@@ -49,13 +44,13 @@ The following diagram shows how Hyperledger Fabric orderer will be deployed on y
 
 ## Components
 
-![Figure: Hyperledger Fabric Components](../../images/hyperledger-bevel-fabric.png)
+![Figure: Hyperledger Fabric Components](../../images/blockchain-automation-framework-fabric.png)
 
   
 
 ### Docker Images
 
-Hyperledger Bevel uses the officially published Hyperledger Fabric Docker images from [hub.docker.com](https://hub.docker.com/search?q=hyperledger%2Ffabric&type=image). The following Hyperledger Fabric Docker Images are used by Hyperledger Bevel.
+The Blockchain Automation Framework uses the officially published Hyperledger Fabric Docker images from [hub.docker.com](https://hub.docker.com/search?q=hyperledger%2Ffabric&type=image). The following Hyperledger Fabric Docker Images are used by the Blockchain Automation Framework.
 
 *  [fabric-ca](https://hub.docker.com/r/hyperledger/fabric-ca) - Hyperledger Fabric Certificate Authority
 
@@ -82,27 +77,27 @@ Detailed information on helm charts can be referred [here](../developer/fabric-h
 
 ## Vault Configuration
 
-Hyperledger Bevel stores their `crypto` and `credentials` immediately within the secret secrets engine.
-Optionally, `secret_path` can be set on the network.yaml to change the secret engine from the default `secretsv2/`.
+The Blockchain Automation Framework stores their `crypto` and `credentials` immediately within the secret secrets engine.
 
 | Crypto Material Path | Credentials Path |
 |----------------------|----------------------|
-| `secretsv2/crypto` | `secretsv2/credentials` |
+| `secret/crypto` | `secret/credentials` |
+
   
 
-*  `secretsv2/credentials/ordererOrganizations/<orderer-org>/ca` - Contains password for the Orderer CA Bootstrap user in the format:
+*  `secret/credentials/ordererOrganizations/<orderer-org>/ca` - Contains password for the Orderer CA Bootstrap user in the format:
 
 ```
 user="${ORDERER_NAMESPACE}-adminpw
 ```
 
-*  `secretsv2/credentials/peerOrganizations/<org1>/ca` - Contains password for the Org Peers CA Bootstrap user in the format:
+*  `secret/credentials/peerOrganizations/<org1>/ca` - Contains password for the Org Peers CA Bootstrap user in the format:
 
 ```
 user="${NAMESPACE}-adminpw
 ```
 
-*  `secretsv2/credentials/peerOrganizations/<org1>/<peern>couchdb` - Contains the password for the Peer's CouchDB user in the format:
+*  `secret/credentials/peerOrganizations/<org1>/<peern>couchdb` - Contains the password for the Peer's CouchDB user in the format:
 
 ```
 pass="${NAMESPACE}-peer-${n}-adminpw

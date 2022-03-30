@@ -1,24 +1,14 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 ############################################################################################
 - name: "Check or Wait for springboot pod to be up"
   include_role:
-    name: "{{ playbook_dir }}/../../../platforms/shared/configuration/roles/check/helm_component"
+    name: "{{ playbook_dir }}/../../r3-corda/configuration/roles/check/node_component"
   vars:
     component_type: "Pod"
-    namespace: "{{ component_ns }}"
     component_name: "{{ node.name }}-springboot"
-    kubernetes: "{{ organization_data.k8s }}"
-    label_selectors:
-      - app = {{ component_name }}
   loop: "{{ organization_data.services.peers }}"
   loop_control:
     loop_var: node
-  when: node.expressapi is defined
+  when: component_type == 'node' and node.expressapi is defined
 
 # Create express-api value file for the peer nodes
 - name: "Create express-api values file for peer organizations"
@@ -26,18 +16,18 @@
     name: helm_component
   vars:
     type: "expressapi"
-    name: "{{ node.name }}"
+    name: "{{ peer_data.name }}"
     charts_dir: "{{ organization_data.gitops.chart_source }}"
-    expressapi_image: "bevel-supplychain-corda:{{ express_image_tag[network.version] }}"
-    url: "https://{{ node.name }}-springboot.{{ component_ns }}"
-    peer_name: "{{ node.name }}"
-    peer_expressapi_port: "{{ node.expressapi.port }}"
-    peer_expressapi_targetport: "{{ node.expressapi.targetPort }}"
-    peer_restserver_port: "{{ node.springboot.port }}"
+    expressapi_image: "supplychain_corda:{{ express_image_tag[network.version] }}"
+    url: "https://{{ peer_data.name }}-springboot.{{ component_ns }}"
+    peer_name: "{{ peer_data.name }}"
+    peer_expressapi_port: "{{ peer_data.expressapi.port }}"
+    peer_expressapi_targetport: "{{ peer_data.expressapi.targetPort }}"
+    peer_restserver_port: "{{ peer_data.springboot.port }}"
   loop: "{{ organization_data.services.peers }}"
   loop_control:
-    loop_var: node
-  when: node.expressapi is defined
+    loop_var: peer_data
+  when: component_type == 'node' and peer_data.expressapi is defined
 
 # Push the express-api deployment files to repository
 - name: "Push the created deployment files to repository"
@@ -45,9 +35,14 @@
     name: "{{ playbook_dir }}/../../../platforms/shared/configuration/roles/git_push"
   vars:
     GIT_DIR: "{{ playbook_dir }}/../../../"
-    gitops: "{{ component_gitops }}"    
+    GIT_REPO: "{{ component_gitops.git_push_url }}"
+    GIT_USERNAME: "{{ component_gitops.username }}"
+    GIT_EMAIL: "{{ component_gitops.email }}"
+    GIT_PASSWORD: "{{ component_gitops.password }}"
+    GIT_BRANCH: "{{ component_gitops.branch }}"
     GIT_RESET_PATH: "platforms/r3-corda/configuration"
     msg: "[ci skip] Pushing deployment files for corda expressapi"
+  when: component_type == 'node'
 
 # Wait for express-api Pod to run
 - name: "Waiting for express-api pod in {{ component_ns }}"
@@ -56,11 +51,11 @@
   vars:
     component_type: "Pod"
     namespace: "{{ component_ns }}"
-    component_name: "{{ node.name }}-expressapi"
+    component_name: "{{ peer_data.name }}-expressapi"
     kubernetes: "{{ organization_data.k8s }}"
     label_selectors:
       - app = {{ component_name }}
   loop: "{{ organization_data.services.peers }}"
   loop_control:
-    loop_var: node
-  when: node.expressapi is defined
+    loop_var: peer_data
+  when: organization_data.type == 'node' and peer_data.expressapi is defined

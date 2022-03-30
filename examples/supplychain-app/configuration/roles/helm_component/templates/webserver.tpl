@@ -1,25 +1,24 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: flux.weave.works/v1beta1
 kind: HelmRelease
 metadata:
   name: {{ name }}-springboot
   namespace: {{ component_ns }}
   annotations:
-    fluxcd.io/automated: "false"
+    flux.weave.works/automated: "false"
 spec:
   releaseName: {{ name }}-springboot
   chart:
     path: {{ component_gitops.chart_source }}/springbootwebserver
-    git: "{{ component_gitops.git_url }}"
+    git: "{{ component_gitops.git_ssh }}"
     ref: "{{ component_gitops.branch }}"
   values:
     nodeName: {{ name }}-springboot
     replicas: 1
     metadata:
       namespace: {{ component_ns }}
-      type: {{ platform_type }}
     image:
-      containerName: {{ network.container_registry.url | lower }}/bevel-supplychain-corda:{{ image_tag }}
-      initContainerName: ghcr.io/hyperledger/alpine-utils:1.0
+      containerName: {{ network.docker.url }}/supplychain_corda:{{ image_tag }}
+      initContainerName: {{ network.docker.url }}/alpine-utils:1.0
       imagePullSecret: regcred
       privateCertificate: true
     smartContract:
@@ -61,17 +60,14 @@ spec:
     service:
       type: NodePort
       annotations: {}
-    networkservices:
-      networkmap: {{ networkmap_name }}
-      doorman: {{ doorman_name }}
     vault:
       address: "{{ component_vault.url }}"
       role: vault-role
       authpath: corda{{ node.name|e }}
       serviceaccountname: vault-auth
-      rpcusersecretprefix: {{ node.name|e }}/data/credentials/rpcusers
-      keystoresecretprefix: {{ node.name|e }}/data/credentials/keystore
-      certsecretprefix: {{ node.name|e }}/data/certs
+      rpcusersecretprefix: {{ node.name|e }}/credentials/rpcusers
+      keystoresecretprefix: {{ node.name|e }}/credentials/keystore
+      certsecretprefix: {{ node.name|e }}/certs
     node:
       readinesscheckinterval: 10
       readinessthreshold: 15

@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 # Deployment
 # Creates the replicated container and manages lifecycle
 # TLS certs mounted
@@ -44,7 +38,6 @@ spec:
       containers:
       - name: {{ .Values.nodeName }}-service
         image: {{ .Values.image.containerName }}
-        imagePullPolicy: Always
         command: ["sh", "-c"]
         args:
         - |-
@@ -60,10 +53,7 @@ spec:
           - containerPort: {{ .Values.service.targetPort }}
         volumeMounts:
           - name: {{ .Values.nodeName }}-servicedata
-            mountPath: "{{ .Values.image.mountPath.basePath }}/db"
-            readOnly: false
-          - name: {{ .Values.nodeName }}-logs
-            mountPath: "{{ .Values.image.mountPath.basePath }}/logs"
+            mountPath: "{{ .Values.image.mountPath.basePath }}/db/"
             readOnly: false
           - name: certs
             mountPath: "{{ .Values.image.mountPath.basePath }}/db/certs"
@@ -71,36 +61,6 @@ spec:
           - name: creds
             mountPath: "/opt/creds"
             readOnly: false
-      - name: logs
-        image: "{{ .Values.image.initContainerName }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        command: ["sh", "-c"]
-        args:
-        - |-
-          cd /opt/networkmap/
-          COUNTER=1
-          NETWORK_ROOT_TRUST=/opt/networkmap/network-map-truststore.jks
-          while [ "$COUNTER" -le {{ $.Values.healthcheck.readinessthreshold }} ]
-          do
-            curl http://localhost:8080/network-map/truststore --output network-map-truststore.jks
-            if [ -f "$NETWORK_ROOT_TRUST" ]
-            then
-              echo "SUCCESS!"
-              echo "NMS running and fetched truststore"
-              break
-            else
-              COUNTER=`expr "$COUNTER" + 1`
-              sleep {{ $.Values.healthcheck.readinesscheckinterval }}
-            fi   
-          done 
-          if ["$COUNTER" -gt {{ $.Values.healthcheck.readinessthreshold }} ] 
-          then 
-            exit 1 
-          fi
-          while true; do tail -f ./logs/*.log 2>/dev/null; sleep 5; done
-        volumeMounts:
-        - name: {{ .Values.nodeName }}-logs
-          mountPath: "{{ .Values.image.mountPath.basePath }}/logs"
       initContainers:
       - name: init-certificates
         image: {{ .Values.image.initContainerName }}
@@ -122,26 +82,12 @@ spec:
         args:
         - |-
              #!/usr/bin/env sh
-              validateVaultResponse () {
-                if echo ${2} | grep "errors"; then
-                  echo "ERROR: unable to retrieve ${1}: ${2}"
-                  exit 1
-                fi
-                if  [ "$3" == "LOOKUPSECRETRESPONSE" ]
-                then
-                  http_code=$(curl -sS -o /dev/null -w "%{http_code}" \
-                  --header "X-Vault-Token: ${VAULT_TOKEN}" \
-                  ${VAULT_ADDR}/v1/${1})
-                  curl_response=$?
-                  if test "$http_code" != "200" ; then
-                      echo "Http response code from Vault - $http_code"
-                      if test "$curl_response" != "0"; then
-                        echo "Error: curl command failed with error code - $curl_response"
-                        exit 1
-                      fi
-                  fi
-                fi
-              }
+             validateVaultResponse () {
+             if echo ${2} | grep "errors"; then
+              echo "ERROR: unable to retrieve ${1}: ${2}"
+              exit 1
+              fi
+             }
 
              KUBE_SA_TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
              echo "Getting secrets from Vault Server"
@@ -152,13 +98,13 @@ spec:
 
              LOOKUP_SECRET_RESPONSE=$(curl -sS --header "X-Vault-Token: ${VAULT_TOKEN}" ${VAULT_ADDR}/v1/{{ .Values.vault.certsecretprefix }} | jq -r 'if .errors then . else . end')
 
-             validateVaultResponse "${{ .Values.vault.certsecretprefix }}" "${LOOKUP_SECRET_RESPONSE}" "LOOKUPSECRETRESPONSE"
+             validateVaultResponse "secret (${{ .Values.vault.certsecretprefix }})" "${LOOKUP_SECRET_RESPONSE}"
 
-             ROOTCA_KEY=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["rootcakey"]')
+             ROOTCA_KEY=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data["rootcakey"]')
              mkdir -p ${OUTPUT_PATH}/root;
              echo "${ROOTCA_KEY}" | base64 -d > ${OUTPUT_PATH}/root/keys.jks
              
-             NETWORKMAP_KEY=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["networkmap.jks"]')
+             NETWORKMAP_KEY=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data["networkmap.jks"]')
              mkdir -p ${OUTPUT_PATH}/network-map;
              echo "${NETWORKMAP_KEY}" | base64 -d > ${OUTPUT_PATH}/network-map/keys.jks
              
@@ -189,26 +135,12 @@ spec:
         args:
         - |-
              #!/usr/bin/env sh
-              validateVaultResponse () {
-                if echo ${2} | grep "errors"; then
-                  echo "ERROR: unable to retrieve ${1}: ${2}"
-                  exit 1
-                fi
-                if  [ "$3" == "LOOKUPSECRETRESPONSE" ]
-                then
-                  http_code=$(curl -sS -o /dev/null -w "%{http_code}" \
-                  --header "X-Vault-Token: ${VAULT_TOKEN}" \
-                  ${VAULT_ADDR}/v1/${1})
-                  curl_response=$?
-                  if test "$http_code" != "200" ; then
-                      echo "Http response code from Vault - $http_code"
-                      if test "$curl_response" != "0"; then
-                        echo "Error: curl command failed with error code - $curl_response"
-                        exit 1
-                      fi
-                  fi
-                fi
-              }
+             validateVaultResponse () {
+             if echo ${2} | grep "errors"; then
+              echo "ERROR: unable to retrieve ${1}: ${2}"
+              exit 1
+              fi
+             }
 
              KUBE_SA_TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
              echo "Getting secrets from Vault Server"
@@ -219,14 +151,13 @@ spec:
              OUTPUT_PATH=${MOUNT_PATH}
              
              LOOKUP_PWD_RESPONSE_DB_PASS=$(curl -sS --header "X-Vault-Token: ${VAULT_TOKEN}" ${VAULT_ADDR}/v1/${DB_CRED_SECRET_PREFIX} | jq -r 'if .errors then . else . end')
-             validateVaultResponse "${DB_CRED_SECRET_PREFIX}" "${LOOKUP_PWD_RESPONSE_DB_PASS}" "LOOKUPSECRETRESPONSE"
-             MONGODB_PASSWORD=$(echo ${LOOKUP_PWD_RESPONSE_DB_PASS} | jq -r '.data.data["mongodbPassword"]')
+             MONGODB_PASSWORD=$(echo ${LOOKUP_PWD_RESPONSE_DB_PASS} | jq -r '.data["mongodbPassword"]')
           
              echo "${MONGODB_PASSWORD}" >> ${MOUNT_PATH}/db_root_password
              
              LOOKUP_SECRET_RESPONSE=$(curl -sS --header "X-Vault-Token: ${VAULT_TOKEN}" ${VAULT_ADDR}/v1/${USER_SECRET_PREFIX} | jq -r 'if .errors then . else . end')
              validateVaultResponse "secret (${CERTS_SECRET_PREFIX})" "${LOOKUP_SECRET_RESPONSE}"
-             USER_PASSWORD=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["{{ .Values.image.authusername }}"]')
+             USER_PASSWORD=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data["{{ .Values.image.authusername }}"]')
              echo "${USER_PASSWORD}" >> ${MOUNT_PATH}/user_cred
              
         volumeMounts:
@@ -301,12 +232,9 @@ spec:
         - name: {{ .Values.nodeName }}-servicedata
           persistentVolumeClaim:
             claimName: {{ .Values.nodeName }}-pvc
-        - name: {{ .Values.nodeName }}-logs
-          persistentVolumeClaim:
-            claimName: {{ .Values.nodeName }}-pvc-logs
         - name: certs
           emptyDir:
-            medium: Memory
+          medium: Memory
         - name: creds
           emptyDir:
-            medium: Memory
+          medium: Memory

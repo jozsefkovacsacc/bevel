@@ -1,39 +1,35 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: flux.weave.works/v1beta1
 kind: HelmRelease
 metadata:
   name: {{ component_name }}
   namespace: {{ component_ns }}
   annotations:
-    fluxcd.io/automated: "false"
+    flux.weave.works/automated: "false"
 spec:
   releaseName: {{ component_name }}
   chart:
-    git: {{ org.gitops.git_url }}
+    git: {{ org.gitops.git_ssh }}
     ref: {{ org.gitops.branch }}
     path: {{ charts_dir }}/nmap
   values:
     nodeName: {{ org.services.networkmap.name | lower }}
-    bashDebug: false
-    prefix: {{ org.name }}
     metadata:
       namespace: {{ component_ns }}
     storage:
       name: "cordaentsc"
       memory: 512Mi
     image:
-      initContainer: {{ network.docker.url }}/{{ init_container_image }}
-      nmapContainer: {{ network.docker.url }}/{{ main_container_image }}
-      enterpriseCliContainer: {{ docker_images.cenm["enterpriseCli-1.5"] }}
-      pullPolicy: IfNotPresent
-      imagePullSecrets: 
-        - name: "regcred"
+      initContainerName: {{ network.docker.url }}/{{ init_image }}
+      nmapContainerName: {{ network.docker.url }}/{{ docker_image }}
+      imagePullSecret: "regcred"
+      pullPolicy: Always
     acceptLicense: YES
     vault:
       address: {{ org.vault.url }}
       role: vault-role
       authPath: cordaent{{ org.name | lower }}
       serviceAccountName: vault-auth
-      certSecretPrefix: {{ org.vault.secret_path | default('secretsv2') }}/data/{{ org.name | lower }}
+      certSecretPrefix: secret/{{ org.name | lower }}
       retries: 10
       sleepTimeAfterError: 15
     service: 
@@ -43,18 +39,18 @@ spec:
         port: 5050
       revocation:
         port: 5053
-      adminListener:
-        port: 6000
+      shell:
+        sshdPort: 2222
+        user: "nmap"
+        password: "nmapP"
     serviceLocations:
       identityManager:
         name: {{ org.services.idman.name }}
         domain: {{ idman_url.split(':')[1] | regex_replace('/', '') }}
         host: {{ org.services.idman.name }}.{{ component_ns }}
         port: 5052
-      notary: 
-{% for notary in org.services.notaries %}
-        - {{ notary.name }}
-{% endfor %}
+      notary:
+        name: {{ org.services.notary.name }}
     database:
       driverClassName: "org.h2.Driver"
       url: "jdbc:h2:file:./h2/networkmap-persistence;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=10000;WRITE_DELAY=0;AUTO_SERVER_PORT=0"
@@ -63,7 +59,7 @@ spec:
       runMigration: "true"
     config:
       volume:
-        baseDir: /opt/cenm
+        baseDir: /opt/corda
       jarPath: bin
       configPath: etc
       cordaJar:
@@ -76,28 +72,3 @@ spec:
       replicas: 1
     ambassador:
       external_url_suffix: "{{ org.external_url_suffix }}"
-    cenmServices:
-      gatewayName: {{ org.services.gateway.name }}
-      gatewayPort: {{ org.services.gateway.ports.servicePort }}
-      zoneName: {{ org.services.zone.name }}
-      zonePort: {{ org.services.zone.ports.admin }}
-      zoneEnmPort: {{ org.services.zone.ports.enm }}
-      authName: {{ org.services.auth.name }}
-      authPort: {{ org.services.auth.port }}
-{% if nmap_update is defined and nmap_update %}
-    nmapUpdate: true
-    addNotaries:
-{% for enode in node_list %}
-      - notary: 
-          nodeinfoFileName: {{ enode.nodeinfo_name }}
-          nodeinfoFile: {{ enode.nodeinfo }}
-          validating: {{ enode.validating }}
-{% endfor %}
-{% else %}
-    nmapUpdate: false
-    addNotaries:
-      - notary: 
-          nodeinfoFileName: dummy
-          nodeinfoFile: dummy
-          validating: false
-{% endif %}
