@@ -44,7 +44,7 @@ task path: /home/blockchain-automation-framework/platforms/shared/configuration/
 
 TASK [setup/kubectl : register temporary directory] ****************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:2
-changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.qk5xtrt3", "size": 4096, "state": "directory", "uid": 0}
+changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.z3q9u16x", "size": 4096, "state": "directory", "uid": 0}
 
 TASK [setup/kubectl : check kubectl] *******************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:9
@@ -52,11 +52,11 @@ ok: [localhost] => {"changed": false, "stat": {"exists": false}}
 
 TASK [setup/kubectl : Download kubectl binary] *********************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:16
-changed: [localhost] => {"changed": true, "checksum_dest": null, "checksum_src": "a180187f135f4603e45bb6e3552dc3bf2a7c9c45", "dest": "/tmp/ansible.qk5xtrt3/kubernetes-client-linux-amd64.tar.gz", "elapsed": 1, "gid": 0, "group": "root", "md5sum": "7bd4c32745c65042d9cc07f3a3f7d139", "mode": "0644", "msg": "OK (12980343 bytes)", "owner": "root", "size": 12980343, "src": "/root/.ansible/tmp/ansible-tmp-1648630252.73-112-267682814310984/tmpcwlhuc7e", "state": "file", "status_code": 200, "uid": 0, "url": "https://dl.k8s.io/v1.16.13/kubernetes-client-linux-amd64.tar.gz"}
+changed: [localhost] => {"changed": true, "checksum_dest": null, "checksum_src": "a180187f135f4603e45bb6e3552dc3bf2a7c9c45", "dest": "/tmp/ansible.z3q9u16x/kubernetes-client-linux-amd64.tar.gz", "elapsed": 1, "gid": 0, "group": "root", "md5sum": "7bd4c32745c65042d9cc07f3a3f7d139", "mode": "0644", "msg": "OK (12980343 bytes)", "owner": "root", "size": 12980343, "src": "/root/.ansible/tmp/ansible-tmp-1648633919.61-113-183655230649812/tmpjqfky7lt", "state": "file", "status_code": 200, "uid": 0, "url": "https://dl.k8s.io/v1.16.13/kubernetes-client-linux-amd64.tar.gz"}
 
 TASK [setup/kubectl : Unarchive kubernetes-client] *****************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:25
-changed: [localhost] => {"changed": true, "dest": "/tmp/ansible.qk5xtrt3", "extract_results": {"cmd": ["/bin/tar", "--extract", "-C", "/tmp/ansible.qk5xtrt3", "-z", "-f", "/root/.ansible/tmp/ansible-tmp-1648630254.81-140-88739575798284/source"], "err": "", "out": "", "rc": 0}, "gid": 0, "group": "root", "handler": "TgzArchive", "mode": "0700", "owner": "root", "size": 4096, "src": "/root/.ansible/tmp/ansible-tmp-1648630254.81-140-88739575798284/source", "state": "directory", "uid": 0}
+changed: [localhost] => {"changed": true, "dest": "/tmp/ansible.z3q9u16x", "extract_results": {"cmd": ["/bin/tar", "--extract", "-C", "/tmp/ansible.z3q9u16x", "-z", "-f", "/root/.ansible/tmp/ansible-tmp-1648633920.99-141-108875434607173/source"], "err": "", "out": "", "rc": 0}, "gid": 0, "group": "root", "handler": "TgzArchive", "mode": "0700", "owner": "root", "size": 4096, "src": "/root/.ansible/tmp/ansible-tmp-1648633920.99-141-108875434607173/source", "state": "directory", "uid": 0}
 
 TASK [setup/kubectl : create bin directory] ************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:33
@@ -64,19 +64,19 @@ changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "07
 
 TASK [setup/kubectl : Copy kubectl binary to destination directory] ************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:41
-changed: [localhost] => (item=kubectl) => {"ansible_loop_var": "bin_item", "bin_item": "kubectl", "changed": true, "checksum": "95a29cd56f71a4f203d6c046db30c1bf7901243c", "dest": "/root/bin/kubectl", "gid": 0, "group": "root", "md5sum": "ae39d320c1d9b0be0d3edfed41498a94", "mode": "0755", "owner": "root", "size": 42958848, "src": "/tmp/ansible.qk5xtrt3/kubernetes/client/bin/kubectl", "state": "file", "uid": 0}
+changed: [localhost] => (item=kubectl) => {"ansible_loop_var": "bin_item", "bin_item": "kubectl", "changed": true, "checksum": "95a29cd56f71a4f203d6c046db30c1bf7901243c", "dest": "/root/bin/kubectl", "gid": 0, "group": "root", "md5sum": "ae39d320c1d9b0be0d3edfed41498a94", "mode": "0755", "owner": "root", "size": 42958848, "src": "/tmp/ansible.z3q9u16x/kubernetes/client/bin/kubectl", "state": "file", "uid": 0}
 
 TASK [setup/kubectl : Test kubectl installation] *******************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:55
-ok: [localhost] => {"changed": false, "cmd": ["kubectl", "version", "--client", "--short"], "delta": "0:00:00.026076", "end": "2022-03-30 08:50:56.748474", "rc": 0, "start": "2022-03-30 08:50:56.722398", "stderr": "", "stderr_lines": [], "stdout": "Client Version: v1.16.13", "stdout_lines": ["Client Version: v1.16.13"]}
+ok: [localhost] => {"changed": false, "cmd": ["kubectl", "version", "--client", "--short"], "delta": "0:00:00.028656", "end": "2022-03-30 09:52:02.842252", "rc": 0, "start": "2022-03-30 09:52:02.813596", "stderr": "", "stderr_lines": [], "stdout": "Client Version: v1.16.13", "stdout_lines": ["Client Version: v1.16.13"]}
 
 TASK [setup/kubectl : register temporary directory] ****************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:2
-changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.y3g5os86", "size": 4096, "state": "directory", "uid": 0}
+changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.9i8r6rvh", "size": 4096, "state": "directory", "uid": 0}
 
 TASK [setup/kubectl : check kubectl] *******************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:9
-ok: [localhost] => {"changed": false, "stat": {"atime": 1648630256.7208698, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 83904, "charset": "unknown", "checksum": "95a29cd56f71a4f203d6c046db30c1bf7901243c", "ctime": 1648630256.5168667, "dev": 1048594, "device_type": 0, "executable": true, "exists": true, "gid": 0, "gr_name": "root", "inode": 2104570, "isblk": false, "ischr": false, "isdir": false, "isfifo": false, "isgid": false, "islnk": false, "isreg": true, "issock": false, "isuid": false, "mimetype": "unknown", "mode": "0755", "mtime": 1594831817.0, "nlink": 1, "path": "/root/bin/kubectl", "pw_name": "root", "readable": true, "rgrp": true, "roth": true, "rusr": true, "size": 42958848, "uid": 0, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": true, "xusr": true}}
+ok: [localhost] => {"changed": false, "stat": {"atime": 1648633922.812786, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 83904, "charset": "unknown", "checksum": "95a29cd56f71a4f203d6c046db30c1bf7901243c", "ctime": 1648633922.6127832, "dev": 1048587, "device_type": 0, "executable": true, "exists": true, "gid": 0, "gr_name": "root", "inode": 2104982, "isblk": false, "ischr": false, "isdir": false, "isfifo": false, "isgid": false, "islnk": false, "isreg": true, "issock": false, "isuid": false, "mimetype": "unknown", "mode": "0755", "mtime": 1594831817.0, "nlink": 1, "path": "/root/bin/kubectl", "pw_name": "root", "readable": true, "rgrp": true, "roth": true, "rusr": true, "size": 42958848, "uid": 0, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": true, "xusr": true}}
 
 TASK [setup/kubectl : Download kubectl binary] *********************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:16
@@ -96,15 +96,15 @@ skipping: [localhost] => (item=kubectl)  => {"ansible_loop_var": "bin_item", "bi
 
 TASK [setup/kubectl : Test kubectl installation] *******************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:55
-ok: [localhost] => {"changed": false, "cmd": ["kubectl", "version", "--client", "--short"], "delta": "0:00:00.027425", "end": "2022-03-30 08:50:57.278742", "rc": 0, "start": "2022-03-30 08:50:57.251317", "stderr": "", "stderr_lines": [], "stdout": "Client Version: v1.16.13", "stdout_lines": ["Client Version: v1.16.13"]}
+ok: [localhost] => {"changed": false, "cmd": ["kubectl", "version", "--client", "--short"], "delta": "0:00:00.026356", "end": "2022-03-30 09:52:03.359165", "rc": 0, "start": "2022-03-30 09:52:03.332809", "stderr": "", "stderr_lines": [], "stdout": "Client Version: v1.16.13", "stdout_lines": ["Client Version: v1.16.13"]}
 
 TASK [setup/kubectl : register temporary directory] ****************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:2
-changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.57xfbh8m", "size": 4096, "state": "directory", "uid": 0}
+changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.za87ngep", "size": 4096, "state": "directory", "uid": 0}
 
 TASK [setup/kubectl : check kubectl] *******************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:9
-ok: [localhost] => {"changed": false, "stat": {"atime": 1648630256.7208698, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 83904, "charset": "unknown", "checksum": "95a29cd56f71a4f203d6c046db30c1bf7901243c", "ctime": 1648630256.5168667, "dev": 1048594, "device_type": 0, "executable": true, "exists": true, "gid": 0, "gr_name": "root", "inode": 2104570, "isblk": false, "ischr": false, "isdir": false, "isfifo": false, "isgid": false, "islnk": false, "isreg": true, "issock": false, "isuid": false, "mimetype": "unknown", "mode": "0755", "mtime": 1594831817.0, "nlink": 1, "path": "/root/bin/kubectl", "pw_name": "root", "readable": true, "rgrp": true, "roth": true, "rusr": true, "size": 42958848, "uid": 0, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": true, "xusr": true}}
+ok: [localhost] => {"changed": false, "stat": {"atime": 1648633922.812786, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 83904, "charset": "unknown", "checksum": "95a29cd56f71a4f203d6c046db30c1bf7901243c", "ctime": 1648633922.6127832, "dev": 1048587, "device_type": 0, "executable": true, "exists": true, "gid": 0, "gr_name": "root", "inode": 2104982, "isblk": false, "ischr": false, "isdir": false, "isfifo": false, "isgid": false, "islnk": false, "isreg": true, "issock": false, "isuid": false, "mimetype": "unknown", "mode": "0755", "mtime": 1594831817.0, "nlink": 1, "path": "/root/bin/kubectl", "pw_name": "root", "readable": true, "rgrp": true, "roth": true, "rusr": true, "size": 42958848, "uid": 0, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": true, "xusr": true}}
 
 TASK [setup/kubectl : Download kubectl binary] *********************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:16
@@ -124,14 +124,14 @@ skipping: [localhost] => (item=kubectl)  => {"ansible_loop_var": "bin_item", "bi
 
 TASK [setup/kubectl : Test kubectl installation] *******************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:55
-ok: [localhost] => {"changed": false, "cmd": ["kubectl", "version", "--client", "--short"], "delta": "0:00:00.026061", "end": "2022-03-30 08:50:57.782071", "rc": 0, "start": "2022-03-30 08:50:57.756010", "stderr": "", "stderr_lines": [], "stdout": "Client Version: v1.16.13", "stdout_lines": ["Client Version: v1.16.13"]}
+ok: [localhost] => {"changed": false, "cmd": ["kubectl", "version", "--client", "--short"], "delta": "0:00:00.026765", "end": "2022-03-30 09:52:03.861648", "rc": 0, "start": "2022-03-30 09:52:03.834883", "stderr": "", "stderr_lines": [], "stdout": "Client Version: v1.16.13", "stdout_lines": ["Client Version: v1.16.13"]}
 
 TASK [include_role : setup/helm] ***********************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/environment-setup.yaml:20
 
 TASK [setup/helm : register temporary directory] *******************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:2
-changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible._227r88r", "size": 4096, "state": "directory", "uid": 0}
+changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.auhlih6g", "size": 4096, "state": "directory", "uid": 0}
 
 TASK [setup/helm : check helm] *************************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:9
@@ -139,18 +139,18 @@ ok: [localhost] => {"changed": false, "stat": {"exists": false}}
 
 TASK [setup/helm : Install helm] ***********************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:16
-changed: [localhost] => {"changed": true, "checksum_dest": null, "checksum_src": "c7d97a228fa719ba68322225142a3c7b6cbe6396", "dest": "/tmp/ansible._227r88r/helm.tar.gz", "elapsed": 1, "gid": 0, "group": "root", "md5sum": "8d5bbe77ab9d9bb02ff88b3210ec1be3", "mode": "0755", "msg": "OK (25097357 bytes)", "owner": "root", "size": 25097357, "src": "/root/.ansible/tmp/ansible-tmp-1648630258.13-520-153294883775683/tmp4ai8tkss", "state": "file", "status_code": 200, "uid": 0, "url": "https://get.helm.sh/helm-v2.17.0-linux-amd64.tar.gz"}
+changed: [localhost] => {"changed": true, "checksum_dest": null, "checksum_src": "c7d97a228fa719ba68322225142a3c7b6cbe6396", "dest": "/tmp/ansible.auhlih6g/helm.tar.gz", "elapsed": 0, "gid": 0, "group": "root", "md5sum": "8d5bbe77ab9d9bb02ff88b3210ec1be3", "mode": "0755", "msg": "OK (25097357 bytes)", "owner": "root", "size": 25097357, "src": "/root/.ansible/tmp/ansible-tmp-1648633924.2-523-184770618185740/tmpicx7p3jb", "state": "file", "status_code": 200, "uid": 0, "url": "https://get.helm.sh/helm-v2.17.0-linux-amd64.tar.gz"}
 
 TASK [setup/helm : Unzip helm archive] *****************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:27
-changed: [localhost] => {"changed": true, "dest": "/tmp/ansible._227r88r", "extract_results": {"cmd": ["/bin/tar", "--extract", "-C", "/tmp/ansible._227r88r", "-z", "-f", "/tmp/ansible._227r88r/helm.tar.gz"], "err": "", "out": "", "rc": 0}, "gid": 0, "group": "root", "handler": "TgzArchive", "mode": "0700", "owner": "root", "size": 4096, "src": "/tmp/ansible._227r88r/helm.tar.gz", "state": "directory", "uid": 0}
+changed: [localhost] => {"changed": true, "dest": "/tmp/ansible.auhlih6g", "extract_results": {"cmd": ["/bin/tar", "--extract", "-C", "/tmp/ansible.auhlih6g", "-z", "-f", "/tmp/ansible.auhlih6g/helm.tar.gz"], "err": "", "out": "", "rc": 0}, "gid": 0, "group": "root", "handler": "TgzArchive", "mode": "0700", "owner": "root", "size": 4096, "src": "/tmp/ansible.auhlih6g/helm.tar.gz", "state": "directory", "uid": 0}
 
 TASK [create bin directory] ****************************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:37
 
 TASK [check/setup : check if dir exists or not] ********************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/check/setup/tasks/main.yaml:3
-ok: [localhost] => {"changed": false, "stat": {"atime": 1648630256.1168606, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 8, "charset": "unknown", "ctime": 1648630256.5128667, "dev": 1048594, "device_type": 0, "executable": true, "exists": true, "gid": 0, "gr_name": "root", "inode": 2104564, "isblk": false, "ischr": false, "isdir": true, "isfifo": false, "isgid": false, "islnk": false, "isreg": false, "issock": false, "isuid": false, "mimetype": "unknown", "mode": "0755", "mtime": 1648630256.5128667, "nlink": 2, "path": "/root/bin", "pw_name": "root", "readable": true, "rgrp": true, "roth": true, "rusr": true, "size": 4096, "uid": 0, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": true, "xusr": true}}
+ok: [localhost] => {"changed": false, "stat": {"atime": 1648633922.1967773, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 8, "charset": "unknown", "ctime": 1648633922.6087832, "dev": 1048587, "device_type": 0, "executable": true, "exists": true, "gid": 0, "gr_name": "root", "inode": 2104976, "isblk": false, "ischr": false, "isdir": true, "isfifo": false, "isgid": false, "islnk": false, "isreg": false, "issock": false, "isuid": false, "mimetype": "unknown", "mode": "0755", "mtime": 1648633922.6087832, "nlink": 2, "path": "/root/bin", "pw_name": "root", "readable": true, "rgrp": true, "roth": true, "rusr": true, "size": 4096, "uid": 0, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": true, "xusr": true}}
 
 TASK [check/setup : Ensures dir exists] ****************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/check/setup/tasks/main.yaml:11
@@ -170,19 +170,19 @@ skipping: [localhost] => {"changed": false, "skip_reason": "Conditional result w
 
 TASK [setup/helm : Move helm binaries] *****************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:47
-changed: [localhost] => (item=helm) => {"ansible_loop_var": "bin_item", "bin_item": "helm", "changed": true, "checksum": "77fa7fee8619cf851c695faee60f53971804a771", "dest": "/root/bin/helm", "gid": 0, "group": "root", "md5sum": "d62fd9c4b780c79a88f00801e16b5439", "mode": "0755", "owner": "root", "size": 39931904, "src": "/root/.ansible/tmp/ansible-tmp-1648630261.65-628-169094088953981/source", "state": "file", "uid": 0}
+changed: [localhost] => (item=helm) => {"ansible_loop_var": "bin_item", "bin_item": "helm", "changed": true, "checksum": "77fa7fee8619cf851c695faee60f53971804a771", "dest": "/root/bin/helm", "gid": 0, "group": "root", "md5sum": "d62fd9c4b780c79a88f00801e16b5439", "mode": "0755", "owner": "root", "size": 39931904, "src": "/root/.ansible/tmp/ansible-tmp-1648633926.8-631-240298590621950/source", "state": "file", "uid": 0}
 
 TASK [setup/helm : Test helm installation] *************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:58
-ok: [localhost] => {"changed": false, "cmd": ["helm", "version", "--client", "--short"], "delta": "0:00:00.031515", "end": "2022-03-30 08:51:02.162940", "rc": 0, "start": "2022-03-30 08:51:02.131425", "stderr": "", "stderr_lines": [], "stdout": "Client: v2.17.0+ga690bad", "stdout_lines": ["Client: v2.17.0+ga690bad"]}
+ok: [localhost] => {"changed": false, "cmd": ["helm", "version", "--client", "--short"], "delta": "0:00:00.034847", "end": "2022-03-30 09:52:07.366086", "rc": 0, "start": "2022-03-30 09:52:07.331239", "stderr": "", "stderr_lines": [], "stdout": "Client: v2.17.0+ga690bad", "stdout_lines": ["Client: v2.17.0+ga690bad"]}
 
 TASK [setup/helm : register temporary directory] *******************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:2
-changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.sk9fb8kn", "size": 4096, "state": "directory", "uid": 0}
+changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.t84wcp0v", "size": 4096, "state": "directory", "uid": 0}
 
 TASK [setup/helm : check helm] *************************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:9
-ok: [localhost] => {"changed": false, "stat": {"atime": 1648630262.1289525, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 77992, "charset": "unknown", "checksum": "77fa7fee8619cf851c695faee60f53971804a771", "ctime": 1648630262.0089507, "dev": 1048594, "device_type": 0, "executable": true, "exists": true, "gid": 0, "gr_name": "root", "inode": 2104563, "isblk": false, "ischr": false, "isdir": false, "isfifo": false, "isgid": false, "islnk": false, "isreg": true, "issock": false, "isuid": false, "mimetype": "unknown", "mode": "0755", "mtime": 1648630261.8129478, "nlink": 1, "path": "/root/bin/helm", "pw_name": "root", "readable": true, "rgrp": true, "roth": true, "rusr": true, "size": 39931904, "uid": 0, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": true, "xusr": true}}
+ok: [localhost] => {"changed": false, "stat": {"atime": 1648633927.3288493, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 77992, "charset": "unknown", "checksum": "77fa7fee8619cf851c695faee60f53971804a771", "ctime": 1648633927.1968474, "dev": 1048587, "device_type": 0, "executable": true, "exists": true, "gid": 0, "gr_name": "root", "inode": 2104975, "isblk": false, "ischr": false, "isdir": false, "isfifo": false, "isgid": false, "islnk": false, "isreg": true, "issock": false, "isuid": false, "mimetype": "unknown", "mode": "0755", "mtime": 1648633926.9848444, "nlink": 1, "path": "/root/bin/helm", "pw_name": "root", "readable": true, "rgrp": true, "roth": true, "rusr": true, "size": 39931904, "uid": 0, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": true, "xusr": true}}
 
 TASK [setup/helm : Install helm] ***********************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:16
@@ -202,15 +202,15 @@ skipping: [localhost] => (item=helm)  => {"ansible_loop_var": "bin_item", "bin_i
 
 TASK [setup/helm : Test helm installation] *************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:58
-ok: [localhost] => {"changed": false, "cmd": ["helm", "version", "--client", "--short"], "delta": "0:00:00.033149", "end": "2022-03-30 08:51:02.680223", "rc": 0, "start": "2022-03-30 08:51:02.647074", "stderr": "", "stderr_lines": [], "stdout": "Client: v2.17.0+ga690bad", "stdout_lines": ["Client: v2.17.0+ga690bad"]}
+ok: [localhost] => {"changed": false, "cmd": ["helm", "version", "--client", "--short"], "delta": "0:00:00.038357", "end": "2022-03-30 09:52:07.899664", "rc": 0, "start": "2022-03-30 09:52:07.861307", "stderr": "", "stderr_lines": [], "stdout": "Client: v2.17.0+ga690bad", "stdout_lines": ["Client: v2.17.0+ga690bad"]}
 
 TASK [setup/helm : register temporary directory] *******************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:2
-changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.qnt2yu8p", "size": 4096, "state": "directory", "uid": 0}
+changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.apdtpxad", "size": 4096, "state": "directory", "uid": 0}
 
 TASK [setup/helm : check helm] *************************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:9
-ok: [localhost] => {"changed": false, "stat": {"atime": 1648630262.1289525, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 77992, "charset": "unknown", "checksum": "77fa7fee8619cf851c695faee60f53971804a771", "ctime": 1648630262.0089507, "dev": 1048594, "device_type": 0, "executable": true, "exists": true, "gid": 0, "gr_name": "root", "inode": 2104563, "isblk": false, "ischr": false, "isdir": false, "isfifo": false, "isgid": false, "islnk": false, "isreg": true, "issock": false, "isuid": false, "mimetype": "unknown", "mode": "0755", "mtime": 1648630261.8129478, "nlink": 1, "path": "/root/bin/helm", "pw_name": "root", "readable": true, "rgrp": true, "roth": true, "rusr": true, "size": 39931904, "uid": 0, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": true, "xusr": true}}
+ok: [localhost] => {"changed": false, "stat": {"atime": 1648633927.3288493, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 77992, "charset": "unknown", "checksum": "77fa7fee8619cf851c695faee60f53971804a771", "ctime": 1648633927.1968474, "dev": 1048587, "device_type": 0, "executable": true, "exists": true, "gid": 0, "gr_name": "root", "inode": 2104975, "isblk": false, "ischr": false, "isdir": false, "isfifo": false, "isgid": false, "islnk": false, "isreg": true, "issock": false, "isuid": false, "mimetype": "unknown", "mode": "0755", "mtime": 1648633926.9848444, "nlink": 1, "path": "/root/bin/helm", "pw_name": "root", "readable": true, "rgrp": true, "roth": true, "rusr": true, "size": 39931904, "uid": 0, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": true, "xusr": true}}
 
 TASK [setup/helm : Install helm] ***********************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:16
@@ -230,14 +230,14 @@ skipping: [localhost] => (item=helm)  => {"ansible_loop_var": "bin_item", "bin_i
 
 TASK [setup/helm : Test helm installation] *************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:58
-ok: [localhost] => {"changed": false, "cmd": ["helm", "version", "--client", "--short"], "delta": "0:00:00.036045", "end": "2022-03-30 08:51:03.184970", "rc": 0, "start": "2022-03-30 08:51:03.148925", "stderr": "", "stderr_lines": [], "stdout": "Client: v2.17.0+ga690bad", "stdout_lines": ["Client: v2.17.0+ga690bad"]}
+ok: [localhost] => {"changed": false, "cmd": ["helm", "version", "--client", "--short"], "delta": "0:00:00.030080", "end": "2022-03-30 09:52:08.395075", "rc": 0, "start": "2022-03-30 09:52:08.364995", "stderr": "", "stderr_lines": [], "stdout": "Client: v2.17.0+ga690bad", "stdout_lines": ["Client: v2.17.0+ga690bad"]}
 
 TASK [include_role : setup/vault] **********************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/environment-setup.yaml:30
 
 TASK [setup/vault : register temporary directory] ******************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/vault/tasks/main.yaml:2
-changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.b125qz1d", "size": 4096, "state": "directory", "uid": 0}
+changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.yah2u99p", "size": 4096, "state": "directory", "uid": 0}
 
 TASK [setup/vault : check vault] ***********************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/vault/tasks/main.yaml:9
@@ -245,7 +245,7 @@ ok: [localhost] => {"changed": false, "stat": {"exists": false}}
 
 TASK [setup/vault : Install vault client] **************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/vault/tasks/main.yaml:16
-changed: [localhost] => {"changed": true, "checksum_dest": null, "checksum_src": "22804e16078d2c0439ddcfe90350b812e31c0f37", "dest": "/tmp/ansible.b125qz1d/vault_1.0.1_linux_amd64.zip", "elapsed": 1, "gid": 0, "group": "root", "md5sum": "31ebfcdbfc693b6747dcc5ec08ba2755", "mode": "0755", "msg": "OK (35778562 bytes)", "owner": "root", "size": 35778562, "src": "/root/.ansible/tmp/ansible-tmp-1648630263.5-946-107957494793922/tmpyean4xr4", "state": "file", "status_code": 200, "uid": 0, "url": "https://releases.hashicorp.com/vault/1.0.1/vault_1.0.1_linux_amd64.zip"}
+changed: [localhost] => {"changed": true, "checksum_dest": null, "checksum_src": "22804e16078d2c0439ddcfe90350b812e31c0f37", "dest": "/tmp/ansible.yah2u99p/vault_1.0.1_linux_amd64.zip", "elapsed": 1, "gid": 0, "group": "root", "md5sum": "31ebfcdbfc693b6747dcc5ec08ba2755", "mode": "0755", "msg": "OK (35778562 bytes)", "owner": "root", "size": 35778562, "src": "/root/.ansible/tmp/ansible-tmp-1648633928.72-949-9179969165722/tmpfqplz1j6", "state": "file", "status_code": 200, "uid": 0, "url": "https://releases.hashicorp.com/vault/1.0.1/vault_1.0.1_linux_amd64.zip"}
 
 TASK [setup/vault : create bin directory] **************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/vault/tasks/main.yaml:26
@@ -253,11 +253,11 @@ ok: [localhost] => {"changed": false, "gid": 0, "group": "root", "mode": "0755",
 
 TASK [setup/vault : Unzip vault archive] ***************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/vault/tasks/main.yaml:34
-changed: [localhost] => (item=vault) => {"ansible_loop_var": "bin_item", "bin_item": "vault", "changed": true, "dest": "/root/bin", "extract_results": {"cmd": ["/usr/bin/unzip", "-o", "/tmp/ansible.b125qz1d/vault_1.0.1_linux_amd64.zip", "-d", "/root/bin"], "err": "", "out": "Archive:  /tmp/ansible.b125qz1d/vault_1.0.1_linux_amd64.zip\n  inflating: /root/bin/vault         \n", "rc": 0}, "gid": 0, "group": "root", "handler": "ZipArchive", "mode": "0755", "owner": "root", "size": 4096, "src": "/tmp/ansible.b125qz1d/vault_1.0.1_linux_amd64.zip", "state": "directory", "uid": 0}
+changed: [localhost] => (item=vault) => {"ansible_loop_var": "bin_item", "bin_item": "vault", "changed": true, "dest": "/root/bin", "extract_results": {"cmd": ["/usr/bin/unzip", "-o", "/tmp/ansible.yah2u99p/vault_1.0.1_linux_amd64.zip", "-d", "/root/bin"], "err": "", "out": "Archive:  /tmp/ansible.yah2u99p/vault_1.0.1_linux_amd64.zip\n  inflating: /root/bin/vault         \n", "rc": 0}, "gid": 0, "group": "root", "handler": "ZipArchive", "mode": "0755", "owner": "root", "size": 4096, "src": "/tmp/ansible.yah2u99p/vault_1.0.1_linux_amd64.zip", "state": "directory", "uid": 0}
 
 TASK [setup/vault : Test vault installation] ***********************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/vault/tasks/main.yaml:46
-ok: [localhost] => {"changed": false, "cmd": ["vault", "version"], "delta": "0:00:00.015709", "end": "2022-03-30 08:51:06.083449", "rc": 0, "start": "2022-03-30 08:51:06.067740", "stderr": "", "stderr_lines": [], "stdout": "Vault v1.0.1 ('08df121c8b9adcc2b8fd55fc8506c3f9714c7e61')", "stdout_lines": ["Vault v1.0.1 ('08df121c8b9adcc2b8fd55fc8506c3f9714c7e61')"]}
+ok: [localhost] => {"changed": false, "cmd": ["vault", "version"], "delta": "0:00:00.018076", "end": "2022-03-30 09:52:11.399747", "rc": 0, "start": "2022-03-30 09:52:11.381671", "stderr": "", "stderr_lines": [], "stdout": "Vault v1.0.1 ('08df121c8b9adcc2b8fd55fc8506c3f9714c7e61')", "stdout_lines": ["Vault v1.0.1 ('08df121c8b9adcc2b8fd55fc8506c3f9714c7e61')"]}
 
 TASK [include_role : setup/aws-cli] ********************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/environment-setup.yaml:40
@@ -425,11 +425,11 @@ skipping: [localhost] => {"changed": false, "skip_reason": "Conditional result w
 
 TASK [helm : register temporary directory] *************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:2
-changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.vyw92msc", "size": 4096, "state": "directory", "uid": 0}
+changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.oer46za7", "size": 4096, "state": "directory", "uid": 0}
 
 TASK [check helm] **************************************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:9
-ok: [localhost] => {"changed": false, "stat": {"atime": 1648630262.1289525, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 77992, "charset": "unknown", "checksum": "77fa7fee8619cf851c695faee60f53971804a771", "ctime": 1648630262.0089507, "dev": 1048594, "device_type": 0, "executable": true, "exists": true, "gid": 0, "gr_name": "root", "inode": 2104563, "isblk": false, "ischr": false, "isdir": false, "isfifo": false, "isgid": false, "islnk": false, "isreg": true, "issock": false, "isuid": false, "mimetype": "unknown", "mode": "0755", "mtime": 1648630261.8129478, "nlink": 1, "path": "/root/bin/helm", "pw_name": "root", "readable": true, "rgrp": true, "roth": true, "rusr": true, "size": 39931904, "uid": 0, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": true, "xusr": true}}
+ok: [localhost] => {"changed": false, "stat": {"atime": 1648633927.3288493, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 77992, "charset": "unknown", "checksum": "77fa7fee8619cf851c695faee60f53971804a771", "ctime": 1648633927.1968474, "dev": 1048587, "device_type": 0, "executable": true, "exists": true, "gid": 0, "gr_name": "root", "inode": 2104975, "isblk": false, "ischr": false, "isdir": false, "isfifo": false, "isgid": false, "islnk": false, "isreg": true, "issock": false, "isuid": false, "mimetype": "unknown", "mode": "0755", "mtime": 1648633926.9848444, "nlink": 1, "path": "/root/bin/helm", "pw_name": "root", "readable": true, "rgrp": true, "roth": true, "rusr": true, "size": 39931904, "uid": 0, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": true, "xusr": true}}
 
 TASK [Install helm] ************************************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:16
@@ -449,15 +449,15 @@ skipping: [localhost] => (item=helm)  => {"ansible_loop_var": "bin_item", "bin_i
 
 TASK [Test helm installation] **************************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:58
-ok: [localhost] => {"changed": false, "cmd": ["helm", "version", "--client", "--short"], "delta": "0:00:00.032612", "end": "2022-03-30 08:51:09.736078", "rc": 0, "start": "2022-03-30 08:51:09.703466", "stderr": "", "stderr_lines": [], "stdout": "Client: v2.17.0+ga690bad", "stdout_lines": ["Client: v2.17.0+ga690bad"]}
+ok: [localhost] => {"changed": false, "cmd": ["helm", "version", "--client", "--short"], "delta": "0:00:00.031470", "end": "2022-03-30 09:52:15.097402", "rc": 0, "start": "2022-03-30 09:52:15.065932", "stderr": "", "stderr_lines": [], "stdout": "Client: v2.17.0+ga690bad", "stdout_lines": ["Client: v2.17.0+ga690bad"]}
 
 TASK [kubectl : register temporary directory] **********************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:2
-changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.p1aj7xew", "size": 4096, "state": "directory", "uid": 0}
+changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.oxfa8tgt", "size": 4096, "state": "directory", "uid": 0}
 
 TASK [check kubectl] ***********************************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:9
-ok: [localhost] => {"changed": false, "stat": {"atime": 1648630256.7208698, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 83904, "charset": "unknown", "checksum": "95a29cd56f71a4f203d6c046db30c1bf7901243c", "ctime": 1648630256.5168667, "dev": 1048594, "device_type": 0, "executable": true, "exists": true, "gid": 0, "gr_name": "root", "inode": 2104570, "isblk": false, "ischr": false, "isdir": false, "isfifo": false, "isgid": false, "islnk": false, "isreg": true, "issock": false, "isuid": false, "mimetype": "unknown", "mode": "0755", "mtime": 1594831817.0, "nlink": 1, "path": "/root/bin/kubectl", "pw_name": "root", "readable": true, "rgrp": true, "roth": true, "rusr": true, "size": 42958848, "uid": 0, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": true, "xusr": true}}
+ok: [localhost] => {"changed": false, "stat": {"atime": 1648633922.812786, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 83904, "charset": "unknown", "checksum": "95a29cd56f71a4f203d6c046db30c1bf7901243c", "ctime": 1648633922.6127832, "dev": 1048587, "device_type": 0, "executable": true, "exists": true, "gid": 0, "gr_name": "root", "inode": 2104982, "isblk": false, "ischr": false, "isdir": false, "isfifo": false, "isgid": false, "islnk": false, "isreg": true, "issock": false, "isuid": false, "mimetype": "unknown", "mode": "0755", "mtime": 1594831817.0, "nlink": 1, "path": "/root/bin/kubectl", "pw_name": "root", "readable": true, "rgrp": true, "roth": true, "rusr": true, "size": 42958848, "uid": 0, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": true, "xusr": true}}
 
 TASK [Download kubectl binary] *************************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:16
@@ -477,7 +477,7 @@ skipping: [localhost] => (item=kubectl)  => {"ansible_loop_var": "bin_item", "bi
 
 TASK [Test kubectl installation] ***********************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:55
-ok: [localhost] => {"changed": false, "cmd": ["kubectl", "version", "--client", "--short"], "delta": "0:00:00.029257", "end": "2022-03-30 08:51:10.289811", "rc": 0, "start": "2022-03-30 08:51:10.260554", "stderr": "", "stderr_lines": [], "stdout": "Client Version: v1.16.13", "stdout_lines": ["Client Version: v1.16.13"]}
+ok: [localhost] => {"changed": false, "cmd": ["kubectl", "version", "--client", "--short"], "delta": "0:00:00.027108", "end": "2022-03-30 09:52:15.671843", "rc": 0, "start": "2022-03-30 09:52:15.644735", "stderr": "", "stderr_lines": [], "stdout": "Client Version: v1.16.13", "stdout_lines": ["Client Version: v1.16.13"]}
 
 TASK [setup/tiller : Check if Tiller is already installed in the Kubernetes clusters] ***
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/tiller/tasks/main.yaml:2
@@ -532,7 +532,7 @@ skipping: [localhost] => {"changed": false, "skip_reason": "Conditional result w
 
 TASK [setup/flux : Get ssh key] ************************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/flux/tasks/main.yaml:54
-ok: [localhost] => {"changed": false, "cmd": "KUBECONFIG=/home/blockchain-automation-framework/build/config kubectl -n default logs deployment/flux-local | grep identity.pub | cut -d '\"' -f2\n", "delta": "0:00:00.148548", "end": "2022-03-30 08:51:12.029458", "rc": 0, "start": "2022-03-30 08:51:11.880910", "stderr": "", "stderr_lines": [], "stdout": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQClAYErpKG91rTst0uAzzia8q2tjX4MqBvmaHsMOZe8IdDumtshmu/+rzYlN54cqDKgnStwk9vuDINz/imBQR3MxTWUwZ9RpR9HzlQFN6C3ZzOoAJqFX/gXPnXDrosTcKQwq3oNSZYx3oiTAIAIsdr+r68EweAELeQH8eSKtVbRyt4GPT76LjTZygyVn/b04nsOunlmZDygeuHDtPq75uYIRb/DrDG1Rk5316iE/54CKoclaRLXz9V7+eCEMyNB2ONaFs777ALU9GJkKFGVS1KiomNYrrNeh9UNLIny5g1Izv5YvXrTr35FaTmtZf39QziUiRLIYQOu6iabISC9Y5EhArOJJdYFzhbQ/6DAWNsm+0heYZdjdTEJQeRAtjpmfoUHNkNx+giwzvs4SrlJM25XpLX8kp6J+xzCAcOMSB/JkD6H9qdrPpkBqL8V1QXNlcbGdbzP0ckNJgYCAT2fjoHSToiL9M5ojoEjcA60KrxljN7opOFv3BT59MbUwfLApeM=", "stdout_lines": ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQClAYErpKG91rTst0uAzzia8q2tjX4MqBvmaHsMOZe8IdDumtshmu/+rzYlN54cqDKgnStwk9vuDINz/imBQR3MxTWUwZ9RpR9HzlQFN6C3ZzOoAJqFX/gXPnXDrosTcKQwq3oNSZYx3oiTAIAIsdr+r68EweAELeQH8eSKtVbRyt4GPT76LjTZygyVn/b04nsOunlmZDygeuHDtPq75uYIRb/DrDG1Rk5316iE/54CKoclaRLXz9V7+eCEMyNB2ONaFs777ALU9GJkKFGVS1KiomNYrrNeh9UNLIny5g1Izv5YvXrTr35FaTmtZf39QziUiRLIYQOu6iabISC9Y5EhArOJJdYFzhbQ/6DAWNsm+0heYZdjdTEJQeRAtjpmfoUHNkNx+giwzvs4SrlJM25XpLX8kp6J+xzCAcOMSB/JkD6H9qdrPpkBqL8V1QXNlcbGdbzP0ckNJgYCAT2fjoHSToiL9M5ojoEjcA60KrxljN7opOFv3BT59MbUwfLApeM="]}
+ok: [localhost] => {"changed": false, "cmd": "KUBECONFIG=/home/blockchain-automation-framework/build/config kubectl -n default logs deployment/flux-local | grep identity.pub | cut -d '\"' -f2\n", "delta": "0:00:00.258367", "end": "2022-03-30 09:52:17.515388", "rc": 0, "start": "2022-03-30 09:52:17.257021", "stderr": "", "stderr_lines": [], "stdout": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQClAYErpKG91rTst0uAzzia8q2tjX4MqBvmaHsMOZe8IdDumtshmu/+rzYlN54cqDKgnStwk9vuDINz/imBQR3MxTWUwZ9RpR9HzlQFN6C3ZzOoAJqFX/gXPnXDrosTcKQwq3oNSZYx3oiTAIAIsdr+r68EweAELeQH8eSKtVbRyt4GPT76LjTZygyVn/b04nsOunlmZDygeuHDtPq75uYIRb/DrDG1Rk5316iE/54CKoclaRLXz9V7+eCEMyNB2ONaFs777ALU9GJkKFGVS1KiomNYrrNeh9UNLIny5g1Izv5YvXrTr35FaTmtZf39QziUiRLIYQOu6iabISC9Y5EhArOJJdYFzhbQ/6DAWNsm+0heYZdjdTEJQeRAtjpmfoUHNkNx+giwzvs4SrlJM25XpLX8kp6J+xzCAcOMSB/JkD6H9qdrPpkBqL8V1QXNlcbGdbzP0ckNJgYCAT2fjoHSToiL9M5ojoEjcA60KrxljN7opOFv3BT59MbUwfLApeM=", "stdout_lines": ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQClAYErpKG91rTst0uAzzia8q2tjX4MqBvmaHsMOZe8IdDumtshmu/+rzYlN54cqDKgnStwk9vuDINz/imBQR3MxTWUwZ9RpR9HzlQFN6C3ZzOoAJqFX/gXPnXDrosTcKQwq3oNSZYx3oiTAIAIsdr+r68EweAELeQH8eSKtVbRyt4GPT76LjTZygyVn/b04nsOunlmZDygeuHDtPq75uYIRb/DrDG1Rk5316iE/54CKoclaRLXz9V7+eCEMyNB2ONaFs777ALU9GJkKFGVS1KiomNYrrNeh9UNLIny5g1Izv5YvXrTr35FaTmtZf39QziUiRLIYQOu6iabISC9Y5EhArOJJdYFzhbQ/6DAWNsm+0heYZdjdTEJQeRAtjpmfoUHNkNx+giwzvs4SrlJM25XpLX8kp6J+xzCAcOMSB/JkD6H9qdrPpkBqL8V1QXNlcbGdbzP0ckNJgYCAT2fjoHSToiL9M5ojoEjcA60KrxljN7opOFv3BT59MbUwfLApeM="]}
 
 TASK [setup/flux : Output ssh key] *********************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/flux/tasks/main.yaml:60
@@ -590,11 +590,11 @@ skipping: [localhost] => {"changed": false, "skip_reason": "Conditional result w
 
 TASK [helm : register temporary directory] *************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:2
-changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.mypkqo1r", "size": 4096, "state": "directory", "uid": 0}
+changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.eaeibyp8", "size": 4096, "state": "directory", "uid": 0}
 
 TASK [check helm] **************************************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:9
-ok: [localhost] => {"changed": false, "stat": {"atime": 1648630262.1289525, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 77992, "charset": "unknown", "checksum": "77fa7fee8619cf851c695faee60f53971804a771", "ctime": 1648630262.0089507, "dev": 1048594, "device_type": 0, "executable": true, "exists": true, "gid": 0, "gr_name": "root", "inode": 2104563, "isblk": false, "ischr": false, "isdir": false, "isfifo": false, "isgid": false, "islnk": false, "isreg": true, "issock": false, "isuid": false, "mimetype": "unknown", "mode": "0755", "mtime": 1648630261.8129478, "nlink": 1, "path": "/root/bin/helm", "pw_name": "root", "readable": true, "rgrp": true, "roth": true, "rusr": true, "size": 39931904, "uid": 0, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": true, "xusr": true}}
+ok: [localhost] => {"changed": false, "stat": {"atime": 1648633927.3288493, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 77992, "charset": "unknown", "checksum": "77fa7fee8619cf851c695faee60f53971804a771", "ctime": 1648633927.1968474, "dev": 1048587, "device_type": 0, "executable": true, "exists": true, "gid": 0, "gr_name": "root", "inode": 2104975, "isblk": false, "ischr": false, "isdir": false, "isfifo": false, "isgid": false, "islnk": false, "isreg": true, "issock": false, "isuid": false, "mimetype": "unknown", "mode": "0755", "mtime": 1648633926.9848444, "nlink": 1, "path": "/root/bin/helm", "pw_name": "root", "readable": true, "rgrp": true, "roth": true, "rusr": true, "size": 39931904, "uid": 0, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": true, "xusr": true}}
 
 TASK [Install helm] ************************************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:16
@@ -614,15 +614,15 @@ skipping: [localhost] => (item=helm)  => {"ansible_loop_var": "bin_item", "bin_i
 
 TASK [Test helm installation] **************************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:58
-ok: [localhost] => {"changed": false, "cmd": ["helm", "version", "--client", "--short"], "delta": "0:00:00.030209", "end": "2022-03-30 08:51:12.742984", "rc": 0, "start": "2022-03-30 08:51:12.712775", "stderr": "", "stderr_lines": [], "stdout": "Client: v2.17.0+ga690bad", "stdout_lines": ["Client: v2.17.0+ga690bad"]}
+ok: [localhost] => {"changed": false, "cmd": ["helm", "version", "--client", "--short"], "delta": "0:00:00.034204", "end": "2022-03-30 09:52:18.225601", "rc": 0, "start": "2022-03-30 09:52:18.191397", "stderr": "", "stderr_lines": [], "stdout": "Client: v2.17.0+ga690bad", "stdout_lines": ["Client: v2.17.0+ga690bad"]}
 
 TASK [kubectl : register temporary directory] **********************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:2
-changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.jy_tnpu7", "size": 4096, "state": "directory", "uid": 0}
+changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.ncrar2br", "size": 4096, "state": "directory", "uid": 0}
 
 TASK [check kubectl] ***********************************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:9
-ok: [localhost] => {"changed": false, "stat": {"atime": 1648630256.7208698, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 83904, "charset": "unknown", "checksum": "95a29cd56f71a4f203d6c046db30c1bf7901243c", "ctime": 1648630256.5168667, "dev": 1048594, "device_type": 0, "executable": true, "exists": true, "gid": 0, "gr_name": "root", "inode": 2104570, "isblk": false, "ischr": false, "isdir": false, "isfifo": false, "isgid": false, "islnk": false, "isreg": true, "issock": false, "isuid": false, "mimetype": "unknown", "mode": "0755", "mtime": 1594831817.0, "nlink": 1, "path": "/root/bin/kubectl", "pw_name": "root", "readable": true, "rgrp": true, "roth": true, "rusr": true, "size": 42958848, "uid": 0, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": true, "xusr": true}}
+ok: [localhost] => {"changed": false, "stat": {"atime": 1648633922.812786, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 83904, "charset": "unknown", "checksum": "95a29cd56f71a4f203d6c046db30c1bf7901243c", "ctime": 1648633922.6127832, "dev": 1048587, "device_type": 0, "executable": true, "exists": true, "gid": 0, "gr_name": "root", "inode": 2104982, "isblk": false, "ischr": false, "isdir": false, "isfifo": false, "isgid": false, "islnk": false, "isreg": true, "issock": false, "isuid": false, "mimetype": "unknown", "mode": "0755", "mtime": 1594831817.0, "nlink": 1, "path": "/root/bin/kubectl", "pw_name": "root", "readable": true, "rgrp": true, "roth": true, "rusr": true, "size": 42958848, "uid": 0, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": true, "xusr": true}}
 
 TASK [Download kubectl binary] *************************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:16
@@ -642,7 +642,7 @@ skipping: [localhost] => (item=kubectl)  => {"ansible_loop_var": "bin_item", "bi
 
 TASK [Test kubectl installation] ***********************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:55
-ok: [localhost] => {"changed": false, "cmd": ["kubectl", "version", "--client", "--short"], "delta": "0:00:00.028041", "end": "2022-03-30 08:51:13.253457", "rc": 0, "start": "2022-03-30 08:51:13.225416", "stderr": "", "stderr_lines": [], "stdout": "Client Version: v1.16.13", "stdout_lines": ["Client Version: v1.16.13"]}
+ok: [localhost] => {"changed": false, "cmd": ["kubectl", "version", "--client", "--short"], "delta": "0:00:00.026927", "end": "2022-03-30 09:52:18.757431", "rc": 0, "start": "2022-03-30 09:52:18.730504", "stderr": "", "stderr_lines": [], "stdout": "Client Version: v1.16.13", "stdout_lines": ["Client Version: v1.16.13"]}
 
 TASK [setup/tiller : Check if Tiller is already installed in the Kubernetes clusters] ***
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/tiller/tasks/main.yaml:2
@@ -697,7 +697,7 @@ skipping: [localhost] => {"changed": false, "skip_reason": "Conditional result w
 
 TASK [setup/flux : Get ssh key] ************************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/flux/tasks/main.yaml:54
-ok: [localhost] => {"changed": false, "cmd": "KUBECONFIG=/home/blockchain-automation-framework/build/config kubectl -n default logs deployment/flux-local | grep identity.pub | cut -d '\"' -f2\n", "delta": "0:00:00.064650", "end": "2022-03-30 08:51:14.768063", "rc": 0, "start": "2022-03-30 08:51:14.703413", "stderr": "", "stderr_lines": [], "stdout": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQClAYErpKG91rTst0uAzzia8q2tjX4MqBvmaHsMOZe8IdDumtshmu/+rzYlN54cqDKgnStwk9vuDINz/imBQR3MxTWUwZ9RpR9HzlQFN6C3ZzOoAJqFX/gXPnXDrosTcKQwq3oNSZYx3oiTAIAIsdr+r68EweAELeQH8eSKtVbRyt4GPT76LjTZygyVn/b04nsOunlmZDygeuHDtPq75uYIRb/DrDG1Rk5316iE/54CKoclaRLXz9V7+eCEMyNB2ONaFs777ALU9GJkKFGVS1KiomNYrrNeh9UNLIny5g1Izv5YvXrTr35FaTmtZf39QziUiRLIYQOu6iabISC9Y5EhArOJJdYFzhbQ/6DAWNsm+0heYZdjdTEJQeRAtjpmfoUHNkNx+giwzvs4SrlJM25XpLX8kp6J+xzCAcOMSB/JkD6H9qdrPpkBqL8V1QXNlcbGdbzP0ckNJgYCAT2fjoHSToiL9M5ojoEjcA60KrxljN7opOFv3BT59MbUwfLApeM=", "stdout_lines": ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQClAYErpKG91rTst0uAzzia8q2tjX4MqBvmaHsMOZe8IdDumtshmu/+rzYlN54cqDKgnStwk9vuDINz/imBQR3MxTWUwZ9RpR9HzlQFN6C3ZzOoAJqFX/gXPnXDrosTcKQwq3oNSZYx3oiTAIAIsdr+r68EweAELeQH8eSKtVbRyt4GPT76LjTZygyVn/b04nsOunlmZDygeuHDtPq75uYIRb/DrDG1Rk5316iE/54CKoclaRLXz9V7+eCEMyNB2ONaFs777ALU9GJkKFGVS1KiomNYrrNeh9UNLIny5g1Izv5YvXrTr35FaTmtZf39QziUiRLIYQOu6iabISC9Y5EhArOJJdYFzhbQ/6DAWNsm+0heYZdjdTEJQeRAtjpmfoUHNkNx+giwzvs4SrlJM25XpLX8kp6J+xzCAcOMSB/JkD6H9qdrPpkBqL8V1QXNlcbGdbzP0ckNJgYCAT2fjoHSToiL9M5ojoEjcA60KrxljN7opOFv3BT59MbUwfLApeM="]}
+ok: [localhost] => {"changed": false, "cmd": "KUBECONFIG=/home/blockchain-automation-framework/build/config kubectl -n default logs deployment/flux-local | grep identity.pub | cut -d '\"' -f2\n", "delta": "0:00:00.215631", "end": "2022-03-30 09:52:20.397865", "rc": 0, "start": "2022-03-30 09:52:20.182234", "stderr": "", "stderr_lines": [], "stdout": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQClAYErpKG91rTst0uAzzia8q2tjX4MqBvmaHsMOZe8IdDumtshmu/+rzYlN54cqDKgnStwk9vuDINz/imBQR3MxTWUwZ9RpR9HzlQFN6C3ZzOoAJqFX/gXPnXDrosTcKQwq3oNSZYx3oiTAIAIsdr+r68EweAELeQH8eSKtVbRyt4GPT76LjTZygyVn/b04nsOunlmZDygeuHDtPq75uYIRb/DrDG1Rk5316iE/54CKoclaRLXz9V7+eCEMyNB2ONaFs777ALU9GJkKFGVS1KiomNYrrNeh9UNLIny5g1Izv5YvXrTr35FaTmtZf39QziUiRLIYQOu6iabISC9Y5EhArOJJdYFzhbQ/6DAWNsm+0heYZdjdTEJQeRAtjpmfoUHNkNx+giwzvs4SrlJM25XpLX8kp6J+xzCAcOMSB/JkD6H9qdrPpkBqL8V1QXNlcbGdbzP0ckNJgYCAT2fjoHSToiL9M5ojoEjcA60KrxljN7opOFv3BT59MbUwfLApeM=", "stdout_lines": ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQClAYErpKG91rTst0uAzzia8q2tjX4MqBvmaHsMOZe8IdDumtshmu/+rzYlN54cqDKgnStwk9vuDINz/imBQR3MxTWUwZ9RpR9HzlQFN6C3ZzOoAJqFX/gXPnXDrosTcKQwq3oNSZYx3oiTAIAIsdr+r68EweAELeQH8eSKtVbRyt4GPT76LjTZygyVn/b04nsOunlmZDygeuHDtPq75uYIRb/DrDG1Rk5316iE/54CKoclaRLXz9V7+eCEMyNB2ONaFs777ALU9GJkKFGVS1KiomNYrrNeh9UNLIny5g1Izv5YvXrTr35FaTmtZf39QziUiRLIYQOu6iabISC9Y5EhArOJJdYFzhbQ/6DAWNsm+0heYZdjdTEJQeRAtjpmfoUHNkNx+giwzvs4SrlJM25XpLX8kp6J+xzCAcOMSB/JkD6H9qdrPpkBqL8V1QXNlcbGdbzP0ckNJgYCAT2fjoHSToiL9M5ojoEjcA60KrxljN7opOFv3BT59MbUwfLApeM="]}
 
 TASK [setup/flux : Output ssh key] *********************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/flux/tasks/main.yaml:60
@@ -755,11 +755,11 @@ skipping: [localhost] => {"changed": false, "skip_reason": "Conditional result w
 
 TASK [helm : register temporary directory] *************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:2
-changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.r2_rh0l4", "size": 4096, "state": "directory", "uid": 0}
+changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.7smlhh2b", "size": 4096, "state": "directory", "uid": 0}
 
 TASK [check helm] **************************************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:9
-ok: [localhost] => {"changed": false, "stat": {"atime": 1648630262.1289525, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 77992, "charset": "unknown", "checksum": "77fa7fee8619cf851c695faee60f53971804a771", "ctime": 1648630262.0089507, "dev": 1048594, "device_type": 0, "executable": true, "exists": true, "gid": 0, "gr_name": "root", "inode": 2104563, "isblk": false, "ischr": false, "isdir": false, "isfifo": false, "isgid": false, "islnk": false, "isreg": true, "issock": false, "isuid": false, "mimetype": "unknown", "mode": "0755", "mtime": 1648630261.8129478, "nlink": 1, "path": "/root/bin/helm", "pw_name": "root", "readable": true, "rgrp": true, "roth": true, "rusr": true, "size": 39931904, "uid": 0, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": true, "xusr": true}}
+ok: [localhost] => {"changed": false, "stat": {"atime": 1648633927.3288493, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 77992, "charset": "unknown", "checksum": "77fa7fee8619cf851c695faee60f53971804a771", "ctime": 1648633927.1968474, "dev": 1048587, "device_type": 0, "executable": true, "exists": true, "gid": 0, "gr_name": "root", "inode": 2104975, "isblk": false, "ischr": false, "isdir": false, "isfifo": false, "isgid": false, "islnk": false, "isreg": true, "issock": false, "isuid": false, "mimetype": "unknown", "mode": "0755", "mtime": 1648633926.9848444, "nlink": 1, "path": "/root/bin/helm", "pw_name": "root", "readable": true, "rgrp": true, "roth": true, "rusr": true, "size": 39931904, "uid": 0, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": true, "xusr": true}}
 
 TASK [Install helm] ************************************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:16
@@ -779,15 +779,15 @@ skipping: [localhost] => (item=helm)  => {"ansible_loop_var": "bin_item", "bin_i
 
 TASK [Test helm installation] **************************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/helm/tasks/main.yaml:58
-ok: [localhost] => {"changed": false, "cmd": ["helm", "version", "--client", "--short"], "delta": "0:00:00.034896", "end": "2022-03-30 08:51:15.485056", "rc": 0, "start": "2022-03-30 08:51:15.450160", "stderr": "", "stderr_lines": [], "stdout": "Client: v2.17.0+ga690bad", "stdout_lines": ["Client: v2.17.0+ga690bad"]}
+ok: [localhost] => {"changed": false, "cmd": ["helm", "version", "--client", "--short"], "delta": "0:00:00.032866", "end": "2022-03-30 09:52:21.099210", "rc": 0, "start": "2022-03-30 09:52:21.066344", "stderr": "", "stderr_lines": [], "stdout": "Client: v2.17.0+ga690bad", "stdout_lines": ["Client: v2.17.0+ga690bad"]}
 
 TASK [kubectl : register temporary directory] **********************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:2
-changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.h7q6lb_x", "size": 4096, "state": "directory", "uid": 0}
+changed: [localhost] => {"changed": true, "gid": 0, "group": "root", "mode": "0700", "owner": "root", "path": "/tmp/ansible.r2z17w6i", "size": 4096, "state": "directory", "uid": 0}
 
 TASK [check kubectl] ***********************************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:9
-ok: [localhost] => {"changed": false, "stat": {"atime": 1648630256.7208698, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 83904, "charset": "unknown", "checksum": "95a29cd56f71a4f203d6c046db30c1bf7901243c", "ctime": 1648630256.5168667, "dev": 1048594, "device_type": 0, "executable": true, "exists": true, "gid": 0, "gr_name": "root", "inode": 2104570, "isblk": false, "ischr": false, "isdir": false, "isfifo": false, "isgid": false, "islnk": false, "isreg": true, "issock": false, "isuid": false, "mimetype": "unknown", "mode": "0755", "mtime": 1594831817.0, "nlink": 1, "path": "/root/bin/kubectl", "pw_name": "root", "readable": true, "rgrp": true, "roth": true, "rusr": true, "size": 42958848, "uid": 0, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": true, "xusr": true}}
+ok: [localhost] => {"changed": false, "stat": {"atime": 1648633922.812786, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 83904, "charset": "unknown", "checksum": "95a29cd56f71a4f203d6c046db30c1bf7901243c", "ctime": 1648633922.6127832, "dev": 1048587, "device_type": 0, "executable": true, "exists": true, "gid": 0, "gr_name": "root", "inode": 2104982, "isblk": false, "ischr": false, "isdir": false, "isfifo": false, "isgid": false, "islnk": false, "isreg": true, "issock": false, "isuid": false, "mimetype": "unknown", "mode": "0755", "mtime": 1594831817.0, "nlink": 1, "path": "/root/bin/kubectl", "pw_name": "root", "readable": true, "rgrp": true, "roth": true, "rusr": true, "size": 42958848, "uid": 0, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": true, "xusr": true}}
 
 TASK [Download kubectl binary] *************************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:16
@@ -807,7 +807,7 @@ skipping: [localhost] => (item=kubectl)  => {"ansible_loop_var": "bin_item", "bi
 
 TASK [Test kubectl installation] ***********************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/kubectl/tasks/main.yaml:55
-ok: [localhost] => {"changed": false, "cmd": ["kubectl", "version", "--client", "--short"], "delta": "0:00:00.027570", "end": "2022-03-30 08:51:16.011619", "rc": 0, "start": "2022-03-30 08:51:15.984049", "stderr": "", "stderr_lines": [], "stdout": "Client Version: v1.16.13", "stdout_lines": ["Client Version: v1.16.13"]}
+ok: [localhost] => {"changed": false, "cmd": ["kubectl", "version", "--client", "--short"], "delta": "0:00:00.027590", "end": "2022-03-30 09:52:21.631082", "rc": 0, "start": "2022-03-30 09:52:21.603492", "stderr": "", "stderr_lines": [], "stdout": "Client Version: v1.16.13", "stdout_lines": ["Client Version: v1.16.13"]}
 
 TASK [setup/tiller : Check if Tiller is already installed in the Kubernetes clusters] ***
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/tiller/tasks/main.yaml:2
@@ -862,7 +862,7 @@ skipping: [localhost] => {"changed": false, "skip_reason": "Conditional result w
 
 TASK [setup/flux : Get ssh key] ************************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/flux/tasks/main.yaml:54
-ok: [localhost] => {"changed": false, "cmd": "KUBECONFIG=/home/blockchain-automation-framework/build/config kubectl -n default logs deployment/flux-local | grep identity.pub | cut -d '\"' -f2\n", "delta": "0:00:00.066117", "end": "2022-03-30 08:51:17.502337", "rc": 0, "start": "2022-03-30 08:51:17.436220", "stderr": "", "stderr_lines": [], "stdout": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQClAYErpKG91rTst0uAzzia8q2tjX4MqBvmaHsMOZe8IdDumtshmu/+rzYlN54cqDKgnStwk9vuDINz/imBQR3MxTWUwZ9RpR9HzlQFN6C3ZzOoAJqFX/gXPnXDrosTcKQwq3oNSZYx3oiTAIAIsdr+r68EweAELeQH8eSKtVbRyt4GPT76LjTZygyVn/b04nsOunlmZDygeuHDtPq75uYIRb/DrDG1Rk5316iE/54CKoclaRLXz9V7+eCEMyNB2ONaFs777ALU9GJkKFGVS1KiomNYrrNeh9UNLIny5g1Izv5YvXrTr35FaTmtZf39QziUiRLIYQOu6iabISC9Y5EhArOJJdYFzhbQ/6DAWNsm+0heYZdjdTEJQeRAtjpmfoUHNkNx+giwzvs4SrlJM25XpLX8kp6J+xzCAcOMSB/JkD6H9qdrPpkBqL8V1QXNlcbGdbzP0ckNJgYCAT2fjoHSToiL9M5ojoEjcA60KrxljN7opOFv3BT59MbUwfLApeM=", "stdout_lines": ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQClAYErpKG91rTst0uAzzia8q2tjX4MqBvmaHsMOZe8IdDumtshmu/+rzYlN54cqDKgnStwk9vuDINz/imBQR3MxTWUwZ9RpR9HzlQFN6C3ZzOoAJqFX/gXPnXDrosTcKQwq3oNSZYx3oiTAIAIsdr+r68EweAELeQH8eSKtVbRyt4GPT76LjTZygyVn/b04nsOunlmZDygeuHDtPq75uYIRb/DrDG1Rk5316iE/54CKoclaRLXz9V7+eCEMyNB2ONaFs777ALU9GJkKFGVS1KiomNYrrNeh9UNLIny5g1Izv5YvXrTr35FaTmtZf39QziUiRLIYQOu6iabISC9Y5EhArOJJdYFzhbQ/6DAWNsm+0heYZdjdTEJQeRAtjpmfoUHNkNx+giwzvs4SrlJM25XpLX8kp6J+xzCAcOMSB/JkD6H9qdrPpkBqL8V1QXNlcbGdbzP0ckNJgYCAT2fjoHSToiL9M5ojoEjcA60KrxljN7opOFv3BT59MbUwfLApeM="]}
+ok: [localhost] => {"changed": false, "cmd": "KUBECONFIG=/home/blockchain-automation-framework/build/config kubectl -n default logs deployment/flux-local | grep identity.pub | cut -d '\"' -f2\n", "delta": "0:00:00.201218", "end": "2022-03-30 09:52:23.387280", "rc": 0, "start": "2022-03-30 09:52:23.186062", "stderr": "", "stderr_lines": [], "stdout": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQClAYErpKG91rTst0uAzzia8q2tjX4MqBvmaHsMOZe8IdDumtshmu/+rzYlN54cqDKgnStwk9vuDINz/imBQR3MxTWUwZ9RpR9HzlQFN6C3ZzOoAJqFX/gXPnXDrosTcKQwq3oNSZYx3oiTAIAIsdr+r68EweAELeQH8eSKtVbRyt4GPT76LjTZygyVn/b04nsOunlmZDygeuHDtPq75uYIRb/DrDG1Rk5316iE/54CKoclaRLXz9V7+eCEMyNB2ONaFs777ALU9GJkKFGVS1KiomNYrrNeh9UNLIny5g1Izv5YvXrTr35FaTmtZf39QziUiRLIYQOu6iabISC9Y5EhArOJJdYFzhbQ/6DAWNsm+0heYZdjdTEJQeRAtjpmfoUHNkNx+giwzvs4SrlJM25XpLX8kp6J+xzCAcOMSB/JkD6H9qdrPpkBqL8V1QXNlcbGdbzP0ckNJgYCAT2fjoHSToiL9M5ojoEjcA60KrxljN7opOFv3BT59MbUwfLApeM=", "stdout_lines": ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQClAYErpKG91rTst0uAzzia8q2tjX4MqBvmaHsMOZe8IdDumtshmu/+rzYlN54cqDKgnStwk9vuDINz/imBQR3MxTWUwZ9RpR9HzlQFN6C3ZzOoAJqFX/gXPnXDrosTcKQwq3oNSZYx3oiTAIAIsdr+r68EweAELeQH8eSKtVbRyt4GPT76LjTZygyVn/b04nsOunlmZDygeuHDtPq75uYIRb/DrDG1Rk5316iE/54CKoclaRLXz9V7+eCEMyNB2ONaFs777ALU9GJkKFGVS1KiomNYrrNeh9UNLIny5g1Izv5YvXrTr35FaTmtZf39QziUiRLIYQOu6iabISC9Y5EhArOJJdYFzhbQ/6DAWNsm+0heYZdjdTEJQeRAtjpmfoUHNkNx+giwzvs4SrlJM25XpLX8kp6J+xzCAcOMSB/JkD6H9qdrPpkBqL8V1QXNlcbGdbzP0ckNJgYCAT2fjoHSToiL9M5ojoEjcA60KrxljN7opOFv3BT59MbUwfLApeM="]}
 
 TASK [setup/flux : Output ssh key] *********************************************
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/setup/flux/tasks/main.yaml:60
@@ -976,114 +976,3 @@ ok: [localhost] => {"changed": false, "gid": 1000, "group": "1000", "mode": "077
 
 TASK [/home/blockchain-automation-framework/platforms/hyperledger-fabric/configuration/../../shared/configuration/roles/git_push : Execute git push via shell task] ***
 task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/git_push/tasks/main.yaml:9
-changed: [localhost] => {"changed": true, "cmd": "cd \"/home/blockchain-automation-framework/platforms/hyperledger-fabric/configuration/../../../\"\necho \"---------------SHOW CONTENT OF DIR---------------\"\nls -a\necho \"---------------GIT PUSH---------------\"\ngit config user.email jozsef.kovacs.acc@gmail.com\ngit config user.name jozsefkovacsacc\ngit --git-dir=/home/blockchain-automation-framework/platforms/hyperledger-fabric/configuration/../../..//.git add -A .\n\n# To ignore a directory add it add reset path\nreset_path=platforms/hyperledger-fabric/configuration\nif [ -n \"$reset_path\" ]; then\n    git --git-dir=/home/blockchain-automation-framework/platforms/hyperledger-fabric/configuration/../../..//.git reset \"platforms/hyperledger-fabric/configuration\"\nfi  \n\ngit --git-dir=/home/blockchain-automation-framework/platforms/hyperledger-fabric/configuration/../../..//.git commit -s -m \"[ci skip] Pushing deployment files for namespace, service accounts and clusterrolebinding\" || true\ngit --git-dir=/home/blockchain-automation-framework/platforms/hyperledger-fabric/configuration/../../..//.git push https://jozsefkovacsacc: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@github.com/jozsefkovacsacc/bevel.git HEAD:develop\n", "delta": "0:00:01.570661", "end": "2022-03-30 08:51:21.908042", "rc": 0, "start": "2022-03-30 08:51:20.337381", "stderr": "To https://jozsefkovacsacc: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@github.com/jozsefkovacsacc/bevel.git\n   3de487b..c83056e  HEAD -> develop", "stderr_lines": ["To https://jozsefkovacsacc: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@github.com/jozsefkovacsacc/bevel.git", "   3de487b..c83056e  HEAD -> develop"], "stdout": "---------------SHOW CONTENT OF DIR---------------\n.\n..\n.circleci\n.git\n.github\n.gitignore\n.travis.yml\nCODEOWNERS\nCODE_OF_CONDUCT.md\nCONTRIBUTING.md\nDockerfile\nLICENSE\nMAINTAINERS.md\nREADME.md\nautomation\nbuild\ndocs\nexamples\nout.txt\nout2.txt\nplatforms\nrelease-notes.md\nreset.sh\nrun.sh\n---------------GIT PUSH---------------\n[develop c83056e] [ci skip] Pushing deployment files for namespace, service accounts and clusterrolebinding\n 2 files changed, 288 insertions(+), 63 deletions(-)\n create mode 100644 out2.txt", "stdout_lines": ["---------------SHOW CONTENT OF DIR---------------", ".", "..", ".circleci", ".git", ".github", ".gitignore", ".travis.yml", "CODEOWNERS", "CODE_OF_CONDUCT.md", "CONTRIBUTING.md", "Dockerfile", "LICENSE", "MAINTAINERS.md", "README.md", "automation", "build", "docs", "examples", "out.txt", "out2.txt", "platforms", "release-notes.md", "reset.sh", "run.sh", "---------------GIT PUSH---------------", "[develop c83056e] [ci skip] Pushing deployment files for namespace, service accounts and clusterrolebinding", " 2 files changed, 288 insertions(+), 63 deletions(-)", " create mode 100644 out2.txt"]}
-
-TASK [/home/blockchain-automation-framework/platforms/hyperledger-fabric/configuration/../../shared/configuration/roles/git_push : Output for gitpush] ***
-task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/git_push/tasks/main.yaml:32
-ok: [localhost] => {
-    "msg": [
-        "---------------SHOW CONTENT OF DIR---------------", 
-        ".", 
-        "..", 
-        ".circleci", 
-        ".git", 
-        ".github", 
-        ".gitignore", 
-        ".travis.yml", 
-        "CODEOWNERS", 
-        "CODE_OF_CONDUCT.md", 
-        "CONTRIBUTING.md", 
-        "Dockerfile", 
-        "LICENSE", 
-        "MAINTAINERS.md", 
-        "README.md", 
-        "automation", 
-        "build", 
-        "docs", 
-        "examples", 
-        "out.txt", 
-        "out2.txt", 
-        "platforms", 
-        "release-notes.md", 
-        "reset.sh", 
-        "run.sh", 
-        "---------------GIT PUSH---------------", 
-        "[develop c83056e] [ci skip] Pushing deployment files for namespace, service accounts and clusterrolebinding", 
-        " 2 files changed, 288 insertions(+), 63 deletions(-)", 
-        " create mode 100644 out2.txt"
-    ]
-}
-
-TASK [/home/blockchain-automation-framework/platforms/hyperledger-fabric/configuration/../../shared/configuration/roles/git_push : Error for git_push] ***
-task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/git_push/tasks/main.yaml:37
-ok: [localhost] => {
-    "msg": [
-        "To https://jozsefkovacsacc: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@github.com/jozsefkovacsacc/bevel.git", 
-        "   3de487b..c83056e  HEAD -> develop"
-    ]
-}
-
-TASK [Checking for the supplychain-net-role-tokenreview-binding] ***************
-task path: /home/blockchain-automation-framework/platforms/hyperledger-fabric/configuration/roles/create/namespace_vaultauth/tasks/main.yaml:90
-
-TASK [/home/blockchain-automation-framework/platforms/hyperledger-fabric/configuration/../../shared/configuration/roles/check/k8_component : Check ClusterRoleBinding supplychain-net-role-tokenreview-binding is created] ***
-task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/check/k8_component/tasks/main.yaml:7
-skipping: [localhost] => {"changed": false, "skip_reason": "Conditional result was False"}
-
-TASK [/home/blockchain-automation-framework/platforms/hyperledger-fabric/configuration/../../shared/configuration/roles/check/k8_component : Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding] ***
-task path: /home/blockchain-automation-framework/platforms/shared/configuration/roles/check/k8_component/tasks/main.yaml:17
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (50 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (49 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (48 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (47 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (46 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (45 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (44 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (43 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (42 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (41 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (40 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (39 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (38 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (37 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (36 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (35 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (34 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (33 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (32 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (31 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (30 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (29 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (28 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (27 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (26 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (25 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (24 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (23 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (22 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (21 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (20 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (19 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (18 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (17 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (16 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (15 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (14 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (13 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (12 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (11 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (10 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (9 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (8 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (7 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (6 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (5 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (4 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (3 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (2 retries left).
-FAILED - RETRYING: Wait for ClusterRoleBinding supplychain-net-role-tokenreview-binding (1 retries left).
-fatal: [localhost]: FAILED! => {"attempts": 50, "changed": false, "resources": []}
-
-PLAY RECAP *********************************************************************
-localhost                  : ok=87   changed=23   unreachable=0    failed=1    skipped=131  rescued=0    ignored=0   
-
