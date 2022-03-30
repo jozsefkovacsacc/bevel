@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 ---
 ############################################################################################
 # This role creates the instantiate_chaincode value file
@@ -23,22 +17,22 @@
   when: peer.chaincode is defined
 
 # Check if instantate-chaincode is already run
-- name: 'Check for instantiate-chaincode job'  
-  include_role:
-    name: "{{ playbook_dir }}/../../shared/configuration/roles/check/helm_component"
+- name: 'Check for instantiate-chaincode job'
+  k8s_info:
+    kind: "Job"
+    namespace: "{{ namespace }}"
+    label_selectors:
+      - "app = instantiatechaincode-{{peer.chaincode.name}}-{{ peer.chaincode.version }}"
+    kubeconfig: "{{ kubernetes.config_file }}"
+    context: "{{ kubernetes.context }}"
   vars:
-    component_type: "OneTimeJob"
     namespace: "{{ org.name |lower }}-net"
     kubernetes: "{{ org.k8s }}"
-    component_name: "instantiatechaincode-{{ peer.chaincode.name }}-{{ peer.chaincode.version }}"
   loop: "{{ org.services.peers }}"
   loop_control:
     loop_var: peer
+  register: instantiate_chaincode
   when: peer.chaincode is defined
-
-- name: "Set Variable instantiate_chaincode"
-  set_fact:
-    instantiate_chaincode: "{{ result }}"
 
 # Nested task for chanincode instantiaiton
 - name: "Create value file for chaincode instantiaiton"
@@ -51,7 +45,7 @@
     namespace: "{{ org.name |lower }}-net"
     peer_name: "{{ peer.name }}"
     peer_address: "{{ peer.name }}.{{ org.name |lower }}-net:{{ peer.grpc.port }}"
-    git_url: "{{ org.gitops.git_url }}"
+    git_url: "{{ org.gitops.git_ssh }}"
     git_branch: "{{ org.gitops.branch }}"
     charts_dir: "{{ org.gitops.chart_source }}"
     vault: "{{ org.vault }}"
@@ -62,7 +56,7 @@
   loop: "{{ org.services.peers }}"
   loop_control:
     loop_var: peer
-  when: peer.chaincode is defined and instantiate_chaincode.resources|length == 0
+  when: peer.chaincode is defined and instantiate_chaincode.results[0].resources|length == 0
 
 #Git Push : Pushes the above generated files to git directory 
 - name: Git Push
@@ -70,7 +64,11 @@
     name: "{{ playbook_dir }}/../../shared/configuration/roles/git_push"
   vars:
     GIT_DIR: "{{ playbook_dir }}/../../../"
-    gitops: "{{ org.gitops }}"
+    GIT_REPO: "{{ org.gitops.git_push_url }}"
+    GIT_USERNAME: "{{ org.gitops.username }}"
+    GIT_EMAIL: "{{ org.gitops.email }}"
+    GIT_PASSWORD: "{{ org.gitops.password }}"
+    GIT_BRANCH: "{{ org.gitops.branch }}"
     GIT_RESET_PATH: "platforms/hyperledger-fabric/configuration"
     msg: "[ci skip] Pushing chaincode instantiation files"
-  when: instantiate_chaincode.resources|length == 0
+  when: instantiate_chaincode.results[0].resources|length == 0

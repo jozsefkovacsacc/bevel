@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 ######################################################################
 # This task initiates the nested anchorpeer role for each organization
 
@@ -30,7 +24,7 @@
     component_name: "anchorpeer-{{ channel_name }}-{{ participant.name }}"
     peer_name: "{{ peer.name }}"
     component_ns: "{{ participant.name | lower}}-net"
-    git_url: "{{ org.gitops.git_url }}"
+    git_url: "{{ org.gitops.git_ssh }}"
     git_branch: "{{ org.gitops.branch }}"
     charts_dir: "{{ org.gitops.chart_source }}"
     vault: "{{ org.vault }}"
@@ -48,6 +42,10 @@
     name: "{{ playbook_dir }}/../../shared/configuration/roles/git_push"
   vars:
     GIT_DIR: "{{ playbook_dir }}/../../../"
-    gitops: "{{ org.gitops }}"    
+    GIT_REPO: "{{ org.gitops.git_push_url }}"
+    GIT_USERNAME: "{{ org.gitops.username }}"
+    GIT_EMAIL: "{{ org.gitops.email }}"
+    GIT_PASSWORD: "{{ org.gitops.password }}"
+    GIT_BRANCH: "{{ org.gitops.branch }}"
     GIT_RESET_PATH: "platforms/hyperledger-fabric/configuration"
     msg: "[ci skip] Pushing anchorpeer files"

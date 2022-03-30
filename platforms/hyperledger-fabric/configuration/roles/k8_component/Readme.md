@@ -1,8 +1,3 @@
-[//]: # (##############################################################################################)
-[//]: # (Copyright Accenture. All Rights Reserved.)
-[//]: # (SPDX-License-Identifier: Apache-2.0)
-[//]: # (##############################################################################################)
-
 #### [ROLE] k8_component
 k8_component roles helps in generating value file for various k8 deployments.
 This role consists of the following tasks

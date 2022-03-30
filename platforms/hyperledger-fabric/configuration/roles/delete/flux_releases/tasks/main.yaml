@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 #############################################################################################
 # This role deletes the helm releases and uninstalls Flux
 #############################################################################################
@@ -18,10 +12,10 @@
   args:
     executable: /bin/bash
   shell: |
-    helm_releases=($(KUBECONFIG={{ kubernetes.config_file }} helm ls -A | grep "{{ org_name }}" | awk '{print $1}'))
+    helm_releases=($(KUBECONFIG={{ kubernetes.config_file }} helm ls -a | grep "{{ org_name }}" | awk '{print $1}'))
     for helm_release in "${helm_releases[@]}"
     do
-      KUBECONFIG={{ kubernetes.config_file }} helm uninstall ${helm_release}
+      KUBECONFIG={{ kubernetes.config_file }} helm delete ${helm_release} --purge
     done
   ignore_errors: yes
 

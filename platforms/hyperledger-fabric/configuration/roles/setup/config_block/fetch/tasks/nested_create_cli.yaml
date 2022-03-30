@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 ############################################################################################
 # This task creates the valuefile for the existing peer cli
 ############################################################################################
@@ -17,8 +11,9 @@
     component_type: "existing_peer_cli_job"    
     component_name: "cli-{{ channel_name }}-{{ participant.name }}-{{ peer.name }}"
     peer_name: "{{ peer.name }}"
+    peer_address: "{{ peer.gossipAddress }}"
     component_ns: "{{ participant.name | lower}}-net"
-    git_url: "{{ org.gitops.git_url }}"
+    git_url: "{{ org.gitops.git_ssh }}"
     git_branch: "{{ org.gitops.branch }}"
     charts_dir: "{{ org.gitops.chart_source }}"
     vault: "{{ org.vault }}"
@@ -26,4 +21,4 @@
     alpine_image: "{{ docker_url }}/alpine-utils:1.0"
     channel_name: "{{ channel_name }}"
     storage_class: "{{ participant.name }}sc"
-    release_dir: "./build"
+    release_dir: "{{playbook_dir}}/../../../{{org.gitops.release_dir}}"

@@ -1,10 +1,10 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: flux.weave.works/v1beta1
 kind: HelmRelease
 metadata:
   name: {{ component_name }}
   namespace: {{ component_ns }}
   annotations:
-    fluxcd.io/automated: "false"
+    flux.weave.works/automated: "false"
 spec:
   releaseName: {{ component_name }}
   chart:
@@ -20,11 +20,7 @@ spec:
 
     peer:
       name: {{ peer_name }}
-{% if network.env.proxy == 'none' %}
-      address: {{ peer.name }}.{{ component_ns }}:7051
-{% else %}
-      address: {{ peer.peerAddress }}
-{% endif %}
+      address: {{ peer.gossipAddress }}
       localmspid: {{ org.name | lower}}MSP
       loglevel: debug
       tlsstatus: true
@@ -32,9 +28,9 @@ spec:
     vault:
       role: vault-role
       address: {{ vault.url }}
-      authpath: {{ network.env.type }}{{ component_ns }}-auth
-      adminsecretprefix: {{ vault.secret_path | default('secretsv2') }}/data/crypto/peerOrganizations/{{ component_ns }}/users/admin
-      orderersecretprefix: {{ vault.secret_path | default('secretsv2') }}/data/crypto/peerOrganizations/{{ component_ns }}/orderer
+      authpath: {{ component_ns }}-auth
+      adminsecretprefix: secret/crypto/peerOrganizations/{{ component_ns }}/users/admin
+      orderersecretprefix: secret/crypto/peerOrganizations/{{ component_ns }}/orderer
       serviceaccountname: vault-auth
       imagesecretname: regcred
 
@@ -43,5 +39,5 @@ spec:
     orderer:
       address: {{ participant.ordererAddress }}
     anchorstx: |-
-{{ anchorstx | indent(width=6, first=True) }}
+{{ anchorstx | indent(width=6, indentfirst=True) }}
 

@@ -1,9 +1,3 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
 ---
 dependency:
   name: galaxy
@@ -15,10 +9,9 @@ platforms:
   - name: kind-default
     groups:
     - k8s
-    image: bsycorp/kind:latest-1.16
+    image: bsycorp/kind:latest-1.14
     privileged: True
     override_command: no
-    memory: 1GB
     exposed_ports:
       - 8443/tcp
       - 10080/tcp
@@ -26,7 +19,7 @@ platforms:
       - 0.0.0.0:${TEST_CLUSTER_PORT:-10443}:8443/tcp
     pre_build_image: yes
   - name: vault-default                         # This is the ansible inventory group
-    image: index.docker.io/vault:1.7.0
+    image: index.docker.io/vault:1.0.1
     privileged: True
     override_command: True
     command: server -dev -dev-root-token-id="root"
@@ -43,7 +36,7 @@ provisioner:
   env:
     K8S_AUTH_KUBECONFIG: /tmp/molecule/kind-default/kubeconfig
     KUBECONFIG: /tmp/molecule/kind-default/kubeconfig
-    ANSIBLE_ROLES_PATH: ${MOLECULE_PROJECT_DIRECTORY}/roles:${MOLECULE_PROJECT_DIRECTORY}/../roles:${MOLECULE_PROJECT_DIRECTORY}/../../../shared/roles
+    ANSIBLE_ROLES_PATH: ${MOLECULE_PROJECT_DIRECTORY}/roles:${MOLECULE_PROJECT_DIRECTORY}:${MOLECULE_PROJECT_DIRECTORY}/roles/create/crypto
     KIND_PORT: '${TEST_CLUSTER_PORT:-10443}'
 verifier:
   name: ansible

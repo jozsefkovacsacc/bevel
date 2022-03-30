@@ -1,8 +1,6 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
+#############################################################################################
+# This role generate genesis block and channel
+#############################################################################################
 
 ############################################################################################
 # This task ensures that the directory exists, and creates it, if it does not exist
@@ -24,61 +22,6 @@
   register: tmp_directory
   tags:
     - molecule-idempotence-notest
-
-  #Fetch msp files from Vault 
-- name: Check if msp admincerts already created
-  vars:
-    query: "organizations[?name=='{{organization.name}}'].services.ca.grpc.port"
-    query_vault_url: "organizations[?name=='{{organization.name}}'].vault.url"
-    query_vault_token: "organizations[?name=='{{organization.name}}'].vault.root_token" 
-  shell: |
-    vault kv get -field=admincerts {{ vault.secret_path | default('secretsv2') }}/crypto/peerOrganizations/{{ organization.name | lower }}-net/users/admin/msp > Admin@{{ organization.name | lower }}-net-cert.pem
-    mkdir -p ./build/crypto-config/peerOrganizations/{{ organization.name | lower }}-net/msp/admincerts/
-    mv Admin@{{ organization.name | lower }}-net-cert.pem ./build/crypto-config/peerOrganizations/{{ organization.name | lower }}-net/msp/admincerts/
-  environment:
-    VAULT_ADDR: "{{ network | json_query(query_vault_url) | first }}"
-    VAULT_TOKEN: "{{ network | json_query(query_vault_token) | first }}"   
-  loop: "{{ item['participants'] }}"
-  loop_control:
-    loop_var: organization    
-  when: fetch_certs == 'true'
-
- #Fetch msp files from Vault 
-
-- name: Check if msp cacerts already created
-  vars:
-    query: "organizations[?name=='{{organization.name}}'].services.ca.grpc.port"
-    query_vault_url: "organizations[?name=='{{organization.name}}'].vault.url"
-    query_vault_token: "organizations[?name=='{{organization.name}}'].vault.root_token" 
-  shell: |
-    vault kv get -field=cacerts {{ vault.secret_path | default('secretsv2') }}/crypto/peerOrganizations/{{ organization.name | lower }}-net/users/admin/msp > ca-{{ organization.name | lower }}-net-{{ network | json_query(query) | first}}.pem
-    mkdir -p ./build/crypto-config/peerOrganizations/{{ organization.name | lower }}-net/msp/cacerts/
-    mv ca-{{ organization.name | lower }}-net-{{ network | json_query(query) | first }}.pem ./build/crypto-config/peerOrganizations/{{ organization.name | lower }}-net/msp/cacerts/
-  environment:
-    VAULT_ADDR: "{{ network | json_query(query_vault_url) | first }}"
-    VAULT_TOKEN: "{{ network | json_query(query_vault_token) | first }}"   
-  loop: "{{ item['participants'] }}"
-  loop_control:
-    loop_var: organization    
-  when: fetch_certs == 'true'
-  
-  #Fetch msp files from Vault 
-- name: Check if msp tlscacerts already created
-  vars:
-    query: "organizations[?name=='{{organization.name}}'].services.ca.grpc.port"
-    query_vault_url: "organizations[?name=='{{organization.name}}'].vault.url"
-    query_vault_token: "organizations[?name=='{{organization.name}}'].vault.root_token"
-  shell: |
-    vault kv get -field=tlscacerts {{ vault.secret_path | default('secretsv2') }}/crypto/peerOrganizations/{{ organization.name | lower }}-net/users/admin/msp > ca-{{ organization.name | lower }}-net-{{ network | json_query(query) | first }}.pem
-    mkdir -p ./build/crypto-config/peerOrganizations/{{ organization.name | lower }}-net/msp/tlscacerts/
-    mv ca-{{ organization.name | lower }}-net-{{ network | json_query(query) | first }}.pem ./build/crypto-config/peerOrganizations/{{ organization.name | lower }}-net/msp/tlscacerts/
-  environment:
-    VAULT_ADDR: "{{ network | json_query(query_vault_url) | first }}"
-    VAULT_TOKEN: "{{ network | json_query(query_vault_token) | first }}"   
-  loop: "{{ item['participants'] }}"
-  loop_control:
-    loop_var: organization    
-  when: fetch_certs == 'true'     
 
 ############################################################################################
 # This task fetches the configtx gen tar file from the mentioned URL
@@ -106,12 +49,32 @@
     mode: 0755
   when: config_stat_result.stat.exists == False
 
+- name: Remove old genesis block
+  file:
+    path: "{{ build_path }}/channel-artifacts/genesis.block"
+    state: absent
+
 ############################################################################################
 # This task creates the channel-artifacts folder
 - name: "Creating channel-artifacts folder"
   file:
     path: "{{ build_path }}/channel-artifacts"
     state: directory
+
+############################################################################################
+# This task creates the genesis block by consuming the configtx.yaml file
+- name: "Creating genesis block"
+  shell: |
+    cd {{ build_path }}
+    {% if '2.' in network.version %}
+    ./configtxgen -profile {{ genesis.name }} -channelID syschannel  -outputBlock ./channel-artifacts/genesis.block
+    {% else %}
+    ./configtxgen -profile {{ genesis.name }} -outputBlock ./channel-artifacts/genesis.block
+    {% endif %}
+    cat ./channel-artifacts/genesis.block | base64 > ./channel-artifacts/genesis.block.base64
+  when: add_new_org == 'false'
+  tags:
+    - molecule-idempotence-notest
 
 - name: remove old channel block
   file:

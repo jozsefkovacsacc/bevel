@@ -1,10 +1,10 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: flux.weave.works/v1beta1
 kind: HelmRelease
 metadata:
   name: {{ component_name }}
   namespace: {{ namespace }}
   annotations:
-    fluxcd.io/automated: "false"
+    flux.weave.works/automated: "false"
 spec:
   releaseName: {{ component_name }}
   chart:
@@ -14,9 +14,6 @@ spec:
   values:
     metadata:
       namespace: {{ namespace }}
-      network:
-        version: {{ network.version }}
-      add_organization: {{ add_organization }}
       images:
         fabrictools: {{ fabrictools_image }}
         alpineutils: {{ alpine_image }}
@@ -29,9 +26,9 @@ spec:
     vault:
       role: vault-role
       address: {{ vault.url }}
-      authpath: {{ network.env.type }}{{ namespace | e }}-auth
-      adminsecretprefix: {{ vault.secret_path | default('secretsv2') }}/data/crypto/peerOrganizations/{{ namespace }}/users/admin 
-      orderersecretprefix: {{ vault.secret_path | default('secretsv2') }}/data/crypto/peerOrganizations/{{ namespace }}/orderer
+      authpath: {{ namespace | e }}-auth
+      adminsecretprefix: secret/crypto/peerOrganizations/{{ namespace }}/users/admin 
+      orderersecretprefix: secret/crypto/peerOrganizations/{{ namespace }}/orderer
       serviceaccountname: vault-auth
       imagesecretname: regcred
       tls: false
@@ -41,19 +38,7 @@ spec:
       builder: hyperledger/fabric-ccenv:{{ network.version }}
       name: {{ component_chaincode.name | lower | e }}
       version: {{ component_chaincode.version }}
-      invokearguments: {{ component_chaincode.arguments | quote}}
-      endorsementpolicies:  {{ component_chaincode.endorsements | quote }}
+      instantiationarguments: {{ component_chaincode.arguments | quote}}
+      endorsementpolicies:  {{ component_chaincode.endorsements | quote}}
     channel:
       name: {{ item.channel_name | lower }}
-{% if '2.' in network.version %}
-    endorsers:
-      creator: {{ namespace }}
-      name: {% for name in endorsers_list %}{%- for key, value in name.items() %}{% if key == 'org_name' %} {{ value }} {% endif %}{%- endfor %}{% endfor %}
-
-      corepeeraddress: {% for address in endorsers_list %}{%- for key, value in address.items() %}{% if key == 'peercoreaddress' %} {{ value }} {% endif %}{% endfor -%}{% endfor %}
-{% else %}
-    endorsers:
-        creator: {{ namespace }}
-        name: {{ peer_name }}
-        corepeeraddress: {{ peer_address }}
-{% endif %}

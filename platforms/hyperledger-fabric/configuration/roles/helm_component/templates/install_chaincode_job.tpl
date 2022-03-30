@@ -1,10 +1,10 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: flux.weave.works/v1beta1
 kind: HelmRelease
 metadata:
   name: {{ component_name }}
   namespace: {{ name | lower | e }}-net
   annotations:
-    fluxcd.io/automated: "false"
+    flux.weave.works/automated: "false"
 spec:
   releaseName: {{ component_name }}
   chart:
@@ -14,8 +14,6 @@ spec:
   values:
     metadata:
       namespace: {{ namespace }}
-      network:
-        version: {{ network.version }}
       images:
         fabrictools: {{ fabrictools_image }}
         alpineutils: {{ alpine_image }}
@@ -28,12 +26,12 @@ spec:
     vault:
       role: vault-role
       address: {{ vault.url }}
-      authpath: {{ network.env.type }}{{ namespace | e }}-auth
-      adminsecretprefix: {{ vault.secret_path | default('secretsv2') }}/data/crypto/peerOrganizations/{{ namespace }}/users/admin 
-      orderersecretprefix: {{ vault.secret_path | default('secretsv2') }}/data/crypto/peerOrganizations/{{ namespace }}/orderer
-      secretgitprivatekey: {{ vault.secret_path | default('secretsv2') }}/data/credentials/{{ namespace }}/git
+      authpath: {{ namespace | e }}-auth
+      adminsecretprefix: secret/crypto/peerOrganizations/{{ namespace }}/users/admin 
+      orderersecretprefix: secret/crypto/peerOrganizations/{{ namespace }}/orderer
       serviceaccountname: vault-auth
       imagesecretname: regcred
+      secretgitprivatekey: secret/credentials/{{ namespace }}/git?git_password
       tls: false
     orderer:
       address: {{ orderer_address }}
@@ -41,7 +39,6 @@ spec:
       builder: hyperledger/fabric-ccenv:{{ network.version }}
       name: {{ component_chaincode.name | lower | e }}
       version: {{ component_chaincode.version }}
-      lang: {{ component_chaincode.lang | default('golang') }}
       maindirectory: {{ component_chaincode.maindirectory }}
       repository:
         hostname: "{{ component_chaincode.repository.url.split('/')[0] | lower }}"
@@ -49,4 +46,3 @@ spec:
         url: {{ component_chaincode.repository.url }}
         branch: {{ component_chaincode.repository.branch }}
         path: {{ component_chaincode.repository.path }}
-      endorsementpolicies:  {{ component_chaincode.endorsements | quote}}

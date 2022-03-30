@@ -1,8 +1,3 @@
-[//]: # (##############################################################################################)
-[//]: # (Copyright Accenture. All Rights Reserved.)
-[//]: # (SPDX-License-Identifier: Apache-2.0)
-[//]: # (##############################################################################################)
-
 ## ROLE: peers
 This role creates the helm value file for peers of organisations and write couch db credentials to the vault.
 
@@ -35,23 +30,14 @@ This task is the nested task for main.yaml which helps to iterate over all peers
 #### 3. Git Push
 This task pushes the above generated value files to git repo.
 ##### Input Variables
-    GIT_DIR: "The path of directory which needs to be pushed"    
+    GIT_DIR: "The path of directory which needs to be pushed"
+    GIT_REPO: "The name of GIT REPO"
+    GIT_USERNAME: "Username of Repo"
+    GIT_PASSWORD: "Password for Repo"
+    GIT_EMAIL: "Email for git config"
+    GIT_BRANCH: "Branch Name"
     GIT_RESET_PATH: "This variable contains the path which wont be synced with the git repo"
-    gitops: *item.gitops* from network.yaml
     msg: "Message for git commit"
+These variables are fetched through network.yaml using *item.gitops*
 
-**include_role**: It includes the name of intermediatory role which is required for creating the vault auth value file.
-
-#### 4. Check peer pod is up
-This tasks check if the namespace is already created or not.
-##### Input Variables
-
-    kind: This defines the kind of Kubernetes resource
-    *name: Name of the component 
-    *namespace: Namespace of the component
-    *kubeconfig: The config file of the cluster
-    *context: This refer to the required kubernetes cluster context
-    *org_query: Query to get peer names for organisations
-    *peer_name: Name of the peer
-    
 **include_role**: It includes the name of intermediatory role which is required for creating the vault auth value file.

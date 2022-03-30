@@ -1,10 +1,4 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
-
-- name: "Check peer pod is up for {{ org.name | lower }}-net"
+- name: "Check peer pod is up"
   k8s_info:
     kind: Pod
     namespace: "{{ org.name | lower }}-net"

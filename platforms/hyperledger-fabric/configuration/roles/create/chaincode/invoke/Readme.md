@@ -1,16 +1,11 @@
-[//]: # (##############################################################################################)
-[//]: # (Copyright Accenture. All Rights Reserved.)
-[//]: # (SPDX-License-Identifier: Apache-2.0)
-[//]: # (##############################################################################################)
-
 
 ## chaincode/invoke
 This role creates helm value file for the deployment of chaincode_invoke job
 ### main.yaml
 ### Tasks
 (Variables with * are fetched from the playbook which is calling this role)
-#### 1. Create value file for chaincode invocation with creator organization
-This task creates value file for chaincode invocation with creator organization.
+#### 1. Create value file for chaincode invocation
+This task creates value file for chaincode invocation.
 ##### Input Variables
 
     channelcreator_query:  query based on type, "participants[?type=='creator']"
@@ -21,23 +16,6 @@ This task creates value file for chaincode invocation with creator organization.
 **loop_control**: Specify conditions for controlling the loop.
                 
     loop_var: loop variable used for iterating the loop.
-
-**when** : It runs when `add_new_org` is not defined or `false`.
-
-#### 2. Create value file for chaincode invocation with new organization
-This task creates value file for chaincode invocation with new organization.
-##### Input Variables
-
-    channelcreator_query:  query based on type, "participants[?org_status=='new']"
-    org_query: query based on name "organizations[?name=='{{participant.name}}']"
-    org: query result of org_query"{{ network | json_query(org_query) | first }}"
-**include_tasks**: It includes the name of intermediatory task which is required for creating the value file, here `valuefile.yaml`.
-**loop**: loops over peers list fetched from *{{ component_peers }}* from network yaml
-**loop_control**: Specify conditions for controlling the loop.
-                
-    loop_var: loop variable used for iterating the loop.
-
-**when** : It runs when `add_new_org` is defined and `true`.
 
 -------
 ### valuefile.yaml
@@ -93,7 +71,12 @@ This is the nested Task for chaincode invocation.
 #### 3. Git Push
 This task pushes the above generated value files to git repo.
 ##### Input Variables
-    GIT_DIR: "The path of directory which needs to be pushed"    
+    GIT_DIR: "The path of directory which needs to be pushed"
+    GIT_REPO: "The name of GIT REPO"
+    GIT_USERNAME: "Username of Repo"
+    GIT_PASSWORD: "Password for Repo"
+    GIT_EMAIL: "Email for git config"
+    GIT_BRANCH: "Branch Name"
     GIT_RESET_PATH: "This variable contains the path which wont be synced with the git repo"
-    gitops: *item.gitops* from network.yaml
     msg: "Message for git commit"
+These variables are fetched through network.yaml using *item.gitops*

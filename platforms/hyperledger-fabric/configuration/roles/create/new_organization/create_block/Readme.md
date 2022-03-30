@@ -1,8 +1,3 @@
-[//]: # (##############################################################################################)
-[//]: # (Copyright Accenture. All Rights Reserved.)
-[//]: # (SPDX-License-Identifier: Apache-2.0)
-[//]: # (##############################################################################################)
-
 ## ROLE: create/new_organization/create_block
 This role creates the create_block.sh script for modifying the latest configuration block and adding new organization crypto material.
 

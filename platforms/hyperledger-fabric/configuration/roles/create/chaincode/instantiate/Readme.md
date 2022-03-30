@@ -1,8 +1,3 @@
-[//]: # (##############################################################################################)
-[//]: # (Copyright Accenture. All Rights Reserved.)
-[//]: # (SPDX-License-Identifier: Apache-2.0)
-[//]: # (##############################################################################################)
-
 
 ## chaincode/instantiate
 This role creates helm value file for the deployment of chaincode_instantiate job
@@ -86,12 +81,17 @@ This is the nested Task for chaincode instantiation.
 **loop_control**: Specify conditions for controlling the loop.
                 
     loop_var: loop variable used for iterating the loop.
-**when** : It runs when chaincode is not instantiated i.e. *instantiate_chaincode.resources.length* == 0.
+**when** : It runs when chaincode is not instantiated i.e. *instantiate_chaincode.results[0].resources* == 0.
 
 #### 4. Git Push
 This task pushes the above generated value files to git repo.
 ##### Input Variables
-    GIT_DIR: "The path of directory which needs to be pushed"    
+    GIT_DIR: "The path of directory which needs to be pushed"
+    GIT_REPO: "The name of GIT REPO"
+    GIT_USERNAME: "Username of Repo"
+    GIT_PASSWORD: "Password for Repo"
+    GIT_EMAIL: "Email for git config"
+    GIT_BRANCH: "Branch Name"
     GIT_RESET_PATH: "This variable contains the path which wont be synced with the git repo"
-    gitops: *item.gitops* from network.yaml
     msg: "Message for git commit"
+These variables are fetched through network.yaml using *item.gitops*

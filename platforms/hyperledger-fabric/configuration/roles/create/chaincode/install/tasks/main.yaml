@@ -1,18 +1,24 @@
-##############################################################################################
-#  Copyright Accenture. All Rights Reserved.
-#
-#  SPDX-License-Identifier: Apache-2.0
-##############################################################################################
+---
+#############################################################################################
+# This role creates value file for the deployment of chaincode install
+#############################################################################################
 
-# call nested install for each org from network.org that is also in participants list
-- name: "Call nested  main from here"
-  include_tasks: nested_install.yaml
-  vars:
-    org_query: "organizations[?name=='{{participant.name}}']"
-    org: "{{ network | json_query(org_query) | first }}"
-  loop: "{{ participants }}"
-  loop_control: 
-    loop_var: participant
-  when: 
-  - org.type == 'peer'
-  - participant.org_status == 'new' or participant.peerstatus is not defined or participant.peerstatus == 'new'
+############################################################################################
+# Create value file for chaincode installation
+- name: "Create value file for chaincode installation"
+  include_tasks: valuefile.yaml
+  vars:      
+    name: "{{ item.name | lower}}"
+    namespace: "{{ item.name | lower}}-net"
+    component_type: "{{ item.type | lower}}"
+    component_peers: "{{ item.services.peers }}"
+    vault: "{{ item.vault }}"
+    kubernetes: "{{ item.k8s }}"
+    git_url: "{{ item.gitops.git_ssh }}"
+    git_branch: "{{ item.gitops.branch }}"
+    charts_dir: "{{ item.gitops.chart_source }}"
+    values_dir: "{{playbook_dir}}/../../../{{item.gitops.release_dir}}/{{ item.name | lower }}"
+  loop: "{{ component_peers }}"
+  loop_control:
+    loop_var: peer
+  when: peer.chaincode is defined
