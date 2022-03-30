@@ -1,0 +1,225 @@
+Name:         flux-local-969884797-trwzh
+Namespace:    default
+Priority:     0
+Node:         jozsef-virtualbox/10.0.2.15
+Start Time:   Mon, 28 Mar 2022 11:49:06 +0300
+Labels:       app=flux
+              pod-template-hash=969884797
+              release=flux-local
+Annotations:  <none>
+Status:       Running
+IP:           172.17.0.8
+IPs:
+  IP:           172.17.0.8
+Controlled By:  ReplicaSet/flux-local-969884797
+Containers:
+  flux:
+    Container ID:  docker://ab1452c3c2ffc9f227f2a577a0792962e9a1e5f02ad5632c1c6c73da27bb0034
+    Image:         docker.io/fluxcd/flux:1.15.0
+    Image ID:      docker-pullable://fluxcd/flux@sha256:ba4bd9ed8ea13ba4aa94d97b6ca285b6f3831fc5861369110dc19f238ac13201
+    Port:          3030/TCP
+    Host Port:     0/TCP
+    Args:
+      --log-format=fmt
+      --ssh-keygen-dir=/var/fluxd/keygen
+      --k8s-secret-name=git-auth-local
+      --memcached-hostname=flux-local-memcached
+      --sync-state=git
+      --memcached-service=
+      --git-url=ssh://git@github.com:jozsefkovacsacc/bevel.git
+      --git-branch=develop
+      --git-path=platforms/hyperledger-fabric/releases/dev
+      --git-readonly=false
+      --git-user=Weave Flux
+      --git-email=support@weave.works
+      --git-set-author=false
+      --git-poll-interval=2m
+      --git-timeout=200s
+      --sync-interval=2m
+      --git-ci-skip=false
+      --git-label=sync-local
+      --registry-poll-interval=5m
+      --registry-rps=200
+      --registry-burst=125
+      --registry-trace=false
+      --registry-insecure-host=hub.docker.com/u/hyperledgerlabs
+    State:          Running
+      Started:      Wed, 30 Mar 2022 10:41:43 +0300
+    Ready:          True
+    Restart Count:  0
+    Requests:
+      cpu:      50m
+      memory:   64Mi
+    Liveness:   http-get http://:3030/api/flux/v6/identity.pub delay=5s timeout=5s period=10s #success=1 #failure=3
+    Readiness:  http-get http://:3030/api/flux/v6/identity.pub delay=5s timeout=5s period=10s #success=1 #failure=3
+    Environment:
+      KUBECONFIG:  /root/.kubectl/config
+    Mounts:
+      /etc/fluxd/ssh from git-key (ro)
+      /root/.kubectl from kubedir (rw)
+      /root/.ssh from sshdir (ro)
+      /var/fluxd/keygen from git-keygen (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from flux-local-token-p7lcc (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  kubedir:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      flux-local-kube-config
+    Optional:  false
+  sshdir:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      flux-local-ssh-config
+    Optional:  false
+  git-key:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  git-auth-local
+    Optional:    false
+  git-keygen:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     Memory
+    SizeLimit:  <unset>
+  flux-local-token-p7lcc:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  flux-local-token-p7lcc
+    Optional:    false
+QoS Class:       Burstable
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                 node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason       Age                 From     Message
+  ----     ------       ----                ----     -------
+  Warning  FailedMount  58m (x4 over 103m)  kubelet  Unable to attach or mount volumes: unmounted volumes=[git-key], unattached volumes=[git-keygen flux-local-token-p7lcc kubedir sshdir git-key]: timed out waiting for the condition
+  Normal   Pulled       53m                 kubelet  Successfully pulled image "docker.io/fluxcd/flux:1.15.0" in 1m58.40985125s
+
+
+Name:         flux-local-helm-operator-5b75c4c54-f5jdn
+Namespace:    default
+Priority:     0
+Node:         jozsef-virtualbox/10.0.2.15
+Start Time:   Wed, 23 Mar 2022 12:59:12 +0200
+Labels:       app=flux-helm-operator
+              pod-template-hash=5b75c4c54
+              release=flux-local
+Annotations:  <none>
+Status:       Running
+IP:           172.17.0.6
+IPs:
+  IP:           172.17.0.6
+Controlled By:  ReplicaSet/flux-local-helm-operator-5b75c4c54
+Containers:
+  flux-helm-operator:
+    Container ID:  docker://75207a4092508db5c6aa1fb15e243f8b1e734880999a79de8747f91ff8da8599
+    Image:         docker.io/fluxcd/helm-operator:0.10.1
+    Image ID:      docker-pullable://fluxcd/helm-operator@sha256:1d50c9a65b2b37614d6c0366f43056c862dbc1c5471f72dfe1f3e223fea19eb1
+    Port:          3030/TCP
+    Host Port:     0/TCP
+    Args:
+      --log-format=fmt
+      --git-timeout=200s
+      --git-poll-interval=2m
+      --charts-sync-interval=3m
+      --update-chart-deps=true
+      --log-release-diffs=false
+      --tiller-namespace=kube-system
+    State:          Running
+      Started:      Wed, 30 Mar 2022 10:45:56 +0300
+    Ready:          True
+    Restart Count:  0
+    Requests:
+      cpu:        50m
+      memory:     64Mi
+    Environment:  <none>
+    Mounts:
+      /etc/fluxd/ssh from git-key (ro)
+      /root/.ssh/known_hosts from sshdir (ro,path="known_hosts")
+      /var/run/secrets/kubernetes.io/serviceaccount from flux-local-token-p7lcc (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  sshdir:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      flux-local-ssh-config
+    Optional:  false
+  git-key:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  git-auth-local
+    Optional:    false
+  flux-local-token-p7lcc:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  flux-local-token-p7lcc
+    Optional:    false
+QoS Class:       Burstable
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                 node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason       Age                  From     Message
+  ----     ------       ----                 ----     -------
+  Warning  FailedMount  58m (x18 over 112m)  kubelet  Unable to attach or mount volumes: unmounted volumes=[git-key], unattached volumes=[sshdir git-key flux-local-token-p7lcc]: timed out waiting for the condition
+  Warning  Failed       53m (x2 over 55m)    kubelet  Failed to pull image "docker.io/fluxcd/helm-operator:0.10.1": rpc error: code = Unknown desc = Error response from daemon: Get https://registry-1.docker.io/v2/: net/http: request canceled while waiting for connection (Client.Timeout exceeded while awaiting headers)
+  Normal   Pulled       49m                  kubelet  Successfully pulled image "docker.io/fluxcd/helm-operator:0.10.1" in 47.543697242s
+
+
+Name:         flux-local-memcached-5c9d6b777c-4q9j8
+Namespace:    default
+Priority:     0
+Node:         jozsef-virtualbox/10.0.2.15
+Start Time:   Wed, 23 Mar 2022 12:59:12 +0200
+Labels:       app=flux-memcached
+              pod-template-hash=5c9d6b777c
+              release=flux-local
+Annotations:  <none>
+Status:       Running
+IP:           172.17.0.4
+IPs:
+  IP:           172.17.0.4
+Controlled By:  ReplicaSet/flux-local-memcached-5c9d6b777c
+Containers:
+  memcached:
+    Container ID:  docker://2e63f2e72fd47cef310a2c56958b07dbabe9c790a029afed0f4cb5b726b7b49c
+    Image:         memcached:1.5.15
+    Image ID:      docker-pullable://memcached@sha256:551e40a18e8ec261e2564d31006b09818a15e8e7d8038557177437ac28af9059
+    Port:          11211/TCP
+    Host Port:     0/TCP
+    Args:
+      -m 512
+      -p 11211
+      -I 5m
+    State:          Running
+      Started:      Wed, 30 Mar 2022 09:40:51 +0300
+    Last State:     Terminated
+      Reason:       Error
+      Exit Code:    255
+      Started:      Wed, 30 Mar 2022 09:37:07 +0300
+      Finished:     Wed, 30 Mar 2022 09:40:24 +0300
+    Ready:          True
+    Restart Count:  9
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-7rhqz (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  default-token-7rhqz:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-7rhqz
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                 node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:          <none>
